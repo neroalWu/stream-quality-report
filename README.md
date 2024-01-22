@@ -44,3 +44,11 @@ npm run build
 ```sh
 npm run lint
 ```
+
+## Features
+
+### Stream Quality Report
+1. Region Select
+2. Streaming Protocol Select
+3. Channel Select
+4. Leaderboard 
