@@ -1,4 +1,6 @@
 const STREAM_QUALITY_REPORT = {
+    API_URI: 'https://www.google.com',
+
     CEBU: {
         RTMP: {
             SERVER_URL: 'http://10.20.30.130:8000/rtmp/calculate_topiq',
