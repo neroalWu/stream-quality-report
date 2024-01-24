@@ -1,0 +1,26 @@
+:root {
+    --primary-color: #e2e8f0;
+    --secondary-color: #ffffff;
+    --accent-color: #F8FAE5;
+    --front-color: #000000;
+}
+
+body {
+    background-color: var(--primary-color);
+    margin: 0px;
+    color: var(--front-color);
+}
+
+.logo {
+    position: relative;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+
+.header {
+    height: 65px;
+    width: 100%;
+    
+    background-color: var(--secondary-color);
+}
