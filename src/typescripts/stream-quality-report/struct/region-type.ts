@@ -1,6 +1,6 @@
 
 export enum REGION_TYPE {
-    NONE,
+    ALL = "ALL",
     
-    CEBU,
+    CEBU = 'CEBU',
 }

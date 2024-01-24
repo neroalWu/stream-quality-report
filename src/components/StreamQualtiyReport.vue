@@ -2,40 +2,60 @@
 import HttpService from '@/typescripts/http-service'
 import StreamQualityReportResponse from '@/typescripts/stream-quality-report/struct/stream-quality-report-response'
 import { reactive, ref, watch } from 'vue'
+import { REGION_TYPE } from '@/typescripts/stream-quality-report/struct/region-type'
+import { STREAM_PROTOCOL_TYPE } from '@/typescripts/stream-quality-report/struct/stream-protocol-type'
+
+const REGION_OPTIONS = [REGION_TYPE.ALL, REGION_TYPE.CEBU]
+
+const TYPE_OPTIONS = [STREAM_PROTOCOL_TYPE.ALL, STREAM_PROTOCOL_TYPE.RTMP, STREAM_PROTOCOL_TYPE.FLV]
 
 let reactiveResponse: StreamQualityReportResponse = reactive(new StreamQualityReportResponse())
+
+let selectedRegion = ref(REGION_TYPE.ALL)
+let selectedStreamType = ref(STREAM_PROTOCOL_TYPE.ALL)
+
+watch(selectedRegion, () => {
+    onSelectedChange()
+})
+
+watch(selectedStreamType, () => {
+    onSelectedChange()
+})
+
+async function onSelectedChange() {
+    let newResponse: StreamQualityReportResponse;
+
+    if (selectedRegion.value == REGION_TYPE.ALL && selectedStreamType.value == STREAM_PROTOCOL_TYPE.ALL) {
+        newResponse = await HttpService.Instance.GetAll()
+    } else if (selectedRegion.value != REGION_TYPE.ALL && selectedStreamType.value == STREAM_PROTOCOL_TYPE.ALL) {
+        newResponse = await HttpService.Instance.GetByRegion(selectedRegion.value);
+    } else if (selectedRegion.value == REGION_TYPE.ALL && selectedStreamType.value != STREAM_PROTOCOL_TYPE.ALL) {
+        newResponse = await HttpService.Instance.GetByStreamType(selectedStreamType.value);
+    } else {
+        newResponse = await HttpService.Instance.GetByRegionAndStreamType(selectedRegion.value, selectedStreamType.value);
+    }
+
+    reactiveResponse.list = newResponse.list;
+}
 
 async function Init() {
     const response: StreamQualityReportResponse = await HttpService.Instance.GetAll()
     reactiveResponse.list = response.list
 }
+
 Init()
-
-let selectedRegion = ref('ALL')
-let selectedStreamType = ref('ALL')
-
-watch(selectedRegion, (region) => {
-    console.log(region)
-})
-
-watch(selectedStreamType, (type) => {
-    console.log(type)
-})
 </script>
 
 <template>
     <main>
         <label for="region">選擇區域: </label>
         <select name="region" v-model="selectedRegion">
-            <option value="ALL">ALL</option>
-            <option value="CEBU">CEBU</option>
-        </select><br>
+            <option v-for="opt in REGION_OPTIONS" :key="opt" :value="opt">{{ opt }}</option></select
+        ><br />
 
         <label for="stream_type">選擇協定: </label>
         <select name="stream_type" v-model="selectedStreamType">
-            <option value="ALL">ALL</option>
-            <option value="RTMP">RTMP</option>
-            <option value="FLV">FLV</option>
+            <option v-for="opt in TYPE_OPTIONS" :key="opt" :value="opt">{{ opt }}</option>
         </select>
         <ul>
             <li v-for="element in reactiveResponse.list" :key="element._id">
