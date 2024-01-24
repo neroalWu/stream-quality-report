@@ -1,5 +1,5 @@
 import axios from "axios";
-import type StreamQualityReportResponse from "./stream-quality-report/struct/response";
+import type StreamQualityReportResponse from "./stream-quality-report/struct/stream-quality-report-response";
 
 export default class HttpService {
     private static instance: HttpService;

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import HttpService from '@/typescripts/http-service'
-import StreamQualityReportResponse from '@/typescripts/stream-quality-report/struct/response'
+import StreamQualityReportResponse from '@/typescripts/stream-quality-report/struct/stream-quality-report-response'
 import { reactive } from 'vue'
 
 let reactiveResponse: StreamQualityReportResponse = reactive(new StreamQualityReportResponse())
@@ -22,3 +22,4 @@ test()
         </ul>
     </main>
 </template>
+@/typescripts/stream-quality-report/struct/stream-quality-report-response
