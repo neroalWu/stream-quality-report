@@ -81,6 +81,11 @@ Init()
             </div>
         </div>
     </main>
+
+    <footer>
+        <div id="tint">資料每 10 分鐘會刷新</div>
+    </footer>
+
 </template>
 
 <style scoped>
@@ -92,7 +97,14 @@ Init()
 }
 
 .inner-container {
-    height: 850px;
+    height: 820px;
     overflow-y: scroll;
+}
+
+#tint {
+    width: fit-content;
+    padding-top: 5px;
+    margin: 0 auto;
+    color: #949494;
 }
 </style>

@@ -87,6 +87,8 @@ onBeforeUnmount(() => {
 }
 
 h2 {
-    margin-left: 10px;
+    position: relative;
+    top: 10px;
+    margin-left: 20px;
 }
 </style>
