@@ -7,7 +7,7 @@ export default class TopiqResponse {
 
    public nr_list: number[] = [];
    public nr_flive_list: number[] = [];
-   public nr_spqa_list: number[] = [];
+   public nr_spaq_list: number[] = [];
 
    public timestamp_list: number[] = [];
 

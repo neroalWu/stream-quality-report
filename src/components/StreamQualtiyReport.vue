@@ -4,6 +4,7 @@ import StreamQualityReportResponse from '@/typescripts/stream-quality-report/str
 import { reactive, ref, watch } from 'vue'
 import { REGION_TYPE } from '@/typescripts/stream-quality-report/struct/region-type'
 import { STREAM_PROTOCOL_TYPE } from '@/typescripts/stream-quality-report/struct/stream-protocol-type'
+import RTMP_CELL from './RTMP-CELL.vue'
 
 const REGION_OPTIONS = [REGION_TYPE.ALL, REGION_TYPE.CEBU]
 
@@ -23,19 +24,31 @@ watch(selectedStreamType, () => {
 })
 
 async function onSelectedChange() {
-    let newResponse: StreamQualityReportResponse;
+    let newResponse: StreamQualityReportResponse
 
-    if (selectedRegion.value == REGION_TYPE.ALL && selectedStreamType.value == STREAM_PROTOCOL_TYPE.ALL) {
+    if (
+        selectedRegion.value == REGION_TYPE.ALL &&
+        selectedStreamType.value == STREAM_PROTOCOL_TYPE.ALL
+    ) {
         newResponse = await HttpService.Instance.GetAll()
-    } else if (selectedRegion.value != REGION_TYPE.ALL && selectedStreamType.value == STREAM_PROTOCOL_TYPE.ALL) {
-        newResponse = await HttpService.Instance.GetByRegion(selectedRegion.value);
-    } else if (selectedRegion.value == REGION_TYPE.ALL && selectedStreamType.value != STREAM_PROTOCOL_TYPE.ALL) {
-        newResponse = await HttpService.Instance.GetByStreamType(selectedStreamType.value);
+    } else if (
+        selectedRegion.value != REGION_TYPE.ALL &&
+        selectedStreamType.value == STREAM_PROTOCOL_TYPE.ALL
+    ) {
+        newResponse = await HttpService.Instance.GetByRegion(selectedRegion.value)
+    } else if (
+        selectedRegion.value == REGION_TYPE.ALL &&
+        selectedStreamType.value != STREAM_PROTOCOL_TYPE.ALL
+    ) {
+        newResponse = await HttpService.Instance.GetByStreamType(selectedStreamType.value)
     } else {
-        newResponse = await HttpService.Instance.GetByRegionAndStreamType(selectedRegion.value, selectedStreamType.value);
+        newResponse = await HttpService.Instance.GetByRegionAndStreamType(
+            selectedRegion.value,
+            selectedStreamType.value
+        )
     }
 
-    reactiveResponse.list = newResponse.list;
+    reactiveResponse.list = newResponse.list
 }
 
 async function Init() {
@@ -57,10 +70,29 @@ Init()
         <select name="stream_type" v-model="selectedStreamType">
             <option v-for="opt in TYPE_OPTIONS" :key="opt" :value="opt">{{ opt }}</option>
         </select>
-        <ul>
-            <li v-for="element in reactiveResponse.list" :key="element._id">
-                {{ element }}
-            </li>
-        </ul>
+
+        <div class="outer-container">
+            <div class="inner-container">
+                <RTMP_CELL
+                    v-for="topiq in reactiveResponse.list"
+                    :key="topiq._id"
+                    :topiq="topiq"
+                ></RTMP_CELL>
+            </div>
+        </div>
     </main>
 </template>
+
+<style scoped>
+.outer-container {
+    height: 100%;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    margin-top: 20px;
+}
+
+.inner-container {
+    height: 850px;
+    overflow-y: scroll;
+}
+</style>
