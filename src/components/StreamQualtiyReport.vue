@@ -88,7 +88,7 @@ Init()
     height: 100%;
     overflow: hidden;
     border: 1px solid #ccc;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 .inner-container {

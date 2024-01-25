@@ -31,8 +31,8 @@ onMounted(() => {
             {
                 label: 'nr_flive',
                 data: props.topiq?.nr_flive_list.slice(-10),
-                borderColor: 'rgba(99, 255, 132, 1)',
-                backgroundColor: 'rgba(99, 255, 132, 1)',
+                borderColor: 'rgba(245, 187, 49, 1)',
+                backgroundColor: 'rgba(245, 187, 49, 1)',
                 borderWidth: 1
             },
             {
