@@ -140,7 +140,7 @@ select {
 .tint {
     display: inline-block;
     position: relative;
-    left: 45%;
+    left: 44.5%;
     top: 15px;
     color: #ababab;
 }
