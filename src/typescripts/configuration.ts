@@ -1,5 +1,4 @@
 const STREAM_QUALITY_REPORT = {
-    API_URI: 'https://www.google.com',
     QUERY_INTERVAL: 600000, // 10mins
 }
 
