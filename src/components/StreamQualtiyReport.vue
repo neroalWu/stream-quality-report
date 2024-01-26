@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import HttpService from '@/typescripts/http-service'
 import StreamQualityReportResponse from '@/typescripts/stream-quality-report/struct/stream-quality-report-response'
-import { reactive, ref } from 'vue'
+import { reactive, ref, watch, onUnmounted } from 'vue'
 import { REGION_TYPE } from '@/typescripts/stream-quality-report/struct/region-type'
 import { STREAM_PROTOCOL_TYPE } from '@/typescripts/stream-quality-report/struct/stream-protocol-type'
+import { CONFIGURATION } from '@/typescripts/configuration'
 import RTMP_CELL from './RTMP-CELL.vue'
 import Util from '@/typescripts/util'
 
@@ -15,6 +16,19 @@ let reactiveResponse: StreamQualityReportResponse = reactive(new StreamQualityRe
 
 let selectedRegion = ref(REGION_TYPE.ALL)
 let selectedStreamType = ref(STREAM_PROTOCOL_TYPE.ALL)
+let queryIntervalID: number;
+
+watch(selectedRegion, () => {
+    queryIntervalID && clearInterval(queryIntervalID)
+})
+
+watch(selectedStreamType, () => {
+    queryIntervalID && clearInterval(queryIntervalID)
+})
+
+onUnmounted(() => {
+    queryIntervalID && clearInterval(queryIntervalID)
+})
 
 async function onclickSearch() {
     let newResponse: StreamQualityReportResponse
@@ -42,6 +56,14 @@ async function onclickSearch() {
     }
 
     reactiveResponse.list = newResponse.list
+
+    if (queryIntervalID) {
+        clearInterval(queryIntervalID)
+    }
+
+    queryIntervalID = setInterval(() => {
+        onclickSearch()
+    }, CONFIGURATION.STREAM_QUALITY_REPORT.QUERY_INTERVAL)
 }
 
 function getLastDateTime(): string {
@@ -109,6 +131,8 @@ select {
     border-radius: 20px;
     margin: 10px;
     text-align: center;
+    border: 0px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 #search {
