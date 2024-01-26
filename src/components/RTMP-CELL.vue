@@ -77,7 +77,7 @@ onBeforeUnmount(() => {
 
 <template>
     <div class="rtmp-cell">
-        <h2>{{ props.topiq?.channel }}({{ props.topiq.type }})</h2>
+        <h2>{{ props.topiq?.channel }}({{ props.topiq?.type }})</h2>
         <canvas ref="chartCanvas" height="50"></canvas>
     </div>
 </template>
