@@ -19,25 +19,25 @@ onMounted(() => {
     const data = {
         labels: props.topiq?.timestamp_list.map((timestamp: number) =>
             formatDate(timestamp)
-        ).slice(-10),
+        ),
         datasets: [
             {
                 label: 'nr',
-                data: props.topiq?.nr_list.slice(-10),
+                data: props.topiq?.nr_list,
                 borderColor: 'rgba(255, 99, 132, 1)',
                 backgroundColor: 'rgba(255, 99, 132, 1)',
                 borderWidth: 1
             },
             {
                 label: 'nr_flive',
-                data: props.topiq?.nr_flive_list.slice(-10),
+                data: props.topiq?.nr_flive_list,
                 borderColor: 'rgba(245, 187, 49, 1)',
                 backgroundColor: 'rgba(245, 187, 49, 1)',
                 borderWidth: 1
             },
             {
                 label: 'nr_spaq',
-                data: props.topiq?.nr_spaq_list.slice(-10),
+                data: props.topiq?.nr_spaq_list,
                 borderColor: 'rgba(132, 99, 255, 1)',
                 backgroundColor: 'rgba(132, 99, 255, 1)',
                 borderWidth: 1
@@ -80,13 +80,12 @@ onBeforeUnmount(() => {
 <style scoped>
 .rtmp-cell {
     background-color: var(--secondary-color);
-    margin-bottom: 10px;
     border-radius: 10px;
-    margin-left: 20px;
-    margin-right: 20px;
+    margin-bottom: 10px;
 }
 
 h2 {
+    margin-top: 0px;
     position: relative;
     top: 10px;
     margin-left: 20px;

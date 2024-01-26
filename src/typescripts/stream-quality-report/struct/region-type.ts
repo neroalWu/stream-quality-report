@@ -1,6 +1,6 @@
 
 export enum REGION_TYPE {
-    ALL = "ALL",
+    ALL = "所有區域",
     
     CEBU = 'CEBU',
 }

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import HttpService from '@/typescripts/http-service'
 import StreamQualityReportResponse from '@/typescripts/stream-quality-report/struct/stream-quality-report-response'
-import { reactive, ref, watch } from 'vue'
+import { reactive, ref } from 'vue'
 import { REGION_TYPE } from '@/typescripts/stream-quality-report/struct/region-type'
 import { STREAM_PROTOCOL_TYPE } from '@/typescripts/stream-quality-report/struct/stream-protocol-type'
 import RTMP_CELL from './RTMP-CELL.vue'
@@ -14,16 +14,21 @@ let reactiveResponse: StreamQualityReportResponse = reactive(new StreamQualityRe
 
 let selectedRegion = ref(REGION_TYPE.ALL)
 let selectedStreamType = ref(STREAM_PROTOCOL_TYPE.ALL)
+let lastDateTime = ref('')
 
-watch(selectedRegion, () => {
-    onSelectedChange()
-})
+function formatDate(timestamp: number): string {
+    const date = new Date(timestamp)
+    const year = date.getFullYear()
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const day = String(date.getDate()).padStart(2, '0')
+    const hours = String(date.getHours()).padStart(2, '0')
+    const minutes = String(date.getMinutes()).padStart(2, '0')
+    const seconds = String(date.getSeconds()).padStart(2, '0')
 
-watch(selectedStreamType, () => {
-    onSelectedChange()
-})
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
+}
 
-async function onSelectedChange() {
+async function onclickSearch() {
     let newResponse: StreamQualityReportResponse
 
     if (
@@ -49,27 +54,28 @@ async function onSelectedChange() {
     }
 
     reactiveResponse.list = newResponse.list
+    const lastTimestamp = newResponse.list[0].timestamp_list[0]
+    lastDateTime.value = formatDate(lastTimestamp)
 }
 
-async function Init() {
-    const response: StreamQualityReportResponse = await HttpService.Instance.GetAll()
-    reactiveResponse.list = response.list
-}
-
-Init()
+onclickSearch()
 </script>
 
 <template>
     <main>
-        <label for="region">選擇區域: </label>
-        <select name="region" v-model="selectedRegion">
-            <option v-for="opt in REGION_OPTIONS" :key="opt" :value="opt">{{ opt }}</option></select
-        ><br />
+        <div class="select-container">
+            <select name="region" v-model="selectedRegion">
+                <option v-for="opt in REGION_OPTIONS" :key="opt" :value="opt">{{ opt }}</option>
+            </select>
 
-        <label for="stream_type">選擇協定: </label>
-        <select name="stream_type" v-model="selectedStreamType">
-            <option v-for="opt in TYPE_OPTIONS" :key="opt" :value="opt">{{ opt }}</option>
-        </select>
+            <select name="stream_type" v-model="selectedStreamType">
+                <option v-for="opt in TYPE_OPTIONS" :key="opt" :value="opt">{{ opt }}</option>
+            </select>
+        </div>
+
+        <button id="search" @click="onclickSearch">搜尋</button>
+
+        <div class="tint">最近更新時間: {{ lastDateTime }}</div>
 
         <div class="outer-container">
             <div class="inner-container">
@@ -81,30 +87,60 @@ Init()
             </div>
         </div>
     </main>
-
-    <footer>
-        <div id="tint">資料每 10 分鐘會刷新</div>
-    </footer>
-
 </template>
 
 <style scoped>
 .outer-container {
-    height: 100%;
+    margin-left: 10%;
+    margin-right: 10%;
+    width: fit-content;
     overflow: hidden;
     border: 1px solid #ccc;
-    margin-top: 10px;
 }
 
 .inner-container {
-    height: 820px;
+    height: 850px;
+    width: 1400px;
     overflow-y: scroll;
 }
 
-#tint {
+.select-container {
+    display: inline-block;
+    position: relative;
     width: fit-content;
-    padding-top: 5px;
-    margin: 0 auto;
-    color: #949494;
+    left: 9.5%;
+}
+
+select {
+    display: inline-block;
+    width: 200px;
+    height: 35px;
+    border-radius: 20px;
+    margin: 10px;
+    text-align: center;
+}
+
+#search {
+    position: relative;
+    display: inline-block;
+    left: 10%;
+    width: 100px;
+    height: 35px;
+    border-radius: 20px;
+    background-color: coral;
+    color: var(--secondary-color);
+    border: 1px solid #ccc;
+}
+
+#search:hover {
+    background-color: rgb(230, 105, 60);
+}
+
+.tint {
+    display: inline-block;
+    position: relative;
+    left: 45%;
+    top: 15px;
+    color: #ababab;
 }
 </style>

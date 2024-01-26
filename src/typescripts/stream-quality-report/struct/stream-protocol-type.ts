@@ -1,6 +1,6 @@
 
 export enum STREAM_PROTOCOL_TYPE {
-    ALL = 'ALL',
+    ALL = '所有協定',
     
     RTMP = 'RTMP',
     FLV = 'FLV'
