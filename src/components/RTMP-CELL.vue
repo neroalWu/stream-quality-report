@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Chart from '@/chartjs/auto'
-import type TopiqResponse from '@/typescripts/stream-quality-report/struct/topiq-response';
+import type TopiqResponse from '@/typescripts/stream-quality-report/struct/topiq-response'
 import { ref, onBeforeUnmount, watch, onMounted } from 'vue'
 import Util from '@/typescripts/util'
 
@@ -26,7 +26,9 @@ function render(topiqResponse: TopiqResponse) {
     if (!ctx) return
 
     const data = {
-        labels: topiqResponse.timestamp_list.map((timestamp: number) => Util.Instance.FormatDate(timestamp)),
+        labels: topiqResponse.timestamp_list.map((timestamp: number) =>
+            Util.Instance.FormatDate(timestamp)
+        ),
         datasets: [
             {
                 label: 'nr',
@@ -50,6 +52,10 @@ function render(topiqResponse: TopiqResponse) {
                 borderWidth: 1
             }
         ]
+    }
+
+    if (myChart) {
+        myChart.destroy()
     }
 
     myChart = new Chart(ctx, {

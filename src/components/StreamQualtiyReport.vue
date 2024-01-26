@@ -15,7 +15,6 @@ let reactiveResponse: StreamQualityReportResponse = reactive(new StreamQualityRe
 
 let selectedRegion = ref(REGION_TYPE.ALL)
 let selectedStreamType = ref(STREAM_PROTOCOL_TYPE.ALL)
-let lastDateTime = ref('')
 
 async function onclickSearch() {
     let newResponse: StreamQualityReportResponse
@@ -43,8 +42,10 @@ async function onclickSearch() {
     }
 
     reactiveResponse.list = newResponse.list
-    const lastTimestamp = newResponse.list[0].timestamp_list[0]
-    lastDateTime.value = Util.Instance.FormatDate(lastTimestamp)
+}
+
+function getLastDateTime(): string {
+    return Util.Instance.FormatDate(reactiveResponse.list[0].timestamp_list[0])
 }
 
 onclickSearch()
@@ -64,9 +65,9 @@ onclickSearch()
 
         <button id="search" @click="onclickSearch">搜尋</button>
 
-        <div class="tint">最近更新時間: {{ lastDateTime }}</div>
+        <div class="tint" v-if="reactiveResponse.list.length > 0">最近更新時間: {{ getLastDateTime() }}</div>
 
-        <div class="outer-container">
+        <div class="outer-container" v-if="reactiveResponse.list.length > 0">
             <div class="inner-container">
                 <RTMP_CELL
                     v-for="topiq in reactiveResponse.list"
