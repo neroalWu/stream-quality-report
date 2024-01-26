@@ -95,6 +95,7 @@ onclickSearch()
     margin-right: 10%;
     width: fit-content;
     overflow: hidden;
+    border-radius: 10px;
     border: 1px solid #ccc;
 }
 
