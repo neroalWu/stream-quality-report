@@ -5,6 +5,7 @@ import { reactive, ref } from 'vue'
 import { REGION_TYPE } from '@/typescripts/stream-quality-report/struct/region-type'
 import { STREAM_PROTOCOL_TYPE } from '@/typescripts/stream-quality-report/struct/stream-protocol-type'
 import RTMP_CELL from './RTMP-CELL.vue'
+import Util from '@/typescripts/util'
 
 const REGION_OPTIONS = [REGION_TYPE.ALL, REGION_TYPE.CEBU]
 
@@ -15,18 +16,6 @@ let reactiveResponse: StreamQualityReportResponse = reactive(new StreamQualityRe
 let selectedRegion = ref(REGION_TYPE.ALL)
 let selectedStreamType = ref(STREAM_PROTOCOL_TYPE.ALL)
 let lastDateTime = ref('')
-
-function formatDate(timestamp: number): string {
-    const date = new Date(timestamp)
-    const year = date.getFullYear()
-    const month = String(date.getMonth() + 1).padStart(2, '0')
-    const day = String(date.getDate()).padStart(2, '0')
-    const hours = String(date.getHours()).padStart(2, '0')
-    const minutes = String(date.getMinutes()).padStart(2, '0')
-    const seconds = String(date.getSeconds()).padStart(2, '0')
-
-    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
-}
 
 async function onclickSearch() {
     let newResponse: StreamQualityReportResponse
@@ -55,7 +44,7 @@ async function onclickSearch() {
 
     reactiveResponse.list = newResponse.list
     const lastTimestamp = newResponse.list[0].timestamp_list[0]
-    lastDateTime.value = formatDate(lastTimestamp)
+    lastDateTime.value = Util.Instance.FormatDate(lastTimestamp)
 }
 
 onclickSearch()
@@ -140,7 +129,7 @@ select {
 .tint {
     display: inline-block;
     position: relative;
-    left: 44.5%;
+    left: 45%;
     top: 15px;
     color: #ababab;
 }
