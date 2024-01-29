@@ -23,15 +23,19 @@ console.log('image url:', props.imageSrc)
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.1); /* 半透明的黑色背景 */
+    background: rgba(0, 0, 0, 0.2); /* 半透明的黑色背景 */
     justify-content: center;
     align-items: center;
 }
 
 #overlay-content {
-    background: white;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+img {
+    max-width: 1280px;
+    border-radius: 10px;
 }
 </style>

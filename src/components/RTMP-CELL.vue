@@ -82,6 +82,7 @@ const showScreenshot = ref(false)
 const imageSrc = ref('')
 
 async function onclickPoint(timestampIndex: number) {
+    imageSrc.value = ''
     showScreenshot.value = true;
 
     const region = props.topiq?.region;
