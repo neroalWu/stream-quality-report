@@ -77,7 +77,8 @@ onBeforeUnmount(() => {
 
 <template>
     <div class="rtmp-cell">
-        <h2>{{ props.topiq?.channel }}({{ props.topiq?.type }})</h2>
+        <h3>{{ props.topiq?.streamType }} - {{ props.topiq?.channel }}</h3>
+
         <canvas ref="chartCanvas" height="50"></canvas>
     </div>
 </template>
@@ -89,8 +90,9 @@ onBeforeUnmount(() => {
     margin-bottom: 10px;
 }
 
-h2 {
+h3 {
     margin-top: 0px;
+    margin-bottom: 0px;
     position: relative;
     top: 10px;
     margin-left: 20px;

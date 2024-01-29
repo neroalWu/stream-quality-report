@@ -2,8 +2,9 @@ export default class TopiqResponse {
    public _id: string = '';
    
    public region: string = '';
-   public type: string = '';
+   public streamType: string = '';
    public channel: string = '';
+   public bitrateType: string = '';
 
    public nr_list: number[] = [];
    public nr_flive_list: number[] = [];

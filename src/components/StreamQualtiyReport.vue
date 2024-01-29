@@ -7,16 +7,27 @@ import { STREAM_PROTOCOL_TYPE } from '@/typescripts/stream-quality-report/struct
 import { CONFIGURATION } from '@/typescripts/configuration'
 import RTMP_CELL from './RTMP-CELL.vue'
 import Util from '@/typescripts/util'
+import { BITRATE_TYPE } from '@/typescripts/stream-quality-report/bitrate-type'
 
 const REGION_OPTIONS = [REGION_TYPE.ALL, REGION_TYPE.CEBU]
 
-const TYPE_OPTIONS = [STREAM_PROTOCOL_TYPE.ALL, STREAM_PROTOCOL_TYPE.RTMP, STREAM_PROTOCOL_TYPE.FLV]
+const STREAM_TYPE_OPTION = [
+    STREAM_PROTOCOL_TYPE.ALL,
+    STREAM_PROTOCOL_TYPE.RTMP,
+    STREAM_PROTOCOL_TYPE.FLV
+]
 
-let reactiveResponse: StreamQualityReportResponse = reactive(new StreamQualityReportResponse())
+const BITRATE_OPTIONS = [BITRATE_TYPE.ALL, BITRATE_TYPE.LOW, BITRATE_TYPE.HIGH]
+
+let streamQualityReportResponse: StreamQualityReportResponse = reactive(
+    new StreamQualityReportResponse()
+)
 
 let selectedRegion = ref(REGION_TYPE.ALL)
 let selectedStreamType = ref(STREAM_PROTOCOL_TYPE.ALL)
-let queryIntervalID: number;
+let selectedBitrateType = ref(BITRATE_TYPE.ALL)
+
+let queryIntervalID: number
 
 watch(selectedRegion, () => {
     queryIntervalID && clearInterval(queryIntervalID)
@@ -26,36 +37,27 @@ watch(selectedStreamType, () => {
     queryIntervalID && clearInterval(queryIntervalID)
 })
 
+watch(selectedBitrateType, () => {
+    queryIntervalID && clearInterval(queryIntervalID)
+})
+
 onUnmounted(() => {
     queryIntervalID && clearInterval(queryIntervalID)
 })
 
 async function onclickSearch() {
-    let newResponse: StreamQualityReportResponse
+    const region = selectedRegion.value == REGION_TYPE.ALL ? '' : selectedRegion.value
+    const streamType =
+        selectedStreamType.value == STREAM_PROTOCOL_TYPE.ALL ? '' : selectedStreamType.value
+    const bitrateType =
+        selectedBitrateType.value == BITRATE_TYPE.ALL ? '' : selectedBitrateType.value
 
-    if (
-        selectedRegion.value == REGION_TYPE.ALL &&
-        selectedStreamType.value == STREAM_PROTOCOL_TYPE.ALL
-    ) {
-        newResponse = await HttpService.Instance.GetAll()
-    } else if (
-        selectedRegion.value != REGION_TYPE.ALL &&
-        selectedStreamType.value == STREAM_PROTOCOL_TYPE.ALL
-    ) {
-        newResponse = await HttpService.Instance.GetByRegion(selectedRegion.value)
-    } else if (
-        selectedRegion.value == REGION_TYPE.ALL &&
-        selectedStreamType.value != STREAM_PROTOCOL_TYPE.ALL
-    ) {
-        newResponse = await HttpService.Instance.GetByStreamType(selectedStreamType.value)
-    } else {
-        newResponse = await HttpService.Instance.GetByRegionAndStreamType(
-            selectedRegion.value,
-            selectedStreamType.value
-        )
-    }
-
-    reactiveResponse.list = newResponse.list
+    const response = await HttpService.Instance.GetStreamQualityReportResponse(
+        region,
+        streamType,
+        bitrateType
+    )
+    streamQualityReportResponse.list = response.list
 
     if (queryIntervalID) {
         clearInterval(queryIntervalID)
@@ -67,7 +69,7 @@ async function onclickSearch() {
 }
 
 function getLastDateTime(): string {
-    return Util.Instance.FormatDate(reactiveResponse.list[0].timestamp_list[0])
+    return Util.Instance.FormatDate(streamQualityReportResponse.list[0].timestamp_list[0])
 }
 
 onclickSearch()
@@ -77,22 +79,42 @@ onclickSearch()
     <main>
         <div class="select-container">
             <select name="region" v-model="selectedRegion">
-                <option v-for="opt in REGION_OPTIONS" :key="opt" :value="opt">{{ opt }}</option>
+                <option v-for="region in REGION_OPTIONS" :key="region" :value="region">
+                    {{ region }}
+                </option>
             </select>
 
             <select name="stream_type" v-model="selectedStreamType">
-                <option v-for="opt in TYPE_OPTIONS" :key="opt" :value="opt">{{ opt }}</option>
+                <option
+                    v-for="streamType in STREAM_TYPE_OPTION"
+                    :key="streamType"
+                    :value="streamType"
+                >
+                    {{ streamType }}
+                </option>
+            </select>
+
+            <select name="bitrate_type" v-model="selectedBitrateType">
+                <option
+                    v-for="bitrateType in BITRATE_OPTIONS"
+                    :key="bitrateType"
+                    :value="bitrateType"
+                >
+                    {{ bitrateType }}
+                </option>
             </select>
         </div>
 
         <button id="search" @click="onclickSearch">搜尋</button>
 
-        <div class="tint" v-if="reactiveResponse.list.length > 0">最近更新時間: {{ getLastDateTime() }}</div>
+        <div class="tint" v-if="streamQualityReportResponse.list.length > 0">
+            最近更新時間: {{ getLastDateTime() }}
+        </div>
 
-        <div class="outer-container" v-if="reactiveResponse.list.length > 0">
+        <div class="outer-container" v-if="streamQualityReportResponse.list.length > 0">
             <div class="inner-container">
                 <RTMP_CELL
-                    v-for="topiq in reactiveResponse.list"
+                    v-for="topiq in streamQualityReportResponse.list"
                     :key="topiq._id"
                     :topiq="topiq"
                 ></RTMP_CELL>

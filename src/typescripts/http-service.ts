@@ -15,29 +15,15 @@ export default class HttpService {
 
     private constructor() {}
 
-    public async GetAll(): Promise<StreamQualityReportResponse> {
-        const url = `${CONFIGURATION.STREAM_QUALITY_REPORT.SERVER_URL}get-all`
-        const response = await axios.get(url)
-        return response.data
-    }
+    public async GetStreamQualityReportResponse(region: string = '', streamType: string = '', bitrateType: string = ''): Promise<StreamQualityReportResponse> {
+        let url = `${CONFIGURATION.STREAM_QUALITY_REPORT.SERVER_URL}get-stream-quality-report-response?`
+        const queryString: string[] = [
+            `region=${region}&&`,
+            `streamType=${streamType}&&`,
+            `bitrateType=${bitrateType}`
+        ]
+        url = url.concat(...queryString)
 
-    public async GetByRegion(region: string): Promise<StreamQualityReportResponse> {
-        const url = `${CONFIGURATION.STREAM_QUALITY_REPORT.SERVER_URL}get-by-region?region=${region}`
-        const response = await axios.get(url)
-        return response.data
-    }
-
-    public async GetByStreamType(streamType: string): Promise<StreamQualityReportResponse> {
-        const url = `${CONFIGURATION.STREAM_QUALITY_REPORT.SERVER_URL}get-by-stream-type?type=${streamType}`
-        const response = await axios.get(url)
-        return response.data
-    }
-
-    public async GetByRegionAndStreamType(
-        region: string,
-        streamType: string
-    ): Promise<StreamQualityReportResponse> {
-        const url = `${CONFIGURATION.STREAM_QUALITY_REPORT.SERVER_URL}get-by-region-and-stream-type?region=${region}&&type=${streamType}`
         const response = await axios.get(url)
         return response.data
     }
