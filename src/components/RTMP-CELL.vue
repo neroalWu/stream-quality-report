@@ -3,6 +3,8 @@ import Chart from '@/chartjs/auto'
 import type TopiqResponse from '@/typescripts/stream-quality-report/struct/topiq-response'
 import { ref, onBeforeUnmount, watch, onMounted } from 'vue'
 import Util from '@/typescripts/util'
+import HttpService from '@/typescripts/http-service';
+import OverlayImage from './Overlay-Image.vue';
 
 const props = defineProps({
     topiq: Object
@@ -24,6 +26,17 @@ function render(topiqResponse: TopiqResponse) {
     const ctx = chartCanvas.value.getContext('2d')
 
     if (!ctx) return
+
+    const options = {
+        onClick: (_: any, elements: any) => {
+            if (elements.length > 0) {
+                const clickedElement = elements[0]
+                const index = clickedElement.index
+                onclickPoint(index)
+            }
+        },
+        responsive: true
+    }
 
     const data = {
         labels: topiqResponse.timestamp_list.map((timestamp: number) =>
@@ -60,8 +73,24 @@ function render(topiqResponse: TopiqResponse) {
 
     myChart = new Chart(ctx, {
         type: 'line',
-        data: data
+        data: data,
+        options: options
     })
+}
+
+const showScreenshot = ref(false)
+const imageSrc = ref('')
+
+async function onclickPoint(timestampIndex: number) {
+    showScreenshot.value = true;
+
+    const region = props.topiq?.region;
+    const streamType = props.topiq?.streamType
+    const channel = props.topiq?.channel
+    const timestamp = props.topiq?.timestamp_list[timestampIndex]
+    const data = await HttpService.Instance.GetScreenshot(region, streamType, channel, timestamp)
+  
+    imageSrc.value = data
 }
 
 onMounted(() => {
@@ -73,6 +102,10 @@ onBeforeUnmount(() => {
         myChart.destroy()
     }
 })
+
+function hideScreenshot() {
+    showScreenshot.value = false
+}
 </script>
 
 <template>
@@ -81,6 +114,8 @@ onBeforeUnmount(() => {
 
         <canvas ref="chartCanvas" height="50"></canvas>
     </div>
+
+    <OverlayImage v-show="showScreenshot" @click.self="hideScreenshot" :imageSrc="imageSrc"/>
 </template>
 
 <style scoped>

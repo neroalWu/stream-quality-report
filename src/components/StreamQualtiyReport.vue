@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import HttpService from '@/typescripts/http-service'
 import StreamQualityReportResponse from '@/typescripts/stream-quality-report/struct/stream-quality-report-response'
-import { reactive, ref, watch, onUnmounted } from 'vue'
+import { reactive, ref, onUnmounted } from 'vue'
 import { REGION_TYPE } from '@/typescripts/stream-quality-report/struct/region-type'
 import { STREAM_PROTOCOL_TYPE } from '@/typescripts/stream-quality-report/struct/stream-protocol-type'
 import { CONFIGURATION } from '@/typescripts/configuration'
@@ -27,19 +27,7 @@ let selectedRegion = ref(REGION_TYPE.ALL)
 let selectedStreamType = ref(STREAM_PROTOCOL_TYPE.ALL)
 let selectedBitrateType = ref(BITRATE_TYPE.ALL)
 
-let queryIntervalID: number
-
-watch(selectedRegion, () => {
-    queryIntervalID && clearInterval(queryIntervalID)
-})
-
-watch(selectedStreamType, () => {
-    queryIntervalID && clearInterval(queryIntervalID)
-})
-
-watch(selectedBitrateType, () => {
-    queryIntervalID && clearInterval(queryIntervalID)
-})
+let queryIntervalID: number;
 
 onUnmounted(() => {
     queryIntervalID && clearInterval(queryIntervalID)

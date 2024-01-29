@@ -27,4 +27,19 @@ export default class HttpService {
         const response = await axios.get(url)
         return response.data
     }
+
+    public async GetScreenshot(region: string = '', streamType: string = '', channel: string = '', timestamp: number): Promise<string> {
+        let url = `${CONFIGURATION.STREAM_QUALITY_REPORT.SERVER_URL}get-screenshot?`
+        const querySring: string[] = [
+            `region=${region}&&`,
+            `streamType=${streamType}&&`,
+            `channel=${channel}&&`,
+            `timestamp=${timestamp}`
+        ]
+
+        url = url.concat(...querySring)
+
+        const response = await axios.get(url)
+        return response.data;
+    }
 }
