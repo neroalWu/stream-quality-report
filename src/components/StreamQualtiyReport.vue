@@ -69,7 +69,7 @@ async function onclickSearch() {
 }
 
 function getLastDateTime(): string {
-    return Util.Instance.FormatDate(streamQualityReportResponse.list[0].timestamp_list[0])
+    return Util.Instance.FormatYearMonthDay(streamQualityReportResponse.list[0].timestamp_list[0])
 }
 
 onclickSearch()
@@ -108,7 +108,7 @@ onclickSearch()
         <button id="search" @click="onclickSearch">搜尋</button>
 
         <div class="tint" v-if="streamQualityReportResponse.list.length > 0">
-            最近更新時間: {{ getLastDateTime() }}
+            更新日期: {{ getLastDateTime() }}
         </div>
 
         <div class="outer-container" v-if="streamQualityReportResponse.list.length > 0">
@@ -176,7 +176,7 @@ select {
 .tint {
     display: inline-block;
     position: relative;
-    left: 45%;
+    left: 40%;
     top: 15px;
     color: #ababab;
 }

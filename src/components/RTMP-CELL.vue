@@ -27,7 +27,7 @@ function render(topiqResponse: TopiqResponse) {
 
     const data = {
         labels: topiqResponse.timestamp_list.map((timestamp: number) =>
-            Util.Instance.FormatDate(timestamp)
+            Util.Instance.FormatHHMM(timestamp)
         ),
         datasets: [
             {
