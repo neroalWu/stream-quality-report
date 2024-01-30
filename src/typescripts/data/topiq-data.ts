@@ -1,4 +1,4 @@
-export default class TopiqResponse {
+export default class TopiqData {
    public _id: string = '';
    
    public region: string = '';

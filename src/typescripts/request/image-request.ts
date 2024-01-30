@@ -1,4 +1,4 @@
-export class ImageResponseRequest {
+export class ImageRequest {
     constructor(
         public region: string = '',
         public streamType: string = '',

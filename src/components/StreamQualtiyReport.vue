@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import HttpService from '@/typescripts/http-service'
-import TopiqResponseList from '@/typescripts/response/topiq-response-list'
+import HttpService from '@/typescripts/service/http-service'
+import TopiqResponse from '@/typescripts/response/topiq-response'
 import { reactive, ref, onUnmounted } from 'vue'
 import { REGION_TYPE } from '@/typescripts/types/region-type'
 import { STREAM_TYPE } from '@/typescripts/types/stream-type'
@@ -8,7 +8,7 @@ import { CONFIGURATION } from '@/typescripts/configuration'
 import RTMP_CELL from './RTMP-CELL.vue'
 import Util from '@/typescripts/util'
 import { BITRATE_TYPE } from '@/typescripts/types/bitrate-type'
-import { TopiqResponseListRequest } from '@/typescripts/request/topiq-response-list-request'
+import { TopiqRequest } from '@/typescripts/request/topiq-request'
 
 const REGION_OPTIONS = [REGION_TYPE.ALL, REGION_TYPE.CEBU]
 
@@ -20,8 +20,8 @@ const STREAM_TYPE_OPTION = [
 
 const BITRATE_OPTIONS = [BITRATE_TYPE.ALL, BITRATE_TYPE.LOW, BITRATE_TYPE.HIGH]
 
-let topiqResponseList: TopiqResponseList = reactive(
-    new TopiqResponseList()
+let topiqResponse: TopiqResponse = reactive(
+    new TopiqResponse([])
 )
 
 let selectedRegion = ref(REGION_TYPE.ALL)
@@ -41,11 +41,11 @@ async function onclickSearch() {
     const bitrateType =
         selectedBitrateType.value == BITRATE_TYPE.ALL ? '' : selectedBitrateType.value
 
-    const response = await HttpService.Instance.GetTopiqResponseList(
-        new TopiqResponseListRequest(region, streamType, bitrateType)
+    const response = await HttpService.Instance.GetTopiqData(
+        new TopiqRequest(region, streamType, bitrateType)
     )
 
-    topiqResponseList.list = response.list
+    topiqResponse.list = response.list
 
     if (queryIntervalID) {
         clearInterval(queryIntervalID)
@@ -57,7 +57,7 @@ async function onclickSearch() {
 }
 
 function getLastDateTime(): string {
-    return Util.Instance.FormatYearMonthDay(topiqResponseList.list[0].timestamp_list[0])
+    return Util.Instance.FormatYearMonthDay(topiqResponse.list[0].timestamp_list[0])
 }
 
 onclickSearch()
@@ -95,14 +95,14 @@ onclickSearch()
 
         <button id="search" @click="onclickSearch">搜尋</button>
 
-        <div class="tint" v-if="topiqResponseList.list.length > 0">
+        <div class="tint" v-if="topiqResponse.list.length > 0">
             更新日期: {{ getLastDateTime() }}
         </div>
 
-        <div class="outer-container" v-if="topiqResponseList.list.length > 0">
+        <div class="outer-container" v-if="topiqResponse.list.length > 0">
             <div class="inner-container">
                 <RTMP_CELL
-                    v-for="topiq in topiqResponseList.list"
+                    v-for="topiq in topiqResponse.list"
                     :key="topiq._id"
                     :topiq="topiq"
                 ></RTMP_CELL>
@@ -169,4 +169,4 @@ select {
     color: #ababab;
 }
 </style>
-@/typescripts/response/stream-quality-report-response@/typescripts/types/bitrate-type@/typescripts/types/region-type@/typescripts/types/stream-type
+@/typescripts/response/stream-quality-report-response@/typescripts/types/bitrate-type@/typescripts/types/region-type@/typescripts/types/stream-type@/typescripts/request/topiq-request@/typescripts/response/topiq-response

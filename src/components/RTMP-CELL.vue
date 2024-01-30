@@ -1,27 +1,27 @@
 <script setup lang="ts">
 import Chart from '@/chartjs/auto'
-import type TopiqResponse from '@/typescripts/stream-quality-report/struct/topiq-response'
+import type TopiqData from '@/typescripts/data/topiq-data'
 import { ref, onBeforeUnmount, watch, onMounted } from 'vue'
 import Util from '@/typescripts/util'
-import HttpService from '@/typescripts/http-service'
+import HttpService from '@/typescripts/service/http-service'
 import OverlayImage from './Overlay-Image.vue'
-import { ImageResponseRequest } from '@/typescripts/request/image-response-request'
+import { ImageRequest } from '@/typescripts/request/image-request'
 
 const props = defineProps({
-    topiq: Object
+    topiqData: Object
 })
 
 const chartCanvas = ref<HTMLCanvasElement | null>(null)
 let myChart: Chart | null = null
 
 watch(
-    () => props.topiq as TopiqResponse,
+    () => props.topiqData as TopiqData,
     (newVal) => {
         render(newVal)
     }
 )
 
-function render(topiqResponse: TopiqResponse) {
+function render(topiqData: TopiqData) {
     if (!chartCanvas.value) return
 
     const ctx = chartCanvas.value.getContext('2d')
@@ -40,27 +40,27 @@ function render(topiqResponse: TopiqResponse) {
     }
 
     const data = {
-        labels: topiqResponse.timestamp_list.map((timestamp: number) =>
+        labels: topiqData.timestamp_list.map((timestamp: number) =>
             Util.Instance.FormatHHMM(timestamp)
         ),
         datasets: [
             {
                 label: 'nr',
-                data: topiqResponse.nr_list,
+                data: topiqData.nr_list,
                 borderColor: 'rgba(255, 99, 132, 1)',
                 backgroundColor: 'rgba(255, 99, 132, 1)',
                 borderWidth: 1
             },
             {
                 label: 'nr_flive',
-                data: topiqResponse.nr_flive_list,
+                data: topiqData.nr_flive_list,
                 borderColor: 'rgba(245, 187, 49, 1)',
                 backgroundColor: 'rgba(245, 187, 49, 1)',
                 borderWidth: 1
             },
             {
                 label: 'nr_spaq',
-                data: topiqResponse.nr_spaq_list,
+                data: topiqData.nr_spaq_list,
                 borderColor: 'rgba(132, 99, 255, 1)',
                 backgroundColor: 'rgba(132, 99, 255, 1)',
                 borderWidth: 1
@@ -86,19 +86,19 @@ async function onclickPoint(timestampIndex: number) {
     imageSrc.value = ''
     showScreenshot.value = true
 
-    const region = props.topiq?.region
-    const streamType = props.topiq?.streamType
-    const channel = props.topiq?.channel
-    const timestamp = props.topiq?.timestamp_list[timestampIndex]
-    const data = await HttpService.Instance.GetImageResponse(
-        new ImageResponseRequest(region, streamType, channel, timestamp)
+    const region = props.topiqData?.region
+    const streamType = props.topiqData?.streamType
+    const channel = props.topiqData?.channel
+    const timestamp = props.topiqData?.timestamp_list[timestampIndex]
+    const data = await HttpService.Instance.GetImage(
+        new ImageRequest(region, streamType, channel, timestamp)
     )
 
-    imageSrc.value = data.imageSrc
+    imageSrc.value = data.src
 }
 
 onMounted(() => {
-    render(props.topiq as TopiqResponse)
+    render(props.topiqData as TopiqData)
 })
 
 onBeforeUnmount(() => {
@@ -114,7 +114,7 @@ function hideScreenshot() {
 
 <template>
     <div class="rtmp-cell">
-        <h3>{{ props.topiq?.streamType }} - {{ props.topiq?.channel }}</h3>
+        <h3>{{ props.topiqData?.streamType }} - {{ props.topiqData?.channel }}</h3>
 
         <canvas ref="chartCanvas" height="50"></canvas>
     </div>
@@ -136,5 +136,4 @@ h3 {
     top: 10px;
     margin-left: 20px;
 }
-</style>
-@/typescripts/types/topiq-response
+</style>@/typescripts/data/topiq-data

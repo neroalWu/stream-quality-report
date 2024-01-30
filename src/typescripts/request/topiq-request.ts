@@ -1,4 +1,4 @@
-export class TopiqResponseListRequest {
+export class TopiqRequest {
     constructor(
         public region: string = '',
         public streamType: string = '',
