@@ -3,13 +3,12 @@ import Chart from '@/chartjs/auto'
 import type TopiqData from '@/typescripts/data/topiq-data'
 import { ref, onBeforeUnmount, watch, onMounted } from 'vue'
 import Util from '@/typescripts/util'
-import HttpService from '@/typescripts/service/http-service'
-import OverlayImage from './Overlay-Image.vue'
-import { ImageRequest } from '@/typescripts/request/image-request'
 
 const props = defineProps({
     topiqData: Object
 })
+
+const emit = defineEmits(['onclickPoint'])
 
 const chartCanvas = ref<HTMLCanvasElement | null>(null)
 let myChart: Chart | null = null
@@ -33,7 +32,7 @@ function render(topiqData: TopiqData) {
             if (elements.length > 0) {
                 const clickedElement = elements[0]
                 const index = clickedElement.index
-                onclickPoint(index)
+                emit('onclickPoint', index, props.topiqData)
             }
         },
         responsive: true
@@ -79,24 +78,6 @@ function render(topiqData: TopiqData) {
     })
 }
 
-const showScreenshot = ref(false)
-const imageSrc = ref('')
-
-async function onclickPoint(timestampIndex: number) {
-    imageSrc.value = ''
-    showScreenshot.value = true
-
-    const region = props.topiqData?.region
-    const streamType = props.topiqData?.streamType
-    const channel = props.topiqData?.channel
-    const timestamp = props.topiqData?.timestamp_list[timestampIndex]
-    const data = await HttpService.Instance.GetImage(
-        new ImageRequest(region, streamType, channel, timestamp)
-    )
-
-    imageSrc.value = data.src
-}
-
 onMounted(() => {
     render(props.topiqData as TopiqData)
 })
@@ -107,9 +88,6 @@ onBeforeUnmount(() => {
     }
 })
 
-function hideScreenshot() {
-    showScreenshot.value = false
-}
 </script>
 
 <template>
@@ -118,8 +96,6 @@ function hideScreenshot() {
 
         <canvas ref="chartCanvas" height="50"></canvas>
     </div>
-
-    <OverlayImage v-show="showScreenshot" @click.self="hideScreenshot" :imageSrc="imageSrc" />
 </template>
 
 <style scoped>
@@ -136,4 +112,4 @@ h3 {
     top: 10px;
     margin-left: 20px;
 }
-</style>@/typescripts/data/topiq-data
+</style>

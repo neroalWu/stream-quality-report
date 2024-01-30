@@ -8,7 +8,10 @@ import { CONFIGURATION } from '@/typescripts/configuration'
 import RTMP_CELL from './RTMP-CELL.vue'
 import { BITRATE_TYPE } from '@/typescripts/types/bitrate-type'
 import { TopiqRequest } from '@/typescripts/request/topiq-request'
+import OverlayImage from './Overlay-Image.vue'
 import SelectButton from './SelectButton.vue'
+import type TopiqData from '@/typescripts/data/topiq-data'
+import { ImageRequest } from '@/typescripts/request/image-request'
 
 const REGION_OPTIONS = [REGION_TYPE.ALL, REGION_TYPE.CEBU]
 
@@ -58,12 +61,38 @@ async function onclickSearch() {
 onMounted(() => {
     onclickSearch()
 })
+
+const imageSrc = ref('')
+const imageState = ref(false)
+
+async function onclickPoint(timestampIndex: number, topiqData: TopiqData) {
+    imageSrc.value = ''
+    imageState.value = true
+
+    const region = topiqData.region
+    const streamType = topiqData.streamType
+    const channel = topiqData.channel
+    const timestamp = topiqData.timestamp_list[timestampIndex]
+    const data = await HttpService.Instance.GetImage(
+        new ImageRequest(region, streamType, channel, timestamp)
+    )
+
+    imageSrc.value = data.src
+}
+
+function hideImage() {
+    imageState.value = false
+}
 </script>
 
 <template>
     <main>
         <div class="select-container">
-            <SelectButton :options="REGION_OPTIONS" :default="REGION_TYPE.ALL" ref="regionSelector" />
+            <SelectButton
+                :options="REGION_OPTIONS"
+                :default="REGION_TYPE.ALL"
+                ref="regionSelector"
+            />
             <SelectButton
                 :options="STREAM_TYPE_OPTIONS"
                 :default="STREAM_TYPE.ALL"
@@ -88,9 +117,12 @@ onMounted(() => {
                     v-for="topiqData in topiqResponse.list"
                     :key="topiqData._id"
                     :topiqData="topiqData"
+                    @onclickPoint="onclickPoint"
                 ></RTMP_CELL>
             </div>
         </div>
+
+        <OverlayImage v-show=imageState @click.self=hideImage :imageSrc=imageSrc />
     </main>
 </template>
 
