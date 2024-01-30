@@ -1,15 +1,13 @@
 <script setup lang="ts">
-
-const props = defineProps({
+defineProps({
     imageSrc: String
 })
-
 </script>
 
 <template>
     <div id="overlay">
         <div id="overlay-content">
-            <img :src="imageSrc" alt="Image" />
+            <img :src=imageSrc alt="Image" />
         </div>
     </div>
 </template>

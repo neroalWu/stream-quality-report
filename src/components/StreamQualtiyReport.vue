@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import HttpService from '@/typescripts/service/http-service'
 import TopiqResponse from '@/typescripts/response/topiq-response'
-import { reactive, ref, onUnmounted, type VNodeRef, onMounted } from 'vue'
+import { reactive, ref, onUnmounted, onMounted } from 'vue'
 import { REGION_TYPE } from '@/typescripts/types/region-type'
 import { STREAM_TYPE } from '@/typescripts/types/stream-type'
 import { CONFIGURATION } from '@/typescripts/configuration'
@@ -13,35 +13,43 @@ import SelectButton from './SelectButton.vue'
 import type TopiqData from '@/typescripts/data/topiq-data'
 import { ImageRequest } from '@/typescripts/request/image-request'
 
-const REGION_OPTIONS = [REGION_TYPE.ALL, REGION_TYPE.CEBU]
+const SELECTOR_LIST = [
+    {
+        key: 0,
+        options: [REGION_TYPE.ALL, REGION_TYPE.CEBU],
+        default: REGION_TYPE.ALL
+    },
+    {
+        key: 1,
+        options: [STREAM_TYPE.ALL, STREAM_TYPE.RTMP, STREAM_TYPE.FLV],
+        default: STREAM_TYPE.ALL
+    },
+    {
+        key: 2,
+        options: [BITRATE_TYPE.ALL, BITRATE_TYPE.LOW, BITRATE_TYPE.HIGH],
+        default: BITRATE_TYPE.ALL
+    }
+]
 
-const STREAM_TYPE_OPTIONS = [STREAM_TYPE.ALL, STREAM_TYPE.RTMP, STREAM_TYPE.FLV]
+const selectorRefs = ref<any>([])
 
-const BITRATE_TYPE_OPTIONS = [BITRATE_TYPE.ALL, BITRATE_TYPE.LOW, BITRATE_TYPE.HIGH]
-
-const regionSelector = ref<VNodeRef | null>(null)
-const streamTypeSelector = ref<VNodeRef | null>(null)
-const bitrateTypeSelector = ref<VNodeRef | null>(null)
+const imageSrc = ref('')
+const imageState = ref(false)
 
 let topiqResponse: TopiqResponse = reactive(new TopiqResponse([]))
 
 let queryIntervalID: number
 
-onUnmounted(() => {
-    queryIntervalID && clearInterval(queryIntervalID)
-})
-
 async function onclickSearch() {
-    const region =
-        regionSelector.value.selected == REGION_TYPE.ALL ? '' : regionSelector.value.selected
+    const regionSelector = selectorRefs.value[0]
+    const streamTypeSelector = selectorRefs.value[1]
+    const bitrateTypeSelector = selectorRefs.value[2]
+
+    const region = regionSelector.selected == REGION_TYPE.ALL ? '' : regionSelector.select
     const streamType =
-        streamTypeSelector.value.selected == STREAM_TYPE.ALL
-            ? ''
-            : streamTypeSelector.value.selected
+        streamTypeSelector.selected == STREAM_TYPE.ALL ? '' : streamTypeSelector.selected
     const bitrateType =
-        bitrateTypeSelector.value.selected == BITRATE_TYPE.ALL
-            ? ''
-            : bitrateTypeSelector.value.selected
+        bitrateTypeSelector.selected == BITRATE_TYPE.ALL ? '' : bitrateTypeSelector.selected
 
     const response = await HttpService.Instance.GetTopiqData(
         new TopiqRequest(region, streamType, bitrateType)
@@ -58,23 +66,13 @@ async function onclickSearch() {
     }, CONFIGURATION.QUERY_INTERVAL)
 }
 
-onMounted(() => {
-    onclickSearch()
-})
-
-const imageSrc = ref('')
-const imageState = ref(false)
-
 async function onclickPoint(timestampIndex: number, topiqData: TopiqData) {
     imageSrc.value = ''
     imageState.value = true
 
-    const region = topiqData.region
-    const streamType = topiqData.streamType
-    const channel = topiqData.channel
     const timestamp = topiqData.timestamp_list[timestampIndex]
     const data = await HttpService.Instance.GetImage(
-        new ImageRequest(region, streamType, channel, timestamp)
+        new ImageRequest(topiqData.region, topiqData.streamType, topiqData.channel, timestamp)
     )
 
     imageSrc.value = data.src
@@ -83,25 +81,25 @@ async function onclickPoint(timestampIndex: number, topiqData: TopiqData) {
 function hideImage() {
     imageState.value = false
 }
+
+onMounted(() => {
+    onclickSearch()
+})
+
+onUnmounted(() => {
+    queryIntervalID && clearInterval(queryIntervalID)
+})
 </script>
 
 <template>
     <main>
         <div class="select-container">
             <SelectButton
-                :options="REGION_OPTIONS"
-                :default="REGION_TYPE.ALL"
-                ref="regionSelector"
-            />
-            <SelectButton
-                :options="STREAM_TYPE_OPTIONS"
-                :default="STREAM_TYPE.ALL"
-                ref="streamTypeSelector"
-            />
-            <SelectButton
-                :options="BITRATE_TYPE_OPTIONS"
-                :default="BITRATE_TYPE.ALL"
-                ref="bitrateTypeSelector"
+                v-for="data in SELECTOR_LIST"
+                :key="data.key"
+                :options="data.options"
+                :default="data.default"
+                ref="selectorRefs"
             />
         </div>
 
@@ -122,7 +120,7 @@ function hideImage() {
             </div>
         </div>
 
-        <OverlayImage v-show=imageState @click.self=hideImage :imageSrc=imageSrc />
+        <OverlayImage v-show="imageState" @click.self="hideImage" :imageSrc="imageSrc" />
     </main>
 </template>
 
@@ -147,17 +145,6 @@ function hideImage() {
     position: relative;
     width: fit-content;
     left: 9.5%;
-}
-
-select {
-    display: inline-block;
-    width: 200px;
-    height: 35px;
-    border-radius: 20px;
-    margin: 10px;
-    text-align: center;
-    border: 0px solid #ccc;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 #search {

@@ -19,4 +19,15 @@ defineExpose({ selected })
     </select>
 </template>
 
-<style scoped></style>
+<style scoped>
+select {
+    display: inline-block;
+    width: 200px;
+    height: 35px;
+    border-radius: 20px;
+    margin: 10px;
+    text-align: center;
+    border: 0px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+</style>
