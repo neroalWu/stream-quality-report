@@ -124,10 +124,9 @@ onUnmounted(() => {
 
 <style scoped>
 .select-container {
+    display: flex;
+    justify-content: center;
     position: relative;
-    width: fit-content;
-
-    margin: 10px auto;
 }
 
 .cell-container {
