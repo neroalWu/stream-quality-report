@@ -36,8 +36,6 @@ const selectorRefs = ref<any>([])
 const imageSrc = ref('')
 const imageState = ref(false)
 
-const innerContainer = ref(null)
-
 let topiqResponse: TopiqResponse = reactive(new TopiqResponse([]))
 
 let queryIntervalID: number
