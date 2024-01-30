@@ -1,32 +1,26 @@
 <script setup lang="ts">
 import HttpService from '@/typescripts/service/http-service'
 import TopiqResponse from '@/typescripts/response/topiq-response'
-import { reactive, ref, onUnmounted } from 'vue'
+import { reactive, ref, onUnmounted, type VNodeRef, onMounted } from 'vue'
 import { REGION_TYPE } from '@/typescripts/types/region-type'
 import { STREAM_TYPE } from '@/typescripts/types/stream-type'
 import { CONFIGURATION } from '@/typescripts/configuration'
 import RTMP_CELL from './RTMP-CELL.vue'
-import Util from '@/typescripts/util'
 import { BITRATE_TYPE } from '@/typescripts/types/bitrate-type'
 import { TopiqRequest } from '@/typescripts/request/topiq-request'
+import SelectButton from './SelectButton.vue'
 
 const REGION_OPTIONS = [REGION_TYPE.ALL, REGION_TYPE.CEBU]
 
-const STREAM_TYPE_OPTION = [
-    STREAM_TYPE.ALL,
-    STREAM_TYPE.RTMP,
-    STREAM_TYPE.FLV
-]
+const STREAM_TYPE_OPTIONS = [STREAM_TYPE.ALL, STREAM_TYPE.RTMP, STREAM_TYPE.FLV]
 
-const BITRATE_OPTIONS = [BITRATE_TYPE.ALL, BITRATE_TYPE.LOW, BITRATE_TYPE.HIGH]
+const BITRATE_TYPE_OPTIONS = [BITRATE_TYPE.ALL, BITRATE_TYPE.LOW, BITRATE_TYPE.HIGH]
 
-let topiqResponse: TopiqResponse = reactive(
-    new TopiqResponse([])
-)
+const regionSelector = ref<VNodeRef | null>(null)
+const streamTypeSelector = ref<VNodeRef | null>(null)
+const bitrateTypeSelector = ref<VNodeRef | null>(null)
 
-let selectedRegion = ref(REGION_TYPE.ALL)
-let selectedStreamType = ref(STREAM_TYPE.ALL)
-let selectedBitrateType = ref(BITRATE_TYPE.ALL)
+let topiqResponse: TopiqResponse = reactive(new TopiqResponse([]))
 
 let queryIntervalID: number
 
@@ -35,11 +29,16 @@ onUnmounted(() => {
 })
 
 async function onclickSearch() {
-    const region = selectedRegion.value == REGION_TYPE.ALL ? '' : selectedRegion.value
+    const region =
+        regionSelector.value.selected == REGION_TYPE.ALL ? '' : regionSelector.value.selected
     const streamType =
-        selectedStreamType.value == STREAM_TYPE.ALL ? '' : selectedStreamType.value
+        streamTypeSelector.value.selected == STREAM_TYPE.ALL
+            ? ''
+            : streamTypeSelector.value.selected
     const bitrateType =
-        selectedBitrateType.value == BITRATE_TYPE.ALL ? '' : selectedBitrateType.value
+        bitrateTypeSelector.value.selected == BITRATE_TYPE.ALL
+            ? ''
+            : bitrateTypeSelector.value.selected
 
     const response = await HttpService.Instance.GetTopiqData(
         new TopiqRequest(region, streamType, bitrateType)
@@ -56,55 +55,39 @@ async function onclickSearch() {
     }, CONFIGURATION.QUERY_INTERVAL)
 }
 
-function getLastDateTime(): string {
-    return Util.Instance.FormatYearMonthDay(topiqResponse.list[0].timestamp_list[0])
-}
-
-onclickSearch()
+onMounted(() => {
+    onclickSearch()
+})
 </script>
 
 <template>
     <main>
         <div class="select-container">
-            <select name="region" v-model="selectedRegion">
-                <option v-for="region in REGION_OPTIONS" :key="region" :value="region">
-                    {{ region }}
-                </option>
-            </select>
-
-            <select name="stream_type" v-model="selectedStreamType">
-                <option
-                    v-for="streamType in STREAM_TYPE_OPTION"
-                    :key="streamType"
-                    :value="streamType"
-                >
-                    {{ streamType }}
-                </option>
-            </select>
-
-            <select name="bitrate_type" v-model="selectedBitrateType">
-                <option
-                    v-for="bitrateType in BITRATE_OPTIONS"
-                    :key="bitrateType"
-                    :value="bitrateType"
-                >
-                    {{ bitrateType }}
-                </option>
-            </select>
+            <SelectButton :options="REGION_OPTIONS" :default="REGION_TYPE.ALL" ref="regionSelector" />
+            <SelectButton
+                :options="STREAM_TYPE_OPTIONS"
+                :default="STREAM_TYPE.ALL"
+                ref="streamTypeSelector"
+            />
+            <SelectButton
+                :options="BITRATE_TYPE_OPTIONS"
+                :default="BITRATE_TYPE.ALL"
+                ref="bitrateTypeSelector"
+            />
         </div>
 
         <button id="search" @click="onclickSearch">搜尋</button>
 
         <div class="tint" v-if="topiqResponse.list.length > 0">
-            更新日期: {{ getLastDateTime() }}
+            更新日期: {{ topiqResponse.GetLastDateTime() }}
         </div>
 
         <div class="outer-container" v-if="topiqResponse.list.length > 0">
             <div class="inner-container">
                 <RTMP_CELL
-                    v-for="topiq in topiqResponse.list"
-                    :key="topiq._id"
-                    :topiq="topiq"
+                    v-for="topiqData in topiqResponse.list"
+                    :key="topiqData._id"
+                    :topiqData="topiqData"
                 ></RTMP_CELL>
             </div>
         </div>
@@ -169,4 +152,3 @@ select {
     color: #ababab;
 }
 </style>
-@/typescripts/response/stream-quality-report-response@/typescripts/types/bitrate-type@/typescripts/types/region-type@/typescripts/types/stream-type@/typescripts/request/topiq-request@/typescripts/response/topiq-response
