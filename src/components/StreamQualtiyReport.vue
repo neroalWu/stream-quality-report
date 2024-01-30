@@ -1,33 +1,34 @@
 <script setup lang="ts">
 import HttpService from '@/typescripts/http-service'
-import StreamQualityReportResponse from '@/typescripts/stream-quality-report/struct/stream-quality-report-response'
+import TopiqResponseList from '@/typescripts/response/topiq-response-list'
 import { reactive, ref, onUnmounted } from 'vue'
-import { REGION_TYPE } from '@/typescripts/stream-quality-report/struct/region-type'
-import { STREAM_PROTOCOL_TYPE } from '@/typescripts/stream-quality-report/struct/stream-protocol-type'
+import { REGION_TYPE } from '@/typescripts/types/region-type'
+import { STREAM_TYPE } from '@/typescripts/types/stream-type'
 import { CONFIGURATION } from '@/typescripts/configuration'
 import RTMP_CELL from './RTMP-CELL.vue'
 import Util from '@/typescripts/util'
-import { BITRATE_TYPE } from '@/typescripts/stream-quality-report/bitrate-type'
+import { BITRATE_TYPE } from '@/typescripts/types/bitrate-type'
+import { TopiqResponseListRequest } from '@/typescripts/request/topiq-response-list-request'
 
 const REGION_OPTIONS = [REGION_TYPE.ALL, REGION_TYPE.CEBU]
 
 const STREAM_TYPE_OPTION = [
-    STREAM_PROTOCOL_TYPE.ALL,
-    STREAM_PROTOCOL_TYPE.RTMP,
-    STREAM_PROTOCOL_TYPE.FLV
+    STREAM_TYPE.ALL,
+    STREAM_TYPE.RTMP,
+    STREAM_TYPE.FLV
 ]
 
 const BITRATE_OPTIONS = [BITRATE_TYPE.ALL, BITRATE_TYPE.LOW, BITRATE_TYPE.HIGH]
 
-let streamQualityReportResponse: StreamQualityReportResponse = reactive(
-    new StreamQualityReportResponse()
+let topiqResponseList: TopiqResponseList = reactive(
+    new TopiqResponseList()
 )
 
 let selectedRegion = ref(REGION_TYPE.ALL)
-let selectedStreamType = ref(STREAM_PROTOCOL_TYPE.ALL)
+let selectedStreamType = ref(STREAM_TYPE.ALL)
 let selectedBitrateType = ref(BITRATE_TYPE.ALL)
 
-let queryIntervalID: number;
+let queryIntervalID: number
 
 onUnmounted(() => {
     queryIntervalID && clearInterval(queryIntervalID)
@@ -36,16 +37,15 @@ onUnmounted(() => {
 async function onclickSearch() {
     const region = selectedRegion.value == REGION_TYPE.ALL ? '' : selectedRegion.value
     const streamType =
-        selectedStreamType.value == STREAM_PROTOCOL_TYPE.ALL ? '' : selectedStreamType.value
+        selectedStreamType.value == STREAM_TYPE.ALL ? '' : selectedStreamType.value
     const bitrateType =
         selectedBitrateType.value == BITRATE_TYPE.ALL ? '' : selectedBitrateType.value
 
-    const response = await HttpService.Instance.GetStreamQualityReportResponse(
-        region,
-        streamType,
-        bitrateType
+    const response = await HttpService.Instance.GetTopiqResponseList(
+        new TopiqResponseListRequest(region, streamType, bitrateType)
     )
-    streamQualityReportResponse.list = response.list
+
+    topiqResponseList.list = response.list
 
     if (queryIntervalID) {
         clearInterval(queryIntervalID)
@@ -57,7 +57,7 @@ async function onclickSearch() {
 }
 
 function getLastDateTime(): string {
-    return Util.Instance.FormatYearMonthDay(streamQualityReportResponse.list[0].timestamp_list[0])
+    return Util.Instance.FormatYearMonthDay(topiqResponseList.list[0].timestamp_list[0])
 }
 
 onclickSearch()
@@ -95,14 +95,14 @@ onclickSearch()
 
         <button id="search" @click="onclickSearch">搜尋</button>
 
-        <div class="tint" v-if="streamQualityReportResponse.list.length > 0">
+        <div class="tint" v-if="topiqResponseList.list.length > 0">
             更新日期: {{ getLastDateTime() }}
         </div>
 
-        <div class="outer-container" v-if="streamQualityReportResponse.list.length > 0">
+        <div class="outer-container" v-if="topiqResponseList.list.length > 0">
             <div class="inner-container">
                 <RTMP_CELL
-                    v-for="topiq in streamQualityReportResponse.list"
+                    v-for="topiq in topiqResponseList.list"
                     :key="topiq._id"
                     :topiq="topiq"
                 ></RTMP_CELL>
@@ -169,3 +169,4 @@ select {
     color: #ababab;
 }
 </style>
+@/typescripts/response/stream-quality-report-response@/typescripts/types/bitrate-type@/typescripts/types/region-type@/typescripts/types/stream-type

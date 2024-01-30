@@ -1,6 +1,9 @@
 import axios from 'axios'
-import type StreamQualityReportResponse from './stream-quality-report/struct/stream-quality-report-response'
+import type TopiqResponseList from './response/topiq-response-list'
 import { CONFIGURATION } from './configuration'
+import type { TopiqResponseListRequest } from './request/topiq-response-list-request'
+import type { ImageResponseRequest } from './request/image-response-request'
+import type { ImageResponse } from './response/image-response'
 
 export default class HttpService {
     private static instance: HttpService
@@ -15,31 +18,19 @@ export default class HttpService {
 
     private constructor() {}
 
-    public async GetStreamQualityReportResponse(region: string = '', streamType: string = '', bitrateType: string = ''): Promise<StreamQualityReportResponse> {
-        let url = `${CONFIGURATION.STREAM_QUALITY_REPORT.SERVER_URL}get-stream-quality-report-response?`
-        const queryString: string[] = [
-            `region=${region}&&`,
-            `streamType=${streamType}&&`,
-            `bitrateType=${bitrateType}`
-        ]
-        url = url.concat(...queryString)
+    public async GetTopiqResponseList(
+        request: TopiqResponseListRequest
+    ): Promise<TopiqResponseList> {
+        const url = `${CONFIGURATION.STREAM_QUALITY_REPORT.SERVER_URL}get-topiq-response-list`
 
-        const response = await axios.get(url)
+        const response = await axios.post(url, request)
         return response.data
     }
 
-    public async GetScreenshot(region: string = '', streamType: string = '', channel: string = '', timestamp: number): Promise<string> {
-        let url = `${CONFIGURATION.STREAM_QUALITY_REPORT.SERVER_URL}get-screenshot?`
-        const querySring: string[] = [
-            `region=${region}&&`,
-            `streamType=${streamType}&&`,
-            `channel=${channel}&&`,
-            `timestamp=${timestamp}`
-        ]
+    public async GetImageResponse(request: ImageResponseRequest): Promise<ImageResponse> {
+        const url = `${CONFIGURATION.STREAM_QUALITY_REPORT.SERVER_URL}get-image-response`
 
-        url = url.concat(...querySring)
-
-        const response = await axios.get(url)
-        return response.data;
+        const response = await axios.post(url, request)
+        return response.data
     }
 }

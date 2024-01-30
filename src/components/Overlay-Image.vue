@@ -4,7 +4,6 @@ const props = defineProps({
     imageSrc: String
 })
 
-console.log('image url:', props.imageSrc)
 </script>
 
 <template>
