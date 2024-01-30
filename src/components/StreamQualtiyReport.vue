@@ -53,7 +53,7 @@ async function onclickSearch() {
 
     queryIntervalID = setInterval(() => {
         onclickSearch()
-    }, CONFIGURATION.STREAM_QUALITY_REPORT.QUERY_INTERVAL)
+    }, CONFIGURATION.QUERY_INTERVAL)
 }
 
 function getLastDateTime(): string {

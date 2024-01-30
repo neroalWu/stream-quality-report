@@ -18,19 +18,13 @@ export default class HttpService {
 
     private constructor() {}
 
-    public async GetTopiqData(
-        request: TopiqRequest
-    ): Promise<TopiqResponse> {
-        const url = `${CONFIGURATION.STREAM_QUALITY_REPORT.SERVER_URL}get-topiq-data`
-
-        const response = await axios.post(url, request)
+    public async GetTopiqData(request: TopiqRequest): Promise<TopiqResponse> {
+        const response = await axios.post(CONFIGURATION.API.GET_TOPIQ_DATA, request)
         return response.data
     }
 
     public async GetImage(request: ImageRequest): Promise<ImageResponse> {
-        const url = `${CONFIGURATION.STREAM_QUALITY_REPORT.SERVER_URL}get-image`
-
-        const response = await axios.post(url, request)
+        const response = await axios.post(CONFIGURATION.API.GET_IMAGE, request)
         return response.data
     }
 }
