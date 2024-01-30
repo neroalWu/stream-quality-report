@@ -36,6 +36,8 @@ const selectorRefs = ref<any>([])
 const imageSrc = ref('')
 const imageState = ref(false)
 
+const innerContainer = ref(null)
+
 let topiqResponse: TopiqResponse = reactive(new TopiqResponse([]))
 
 let queryIntervalID: number
@@ -101,23 +103,21 @@ onUnmounted(() => {
                 :default="data.default"
                 ref="selectorRefs"
             />
-        </div>
 
-        <button id="search" @click="onclickSearch">搜尋</button>
+            <button id="search" @click="onclickSearch">搜尋</button>
+        </div>
 
         <div class="tint" v-if="topiqResponse.list.length > 0">
-            更新日期: {{ topiqResponse.GetLastDateTime() }}
+            近期更新日期: {{ topiqResponse.GetLastDateTime() }}
         </div>
 
-        <div class="outer-container" v-if="topiqResponse.list.length > 0">
-            <div class="inner-container">
-                <RTMP_CELL
-                    v-for="topiqData in topiqResponse.list"
-                    :key="topiqData._id"
-                    :topiqData="topiqData"
-                    @onclickPoint="onclickPoint"
-                ></RTMP_CELL>
-            </div>
+        <div class="cell-container" v-if="topiqResponse.list.length > 0">
+            <RTMP_CELL
+                v-for="topiqData in topiqResponse.list"
+                :key="topiqData._id"
+                :topiqData="topiqData"
+                @onclickPoint="onclickPoint"
+            ></RTMP_CELL>
         </div>
 
         <OverlayImage v-show="imageState" @click.self="hideImage" :imageSrc="imageSrc" />
@@ -125,38 +125,28 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
-.outer-container {
-    margin-left: 10%;
-    margin-right: 10%;
-    width: fit-content;
-    overflow: hidden;
-    border-radius: 10px;
-    border: 1px solid #ccc;
-}
-
-.inner-container {
-    height: 850px;
-    width: 1400px;
-    overflow-y: scroll;
-}
-
 .select-container {
-    display: inline-block;
     position: relative;
     width: fit-content;
-    left: 9.5%;
+
+    margin: 10px auto;
+}
+
+.cell-container {
+    margin-left: 100px;
+    margin-right: 100px;
 }
 
 #search {
     position: relative;
     display: inline-block;
-    left: 10%;
-    width: 100px;
+    width: 200px;
     height: 35px;
+    margin: 10px;
     border-radius: 20px;
     background-color: coral;
     color: var(--secondary-color);
-    border: 1px solid #ccc;
+    border: 0px solid #ccc;
 }
 
 #search:hover {
@@ -164,10 +154,10 @@ onUnmounted(() => {
 }
 
 .tint {
-    display: inline-block;
-    position: relative;
-    left: 40%;
-    top: 15px;
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    right: 60px;
     color: #ababab;
 }
 </style>

@@ -11,3 +11,20 @@ import StreamQualityReport from "@/components/StreamQualtiyReport.vue"
         <StreamQualityReport/>
     </main>
 </template>
+
+<style scoped>
+.logo {
+    position: relative;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+
+.header {
+    height: 65px;
+    width: 100%;
+    
+    background-color: var(--secondary-color);
+}
+
+</style>

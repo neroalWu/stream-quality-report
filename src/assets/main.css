@@ -10,17 +10,3 @@ body {
     margin: 0px;
     color: var(--front-color);
 }
-
-.logo {
-    position: relative;
-    margin-top: 10px;
-    margin-left: 10px;
-}
-
-
-.header {
-    height: 65px;
-    width: 100%;
-    
-    background-color: var(--secondary-color);
-}
