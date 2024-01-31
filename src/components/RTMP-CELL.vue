@@ -13,6 +13,12 @@ const emit = defineEmits(['onclickPoint'])
 const chartCanvas = ref<HTMLCanvasElement | null>(null)
 let myChart: Chart | null = null
 
+const POINT_RADIUS = 4;
+const POINT_HOVER_RADIUS = 6
+const NR_COLOR = 'rgba(255, 99, 132, 1)'
+const NR_FLIVE_COLOR = 'rgba(245, 187, 49, 1)'
+const NR_SPAQ = 'rgba(132, 99, 255, 1)'
+
 watch(
     () => props.topiqData as TopiqData,
     (newVal) => {
@@ -35,7 +41,16 @@ function render(topiqData: TopiqData) {
                 emit('onclickPoint', index, props.topiqData)
             }
         },
-        responsive: true
+        responsive: true,
+        plugins: {
+            tooltip: {
+                callbacks: {
+                    footer: () => {
+                        return '點擊查看圖片'
+                    }
+                }
+            }
+        }
     }
 
     const data = {
@@ -46,23 +61,29 @@ function render(topiqData: TopiqData) {
             {
                 label: 'nr',
                 data: topiqData.nr_list,
-                borderColor: 'rgba(255, 99, 132, 1)',
-                backgroundColor: 'rgba(255, 99, 132, 1)',
-                borderWidth: 1
+                borderColor: NR_COLOR,
+                backgroundColor: NR_COLOR,
+                borderWidth: 1,
+                pointRadius: POINT_RADIUS,
+                pointHoverRadius: POINT_HOVER_RADIUS
             },
             {
                 label: 'nr_flive',
                 data: topiqData.nr_flive_list,
-                borderColor: 'rgba(245, 187, 49, 1)',
-                backgroundColor: 'rgba(245, 187, 49, 1)',
-                borderWidth: 1
+                borderColor: NR_FLIVE_COLOR,
+                backgroundColor: NR_FLIVE_COLOR,
+                borderWidth: 1,
+                pointRadius: POINT_RADIUS,
+                pointHoverRadius: POINT_HOVER_RADIUS
             },
             {
                 label: 'nr_spaq',
                 data: topiqData.nr_spaq_list,
-                borderColor: 'rgba(132, 99, 255, 1)',
-                backgroundColor: 'rgba(132, 99, 255, 1)',
-                borderWidth: 1
+                borderColor: NR_SPAQ,
+                backgroundColor: NR_SPAQ,
+                borderWidth: 1,
+                pointRadius: POINT_RADIUS,
+                pointHoverRadius: POINT_HOVER_RADIUS
             }
         ]
     }
