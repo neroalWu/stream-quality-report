@@ -4,7 +4,7 @@ export default class TopiqData {
    public region: string = '';
    public streamType: string = '';
    public channel: string = '';
-   public bitrateType: string = '';
+   public resolution: string = '';
 
    public nr_list: number[] = [];
    public nr_flive_list: number[] = [];

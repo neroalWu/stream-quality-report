@@ -6,7 +6,7 @@ import { REGION_TYPE } from '@/typescripts/types/region-type'
 import { STREAM_TYPE } from '@/typescripts/types/stream-type'
 import { CONFIGURATION } from '@/typescripts/configuration'
 import RTMP_CELL from './RTMP-CELL.vue'
-import { BITRATE_TYPE } from '@/typescripts/types/bitrate-type'
+import { RESOLUTION } from '@/typescripts/types/resolution'
 import { TopiqRequest } from '@/typescripts/request/topiq-request'
 import OverlayImage from './Overlay-Image.vue'
 import SelectButton from './SelectButton.vue'
@@ -26,8 +26,8 @@ const SELECTOR_LIST = [
     },
     {
         key: 2,
-        options: [BITRATE_TYPE.ALL, BITRATE_TYPE.LOW, BITRATE_TYPE.HIGH],
-        default: BITRATE_TYPE.ALL
+        options: [RESOLUTION.ALL, RESOLUTION.HD, RESOLUTION.FULL_HD],
+        default: RESOLUTION.ALL
     }
 ]
 
@@ -43,16 +43,16 @@ let queryIntervalID: number
 async function onclickSearch() {
     const regionSelector = selectorRefs.value[0]
     const streamTypeSelector = selectorRefs.value[1]
-    const bitrateTypeSelector = selectorRefs.value[2]
+    const resolutionSelector = selectorRefs.value[2]
 
     const region = regionSelector.selected == REGION_TYPE.ALL ? '' : regionSelector.select
     const streamType =
         streamTypeSelector.selected == STREAM_TYPE.ALL ? '' : streamTypeSelector.selected
-    const bitrateType =
-        bitrateTypeSelector.selected == BITRATE_TYPE.ALL ? '' : bitrateTypeSelector.selected
+    const resolution =
+        resolutionSelector.selected == RESOLUTION.ALL ? '' : resolutionSelector.selected
 
     const response = await HttpService.Instance.GetTopiqData(
-        new TopiqRequest(region, streamType, bitrateType)
+        new TopiqRequest(region, streamType, resolution)
     )
 
     topiqResponse.list = response.list
