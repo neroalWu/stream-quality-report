@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 export default class Util {
     private static instance: Util | null = null
     static get Instance() {
@@ -26,5 +28,14 @@ export default class Util {
         const day =  String(date.getDate()).padStart(2, '0')
 
         return `${year}/${month}/${day}`
+    }
+
+    public getMean(array: number[]) {
+        return _.sum(array) / array.length;
+    }
+
+    public getStandardDeviation(array: number[]) {
+        const mean = this.getMean(array);
+        return Math.sqrt(_.sum(_.map(array, (i) => Math.pow((i - mean), 2))) / array.length);
     }
 }
