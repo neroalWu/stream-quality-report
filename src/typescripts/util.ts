@@ -30,12 +30,12 @@ export default class Util {
         return `${year}/${month}/${day}`
     }
 
-    public getMean(array: number[]) {
+    public GetMean(array: number[]) {
         return _.sum(array) / array.length;
     }
 
-    public getStandardDeviation(array: number[]) {
-        const mean = this.getMean(array);
+    public GetStandardDeviation(array: number[]) {
+        const mean = this.GetMean(array);
         return Math.sqrt(_.sum(_.map(array, (i) => Math.pow((i - mean), 2))) / array.length);
     }
 }
