@@ -6,9 +6,9 @@ defineProps({
 
 <template>
     <div id="overlay">
-        <div id="overlay-content">
-            <img :src=imageSrc alt="Image" />
-        </div>
+ 
+        <img :src=imageSrc alt="Image" />
+     
     </div>
 </template>
 
@@ -25,14 +25,11 @@ defineProps({
     align-items: center;
 }
 
-#overlay-content {
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
 
 img {
-    max-width: 1280px;
+    width: 60%;
+    height: auto;
     border-radius: 10px;
+    justify-content: center;
 }
 </style>
