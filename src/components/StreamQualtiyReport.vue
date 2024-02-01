@@ -105,10 +105,6 @@ onUnmounted(() => {
             <button id="search" @click="onclickSearch">搜尋</button>
         </div>
 
-        <div class="tint" v-if="topiqResponse.list.length > 0">
-            近期更新日期: {{ topiqResponse.GetLastDateTime() }}
-        </div>
-
         <div class="cell-container" v-if="topiqResponse.list.length > 0">
             <RTMP_CELL
                 v-for="topiqData in topiqResponse.list"
@@ -150,11 +146,4 @@ onUnmounted(() => {
     background-color: rgb(230, 105, 60);
 }
 
-.tint {
-    display: block;
-    margin: 0 auto;
-    text-align: center;
-    right: 60px;
-    color: #ababab;
-}
 </style>

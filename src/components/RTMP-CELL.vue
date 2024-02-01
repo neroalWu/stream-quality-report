@@ -55,7 +55,7 @@ function render(topiqData: TopiqData) {
 
     const data = {
         labels: topiqData.timestamp_list.map((timestamp: number) =>
-            Util.Instance.FormatHHMM(timestamp)
+            Util.Instance.FormatDateHoursMinutes(timestamp)
         ),
         datasets: [
             {
