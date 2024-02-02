@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import Chart from '@/chartjs/auto'
 import type TopiqData from '@/typescripts/data/topiq-data'
-import { ref, onBeforeUnmount, watch, onMounted } from 'vue'
+import { ref, onBeforeUnmount, watch, onMounted, nextTick } from 'vue'
 import Util from '@/typescripts/util'
 import { CONFIGURATION } from '@/typescripts/configuration'
+import ContainerContentText from './ContainerContentText.vue'
 
 const props = defineProps({
     topiqData: Object
@@ -14,6 +15,8 @@ const emit = defineEmits(['onclickPoint'])
 const chartCanvas = ref<HTMLCanvasElement | null>(null)
 let myChart: Chart | null = null
 
+const isExpand = ref(false)
+
 watch(
     () => props.topiqData as TopiqData,
     (newVal) => {
@@ -21,8 +24,17 @@ watch(
     }
 )
 
-function render(topiqData: TopiqData) {
-    if (!chartCanvas.value) return
+watch(isExpand, () => {
+    render(props.topiqData as TopiqData)
+})
+
+async function render(topiqData: TopiqData) {
+    await nextTick()
+
+    if (!chartCanvas.value || !isExpand.value) {
+        myChart && myChart.destroy()
+        return
+    }
 
     const ctx = chartCanvas.value.getContext('2d')
 
@@ -95,6 +107,10 @@ function render(topiqData: TopiqData) {
     })
 }
 
+function toggle() {
+    isExpand.value = !isExpand.value
+}
+
 onMounted(() => {
     render(props.topiqData as TopiqData)
 })
@@ -107,29 +123,82 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-    <div class="rtmp-cell">
-        <h3>{{ props.topiqData?.streamType }} - {{ props.topiqData?.channel }}</h3>
+    <div class="rtmp-cell" @click="toggle" title="點擊展開/折疊">
+        <ContainerContentText
+            :content="topiqData?.region"
+            :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.REGION"
+        />
+        <ContainerContentText
+            :content="topiqData?.streamType"
+            :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.STREAM_TYPE"
+        />
+        <ContainerContentText
+            :content="topiqData?.channel"
+            :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.CHANNEL"
+        />
+        <ContainerContentText
+            :content="topiqData?.resolution"
+            :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.RESOLUTION"
+        />
 
-        <canvas ref="chartCanvas" height="50"></canvas>
+        <ContainerContentText
+            :content="Util.Instance.GetMean(topiqData?.nr_list).toString()"
+            :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.NR_M"
+        />
+
+        <ContainerContentText
+            :content="Util.Instance.GetStandardDeviation(topiqData?.nr_list).toString()"
+            :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.NR_SD"
+        />
+
+        <ContainerContentText
+            :content="Util.Instance.GetMean(topiqData?.nr_flive_list).toString()"
+            :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.FLIVE_M"
+        />
+
+        <ContainerContentText
+            :content="Util.Instance.GetStandardDeviation(topiqData?.nr_flive_list).toString()"
+            :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.FLIVE_SD"
+        />
+
+        <ContainerContentText
+            :content="Util.Instance.GetMean(topiqData?.nr_spaq_list).toString()"
+            :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.SPAQ_M"
+        />
+
+        <ContainerContentText
+            :content="Util.Instance.GetStandardDeviation(topiqData?.nr_spaq_list).toString()"
+            :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.SPAQ_SD"
+        />
+        
+        <br />
+        <canvas
+            class="chart"
+            ref="chartCanvas"
+            height="50px"
+            v-if="isExpand"
+            @click="
+                (event) => {
+                    event.stopPropagation()
+                }
+            "
+        ></canvas>
     </div>
 </template>
 
 <style scoped>
 .rtmp-cell {
     background-color: var(--secondary-color);
-    border-radius: 10px;
-    margin-bottom: 10px;
+    padding: 15px 0px 15px 0px;
+    border: 1px solid var(--primary-color);
+    height: fit-content;
 }
 
-h3 {
-    margin-top: 0px;
-    margin-bottom: 0px;
-    position: relative;
-    top: 10px;
-    margin-left: 20px;
+.rtmp-cell:hover {
+    cursor: pointer;
 }
 
-h4 {
-    margin: 10px 0 10px 20px;
+.chart:hover {
+    cursor: default;
 }
 </style>

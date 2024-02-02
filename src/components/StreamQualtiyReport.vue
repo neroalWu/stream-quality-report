@@ -12,6 +12,7 @@ import OverlayImage from './Overlay-Image.vue'
 import SelectButton from './SelectButton.vue'
 import type TopiqData from '@/typescripts/data/topiq-data'
 import { ImageRequest } from '@/typescripts/request/image-request'
+import ContainerHeaderText from './ContainerHeaderText.vue'
 
 const SELECTOR_LIST = [
     {
@@ -105,7 +106,20 @@ onUnmounted(() => {
             <button id="search" @click="onclickSearch">搜尋</button>
         </div>
 
-        <div class="cell-container" v-if="topiqResponse.list.length > 0">
+        <div class="container-header">
+            <ContainerHeaderText title="區域" :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.REGION"/>
+            <ContainerHeaderText title="協定" :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.STREAM_TYPE"/>
+            <ContainerHeaderText title="桌號" :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.CHANNEL"/>
+            <ContainerHeaderText title="解析度" :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.RESOLUTION"/>
+            <ContainerHeaderText title="NR M" :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.NR_M"/>
+            <ContainerHeaderText title="NR SD" :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.NR_SD"/>
+            <ContainerHeaderText title="FLIVE M" :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.FLIVE_M"/>
+            <ContainerHeaderText title="FLIVE SD" :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.FLIVE_SD"/>
+            <ContainerHeaderText title="SPAQ M" :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.SPAQ_M"/>
+            <ContainerHeaderText title="SPAQ SD" :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.SPAQ_SD"/>
+        </div>
+
+        <div class="container-content" v-if="topiqResponse.list.length > 0">
             <RTMP_CELL
                 v-for="topiqData in topiqResponse.list"
                 :key="topiqData._id"
@@ -125,7 +139,19 @@ onUnmounted(() => {
     position: relative;
 }
 
-.cell-container {
+.container-header {
+    height: 60px;
+    background-color: var(--secondary-color);
+    margin-left: 100px;
+    margin-right: 100px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border: 1px solid var(--primary-color);
+}
+
+.container-content {
     margin-left: 100px;
     margin-right: 100px;
 }
@@ -140,10 +166,12 @@ onUnmounted(() => {
     background-color: coral;
     color: var(--secondary-color);
     border: 0px solid #ccc;
+    cursor: default;
 }
 
 #search:hover {
     background-color: rgb(230, 105, 60);
+    cursor: pointer;
 }
 
 </style>
