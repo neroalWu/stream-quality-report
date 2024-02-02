@@ -3,6 +3,7 @@ import Chart from '@/chartjs/auto'
 import type TopiqData from '@/typescripts/data/topiq-data'
 import { ref, onBeforeUnmount, watch, onMounted } from 'vue'
 import Util from '@/typescripts/util'
+import { CONFIGURATION } from '@/typescripts/configuration'
 
 const props = defineProps({
     topiqData: Object
@@ -12,12 +13,6 @@ const emit = defineEmits(['onclickPoint'])
 
 const chartCanvas = ref<HTMLCanvasElement | null>(null)
 let myChart: Chart | null = null
-
-const POINT_RADIUS = 4;
-const POINT_HOVER_RADIUS = 6
-const NR_COLOR = 'rgba(255, 99, 132, 1)'
-const NR_FLIVE_COLOR = 'rgba(245, 187, 49, 1)'
-const NR_SPAQ = 'rgba(132, 99, 255, 1)'
 
 watch(
     () => props.topiqData as TopiqData,
@@ -53,6 +48,7 @@ function render(topiqData: TopiqData) {
         }
     }
 
+    const CHART_CELL_CONFIG = CONFIGURATION.CHART_CELL
     const data = {
         labels: topiqData.timestamp_list.map((timestamp: number) =>
             Util.Instance.FormatDateHoursMinutes(timestamp)
@@ -61,29 +57,29 @@ function render(topiqData: TopiqData) {
             {
                 label: 'nr',
                 data: topiqData.nr_list,
-                borderColor: NR_COLOR,
-                backgroundColor: NR_COLOR,
+                borderColor: CHART_CELL_CONFIG.NR_COLOR_NORMAL,
+                backgroundColor: CHART_CELL_CONFIG.NR_COLOR_NORMAL,
                 borderWidth: 1,
-                pointRadius: POINT_RADIUS,
-                pointHoverRadius: POINT_HOVER_RADIUS
+                pointRadius: CHART_CELL_CONFIG.POINT_RADIUS_NORMAL,
+                pointHoverRadius: CHART_CELL_CONFIG.POINT_RADIUS_HOVER
             },
             {
                 label: 'nr_flive',
                 data: topiqData.nr_flive_list,
-                borderColor: NR_FLIVE_COLOR,
-                backgroundColor: NR_FLIVE_COLOR,
+                borderColor: CHART_CELL_CONFIG.FLIVE_COLOR_NORMAL,
+                backgroundColor: CHART_CELL_CONFIG.FLIVE_COLOR_NORMAL,
                 borderWidth: 1,
-                pointRadius: POINT_RADIUS,
-                pointHoverRadius: POINT_HOVER_RADIUS
+                pointRadius: CHART_CELL_CONFIG.POINT_RADIUS_NORMAL,
+                pointHoverRadius: CHART_CELL_CONFIG.POINT_RADIUS_HOVER
             },
             {
                 label: 'nr_spaq',
                 data: topiqData.nr_spaq_list,
-                borderColor: NR_SPAQ,
-                backgroundColor: NR_SPAQ,
+                borderColor: CHART_CELL_CONFIG.SPAQ_COLOR_NORMAL,
+                backgroundColor: CHART_CELL_CONFIG.SPAQ_COLOR_NORMAL,
                 borderWidth: 1,
-                pointRadius: POINT_RADIUS,
-                pointHoverRadius: POINT_HOVER_RADIUS
+                pointRadius: CHART_CELL_CONFIG.POINT_RADIUS_NORMAL,
+                pointHoverRadius: CHART_CELL_CONFIG.POINT_RADIUS_HOVER
             }
         ]
     }
@@ -108,7 +104,6 @@ onBeforeUnmount(() => {
         myChart.destroy()
     }
 })
-
 </script>
 
 <template>
@@ -132,5 +127,9 @@ h3 {
     position: relative;
     top: 10px;
     margin-left: 20px;
+}
+
+h4 {
+    margin: 10px 0 10px 20px;
 }
 </style>

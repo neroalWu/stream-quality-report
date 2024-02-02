@@ -7,7 +7,17 @@ const API = {
     GET_IMAGE: `${SERVER_URL}get-image`
 }
 
+const CHART_CELL = {
+    POINT_RADIUS_NORMAL: 4,
+    POINT_RADIUS_HOVER: 6,
+
+    NR_COLOR_NORMAL: 'rgba(255, 131, 122, 1)',
+    FLIVE_COLOR_NORMAL: 'rgba(255, 192, 106, 1)',
+    SPAQ_COLOR_NORMAL: 'rgba(181, 138, 255, 1)',
+}
+
 export const CONFIGURATION = {
     QUERY_INTERVAL: 600000, // 10mins
-    API: API
+    API: API,
+    CHART_CELL: CHART_CELL
 }
