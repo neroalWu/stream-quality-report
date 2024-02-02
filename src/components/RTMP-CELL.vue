@@ -15,7 +15,7 @@ const emit = defineEmits(['onclickPoint'])
 const chartCanvas = ref<HTMLCanvasElement | null>(null)
 let myChart: Chart | null = null
 
-const isExpand = ref(false)
+const isExpand = ref(true)
 
 watch(
     () => props.topiqData as TopiqData,
@@ -170,7 +170,7 @@ onBeforeUnmount(() => {
             :content="Util.Instance.GetStandardDeviation(topiqData?.nr_spaq_list).toString()"
             :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.SPAQ_SD"
         />
-        
+
         <br />
         <canvas
             class="chart"
@@ -196,6 +196,11 @@ onBeforeUnmount(() => {
 
 .rtmp-cell:hover {
     cursor: pointer;
+}
+
+
+.chart {
+    margin-top: 20px;
 }
 
 .chart:hover {
