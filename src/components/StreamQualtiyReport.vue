@@ -98,7 +98,7 @@ async function onclickSearch() {
     display: inline-block;
     width: 200px;
     height: 35px;
-    margin: 10px;
+    margin-left: 20px;
     border-radius: 20px;
     background-color: coral;
     color: var(--secondary-color);

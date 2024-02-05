@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import Store from '@/typescripts/store/store'
 
 </script>
 

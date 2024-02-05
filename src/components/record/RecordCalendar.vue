@@ -11,15 +11,18 @@ const range = ref({
 
 watch(range, (newRange) => {
     Store.Instance.selectedRangeDate = newRange
-    console.log(Store.Instance.selectedRangeDate)
 })
-
 </script>
 
 <template>
-    <div>
+    <div class="calendar">
         <DatePicker v-model.range="range" />
     </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.calendar {
+    margin-left: 20px;
+    margin-top: 20px;
+}
+</style>

@@ -21,11 +21,11 @@ defineExpose({ selected })
 
 <style scoped>
 select {
-    display: inline;
+    display: block;
     width: 200px;
     height: 35px;
     border-radius: 20px;
-    margin: 10px;
+    margin: 20px;
     text-align: center;
     border: 0px solid #ccc;
     cursor: default;
