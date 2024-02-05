@@ -12,6 +12,7 @@ import RecordHeader from './record/RecordHeader.vue'
 import RecordContent from './record/RecordContent.vue'
 import { TopiqRequest } from '@/typescripts/request/topiq-request'
 import { CONFIGURATION } from '@/typescripts/configuration'
+import RecordCalendar from './record/RecordCalendar.vue'
 
 const SELECTOR_LIST = [
     {
@@ -80,6 +81,8 @@ async function onclickSearch() {
         <button class="search" @click="onclickSearch">搜尋</button>
     </div>
 
+    <RecordCalendar/>
+
     <RecordHeader />
 
     <RecordContent :topiqResponse="topiqResponse" />
@@ -87,9 +90,7 @@ async function onclickSearch() {
 
 <style scoped>
 .select-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: block;
 }
 
 .search {

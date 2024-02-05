@@ -13,11 +13,13 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@popperjs/core": "^2.11.8",
     "@types/mongodb": "^4.0.7",
     "axios": "^1.6.5",
     "chart.js": "^4.4.1",
     "cron": "^3.1.6",
     "lodash": "^4.17.21",
+    "v-calendar": "^3.1.2",
     "vue": "^3.3.11",
     "vue-router": "^4.2.5"
   },
