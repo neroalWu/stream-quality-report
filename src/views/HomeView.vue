@@ -28,8 +28,4 @@ body {
 
     background-color: var(--secondary-color);
 }
-
-.stream-quality-report {
-    margin-top: 65px;
-}
 </style>
