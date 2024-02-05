@@ -3,6 +3,7 @@ import Util from '@/typescripts/util'
 import RecordContentText from './RecordContentText.vue'
 import router from '@/router'
 import type TopiqData from '@/typescripts/data/topiq-data'
+import Store from '@/typescripts/store/store';
 
 const props = defineProps({
     index: Number,
@@ -100,11 +101,9 @@ const content_list = [
 // }
 
 function onclickPoint() {
-    const topiq = props.topiqData as TopiqData
-    router.push({
-        path: '/stream',
-        query: { region: topiq.region, streamType: topiq.streamType, channel: topiq.channel }
-    })
+    console.log('click:', props.topiqData)
+    Store.Instance.selectedTopiq = props.topiqData as TopiqData
+    router.push('/stream')
 }
 </script>
 

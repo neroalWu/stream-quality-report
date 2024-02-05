@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import router from '@/router'
+import Store from '@/typescripts/store/store'
 
-console.log('neroal:', router.currentRoute.value.query)
 </script>
 
 <template>
