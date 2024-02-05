@@ -69,34 +69,42 @@ async function onclickSearch() {
 </script>
 
 <template>
-    <div class="select-container">
-        <RecordSelectButton
-            v-for="(data, index) in SELECTOR_LIST"
-            :key="index"
-            :options="data.options"
-            :default="data.default"
-            ref="selectorRefs"
-        />
+    <div class="horizontal-layout">
+        <div class="left-container">
+            <RecordSelectButton
+                v-for="(data, index) in SELECTOR_LIST"
+                :key="index"
+                :options="data.options"
+                :default="data.default"
+                ref="selectorRefs"
+            />
 
-        <button class="search" @click="onclickSearch">搜尋</button>
+            <button class="search" @click="onclickSearch">搜尋</button>
+            <RecordCalendar />
+        </div>
+
+        <div class="record-container">
+            <RecordHeader />
+            <RecordContent :topiqResponse="topiqResponse" />
+        </div>
     </div>
-
-    <RecordCalendar/>
-
-    <RecordHeader />
-
-    <RecordContent :topiqResponse="topiqResponse" />
 </template>
 
 <style scoped>
-.select-container {
+
+.horizontal-layout {
+    display: flex;
+}
+.left-container {
     display: block;
+    background-color: var(--accent-color);
+    height: 100vh;
 }
 
 .search {
     position: relative;
-    display: inline-block;
-    width: 200px;
+    display: block;
+    width: 250px;
     height: 35px;
     margin-left: 20px;
     border-radius: 20px;
@@ -109,5 +117,12 @@ async function onclickSearch() {
 .search:hover {
     background-color: rgb(230, 105, 60);
     cursor: pointer;
+}
+
+.record-container {
+    display: inline-block;
+    margin-top: 20px;
+    min-width: 720px;
+    width: 100%;
 }
 </style>

@@ -24,5 +24,6 @@ watch(range, (newRange) => {
 .calendar {
     margin-left: 20px;
     margin-top: 20px;
+    width: fit-content;
 }
 </style>

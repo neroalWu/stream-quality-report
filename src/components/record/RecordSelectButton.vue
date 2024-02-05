@@ -22,7 +22,7 @@ defineExpose({ selected })
 <style scoped>
 select {
     display: block;
-    width: 200px;
+    width: 250px;
     height: 35px;
     border-radius: 20px;
     margin: 20px;
