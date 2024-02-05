@@ -7,7 +7,7 @@ import { REGION_TYPE } from '@/typescripts/types/region-type'
 import { STREAM_TYPE } from '@/typescripts/types/stream-type'
 import { RESOLUTION } from '@/typescripts/types/resolution'
 
-import SelectButton from './SelectButton.vue'
+import RecordSelectButton from './record/RecordSelectButton.vue'
 import RecordHeader from './record/RecordHeader.vue'
 import RecordContent from './record/RecordContent.vue'
 import { TopiqRequest } from '@/typescripts/request/topiq-request'
@@ -69,7 +69,7 @@ async function onclickSearch() {
 
 <template>
     <div class="select-container">
-        <SelectButton
+        <RecordSelectButton
             v-for="(data, index) in SELECTOR_LIST"
             :key="index"
             :options="data.options"
