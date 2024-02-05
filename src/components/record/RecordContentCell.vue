@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import Util from '@/typescripts/util'
 import RecordContentText from './RecordContentText.vue'
-import router from '@/router';
+import router from '@/router'
+import type TopiqData from '@/typescripts/data/topiq-data'
 
 const props = defineProps({
     index: Number,
@@ -99,7 +100,11 @@ const content_list = [
 // }
 
 function onclickPoint() {
-    router.push('/stream')
+    const topiq = props.topiqData as TopiqData
+    router.push({
+        path: '/stream',
+        query: { region: topiq.region, streamType: topiq.streamType, channel: topiq.channel }
+    })
 }
 </script>
 
