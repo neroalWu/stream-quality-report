@@ -125,20 +125,12 @@ onBeforeUnmount(() => {
 <template>
     <div class="rtmp-cell" @click="toggle" title="點擊展開/折疊">
         <ContainerContentText
-            :content="topiqData?.region"
-            :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.REGION"
-        />
-        <ContainerContentText
             :content="topiqData?.streamType"
             :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.STREAM_TYPE"
         />
         <ContainerContentText
             :content="topiqData?.channel"
             :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.CHANNEL"
-        />
-        <ContainerContentText
-            :content="topiqData?.resolution"
-            :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.RESOLUTION"
         />
 
         <ContainerContentText
@@ -197,7 +189,6 @@ onBeforeUnmount(() => {
 .rtmp-cell:hover {
     cursor: pointer;
 }
-
 
 .chart {
     margin-top: 20px;

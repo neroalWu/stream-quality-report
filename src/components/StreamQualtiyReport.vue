@@ -93,67 +93,70 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <main>
-        <div class="select-container">
-            <SelectButton
-                v-for="data in SELECTOR_LIST"
-                :key="data.key"
-                :options="data.options"
-                :default="data.default"
-                ref="selectorRefs"
-            />
+    <div class="select-container">
+        <SelectButton
+            v-for="data in SELECTOR_LIST"
+            :key="data.key"
+            :options="data.options"
+            :default="data.default"
+            ref="selectorRefs"
+        />
 
-            <button id="search" @click="onclickSearch">搜尋</button>
-        </div>
+        <button id="search" @click="onclickSearch">搜尋</button>
+    </div>
 
-        <div class="container-header">
-            <ContainerHeaderText title="區域" :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.REGION"/>
-            <ContainerHeaderText title="協定" :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.STREAM_TYPE"/>
-            <ContainerHeaderText title="桌號" :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.CHANNEL"/>
-            <ContainerHeaderText title="解析度" :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.RESOLUTION"/>
-            <ContainerHeaderText title="NR M" :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.NR_M"/>
-            <ContainerHeaderText title="NR SD" :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.NR_SD"/>
-            <ContainerHeaderText title="FLIVE M" :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.FLIVE_M"/>
-            <ContainerHeaderText title="FLIVE SD" :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.FLIVE_SD"/>
-            <ContainerHeaderText title="SPAQ M" :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.SPAQ_M"/>
-            <ContainerHeaderText title="SPAQ SD" :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.SPAQ_SD"/>
-        </div>
+    <div class="container-header">
+        <ContainerHeaderText title="協定" :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.STREAM_TYPE" />
+        <ContainerHeaderText title="桌號" :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.CHANNEL" />
+        <ContainerHeaderText title="NR M" :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.NR_M" />
+        <ContainerHeaderText title="NR SD" :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.NR_SD" />
+        <ContainerHeaderText title="FLIVE M" :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.FLIVE_M" />
+        <ContainerHeaderText title="FLIVE SD" :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.FLIVE_SD" />
+        <ContainerHeaderText title="SPAQ M" :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.SPAQ_M" />
+        <ContainerHeaderText title="SPAQ SD" :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.SPAQ_SD" />
+    </div>
 
-        <div class="container-content" v-if="topiqResponse.list.length > 0">
-            <RTMP_CELL
-                v-for="topiqData in topiqResponse.list"
-                :key="topiqData._id"
-                :topiqData="topiqData"
-                @onclickPoint="onclickPoint"
-            ></RTMP_CELL>
-        </div>
+    <div class="container-content" v-if="topiqResponse.list.length > 0">
+        <RTMP_CELL
+            v-for="topiqData in topiqResponse.list"
+            :key="topiqData._id"
+            :topiqData="topiqData"
+            @onclickPoint="onclickPoint"
+        ></RTMP_CELL>
+    </div>
 
-        <OverlayImage v-show="imageState" @click.self="hideImage" :imageSrc="imageSrc" />
-    </main>
+    <OverlayImage v-show="imageState" @click.self="hideImage" :imageSrc="imageSrc" />
 </template>
 
 <style scoped>
 .select-container {
     display: flex;
     justify-content: center;
-    position: relative;
+    align-items: center;
+    position: sticky;
+    top: 65px;
 }
 
 .container-header {
     height: 60px;
     background-color: var(--secondary-color);
-    margin-left: 100px;
-    margin-right: 100px;
+    margin-left: 10px;
+    margin-right: 10px;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
     border: 1px solid var(--primary-color);
+    top: 120px;
+    margin-top: 65px;
+
+    position: sticky;
 }
 
 .container-content {
-    margin-left: 100px;
-    margin-right: 100px;
+    display: block;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 #search {
@@ -173,5 +176,4 @@ onUnmounted(() => {
     background-color: rgb(230, 105, 60);
     cursor: pointer;
 }
-
 </style>

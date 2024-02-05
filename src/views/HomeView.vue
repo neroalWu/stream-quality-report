@@ -1,15 +1,13 @@
 <script setup lang="ts">
-import StreamQualityReport from "@/components/StreamQualtiyReport.vue"
+import StreamQualityReport from '@/components/StreamQualtiyReport.vue'
 </script>
 
 <template>
     <div class="header">
-        <img class="logo" src="../assets/logo.png" alt="">
+        <img class="logo" src="../assets/logo.png" alt="" />
     </div>
 
-    <main>
-        <StreamQualityReport/>
-    </main>
+    <StreamQualityReport class="stream-quality-report" />
 </template>
 
 <style scoped>
@@ -19,12 +17,16 @@ import StreamQualityReport from "@/components/StreamQualtiyReport.vue"
     margin-left: 10px;
 }
 
-
 .header {
     height: 65px;
     width: 100%;
-    
+    position: fixed;
+    top: 0;
+
     background-color: var(--secondary-color);
 }
 
+.stream-quality-report {
+    margin-top: 65px;
+}
 </style>

@@ -21,7 +21,7 @@ defineExpose({ selected })
 
 <style scoped>
 select {
-    display: inline-block;
+    display: inline;
     width: 200px;
     height: 35px;
     border-radius: 20px;
