@@ -1,129 +1,100 @@
 <script setup lang="ts">
-import Chart from '@/chartjs/auto'
-import type TopiqData from '@/typescripts/data/topiq-data'
-import { ref, onBeforeUnmount, watch, onMounted, nextTick } from 'vue'
 import Util from '@/typescripts/util'
 import { CONFIGURATION } from '@/typescripts/configuration'
 import ContainerContentText from './ContainerContentText.vue'
 
 const props = defineProps({
+    index: Number,
     topiqData: Object
 })
 
-const emit = defineEmits(['onclickPoint'])
+// async function render(topiqData: TopiqData) {
+//     await nextTick()
 
-const chartCanvas = ref<HTMLCanvasElement | null>(null)
-let myChart: Chart | null = null
+//     if (!chartCanvas.value || !isExpand.value) {
+//         myChart && myChart.destroy()
+//         return
+//     }
 
-const isExpand = ref(true)
+//     const ctx = chartCanvas.value.getContext('2d')
 
-watch(
-    () => props.topiqData as TopiqData,
-    (newVal) => {
-        render(newVal)
-    }
-)
+//     if (!ctx) return
 
-watch(isExpand, () => {
-    render(props.topiqData as TopiqData)
-})
+//     const options = {
+//         onClick: (_: any, elements: any) => {
+//             if (elements.length > 0) {
+//                 const clickedElement = elements[0]
+//                 const index = clickedElement.index
+//                 emit('onclickPoint', index, props.topiqData)
+//             }
+//         },
+//         responsive: true,
+//         plugins: {
+//             tooltip: {
+//                 callbacks: {
+//                     footer: () => {
+//                         return '點擊查看圖片'
+//                     }
+//                 }
+//             }
+//         }
+//     }
 
-async function render(topiqData: TopiqData) {
-    await nextTick()
+//     const CHART_CELL_CONFIG = CONFIGURATION.CHART_CELL
+//     const data = {
+//         labels: topiqData.timestamp_list.map((timestamp: number) =>
+//             Util.Instance.FormatDateHoursMinutes(timestamp)
+//         ),
+//         datasets: [
+//             {
+//                 label: 'nr',
+//                 data: topiqData.nr_list,
+//                 borderColor: CHART_CELL_CONFIG.NR_COLOR_NORMAL,
+//                 backgroundColor: CHART_CELL_CONFIG.NR_COLOR_NORMAL,
+//                 borderWidth: 1,
+//                 pointRadius: CHART_CELL_CONFIG.POINT_RADIUS_NORMAL,
+//                 pointHoverRadius: CHART_CELL_CONFIG.POINT_RADIUS_HOVER
+//             },
+//             {
+//                 label: 'nr_flive',
+//                 data: topiqData.nr_flive_list,
+//                 borderColor: CHART_CELL_CONFIG.FLIVE_COLOR_NORMAL,
+//                 backgroundColor: CHART_CELL_CONFIG.FLIVE_COLOR_NORMAL,
+//                 borderWidth: 1,
+//                 pointRadius: CHART_CELL_CONFIG.POINT_RADIUS_NORMAL,
+//                 pointHoverRadius: CHART_CELL_CONFIG.POINT_RADIUS_HOVER
+//             },
+//             {
+//                 label: 'nr_spaq',
+//                 data: topiqData.nr_spaq_list,
+//                 borderColor: CHART_CELL_CONFIG.SPAQ_COLOR_NORMAL,
+//                 backgroundColor: CHART_CELL_CONFIG.SPAQ_COLOR_NORMAL,
+//                 borderWidth: 1,
+//                 pointRadius: CHART_CELL_CONFIG.POINT_RADIUS_NORMAL,
+//                 pointHoverRadius: CHART_CELL_CONFIG.POINT_RADIUS_HOVER
+//             }
+//         ]
+//     }
 
-    if (!chartCanvas.value || !isExpand.value) {
-        myChart && myChart.destroy()
-        return
-    }
+//     if (myChart) {
+//         myChart.destroy()
+//     }
 
-    const ctx = chartCanvas.value.getContext('2d')
+//     myChart = new Chart(ctx, {
+//         type: 'line',
+//         data: data,
+//         options: options
+//     })
+// }
 
-    if (!ctx) return
-
-    const options = {
-        onClick: (_: any, elements: any) => {
-            if (elements.length > 0) {
-                const clickedElement = elements[0]
-                const index = clickedElement.index
-                emit('onclickPoint', index, props.topiqData)
-            }
-        },
-        responsive: true,
-        plugins: {
-            tooltip: {
-                callbacks: {
-                    footer: () => {
-                        return '點擊查看圖片'
-                    }
-                }
-            }
-        }
-    }
-
-    const CHART_CELL_CONFIG = CONFIGURATION.CHART_CELL
-    const data = {
-        labels: topiqData.timestamp_list.map((timestamp: number) =>
-            Util.Instance.FormatDateHoursMinutes(timestamp)
-        ),
-        datasets: [
-            {
-                label: 'nr',
-                data: topiqData.nr_list,
-                borderColor: CHART_CELL_CONFIG.NR_COLOR_NORMAL,
-                backgroundColor: CHART_CELL_CONFIG.NR_COLOR_NORMAL,
-                borderWidth: 1,
-                pointRadius: CHART_CELL_CONFIG.POINT_RADIUS_NORMAL,
-                pointHoverRadius: CHART_CELL_CONFIG.POINT_RADIUS_HOVER
-            },
-            {
-                label: 'nr_flive',
-                data: topiqData.nr_flive_list,
-                borderColor: CHART_CELL_CONFIG.FLIVE_COLOR_NORMAL,
-                backgroundColor: CHART_CELL_CONFIG.FLIVE_COLOR_NORMAL,
-                borderWidth: 1,
-                pointRadius: CHART_CELL_CONFIG.POINT_RADIUS_NORMAL,
-                pointHoverRadius: CHART_CELL_CONFIG.POINT_RADIUS_HOVER
-            },
-            {
-                label: 'nr_spaq',
-                data: topiqData.nr_spaq_list,
-                borderColor: CHART_CELL_CONFIG.SPAQ_COLOR_NORMAL,
-                backgroundColor: CHART_CELL_CONFIG.SPAQ_COLOR_NORMAL,
-                borderWidth: 1,
-                pointRadius: CHART_CELL_CONFIG.POINT_RADIUS_NORMAL,
-                pointHoverRadius: CHART_CELL_CONFIG.POINT_RADIUS_HOVER
-            }
-        ]
-    }
-
-    if (myChart) {
-        myChart.destroy()
-    }
-
-    myChart = new Chart(ctx, {
-        type: 'line',
-        data: data,
-        options: options
-    })
+function onclickPoint() {
+    console.log('click:', props.index)
 }
 
-function toggle() {
-    isExpand.value = !isExpand.value
-}
-
-onMounted(() => {
-    render(props.topiqData as TopiqData)
-})
-
-onBeforeUnmount(() => {
-    if (myChart) {
-        myChart.destroy()
-    }
-})
 </script>
 
 <template>
-    <div class="rtmp-cell" @click="toggle" title="點擊展開/折疊">
+    <div class="rtmp-cell" @click="onclickPoint" title="點擊查看詳細資訊">
         <ContainerContentText
             :content="topiqData?.streamType"
             :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.STREAM_TYPE"
@@ -163,7 +134,7 @@ onBeforeUnmount(() => {
             :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.SPAQ_SD"
         />
 
-        <canvas
+        <!-- <canvas
             class="chart"
             ref="chartCanvas"
             height="50px"
@@ -173,7 +144,7 @@ onBeforeUnmount(() => {
                     event.stopPropagation()
                 }
             "
-        ></canvas>
+        ></canvas> -->
     </div>
 </template>
 
@@ -188,13 +159,5 @@ onBeforeUnmount(() => {
 
 .rtmp-cell:hover {
     cursor: pointer;
-}
-
-.chart {
-    margin-top: 20px;
-}
-
-.chart:hover {
-    cursor: default;
 }
 </style>

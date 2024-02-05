@@ -8,10 +8,7 @@ import { CONFIGURATION } from '@/typescripts/configuration'
 import RTMP_CELL from './RTMP-CELL.vue'
 import { RESOLUTION } from '@/typescripts/types/resolution'
 import { TopiqRequest } from '@/typescripts/request/topiq-request'
-import OverlayImage from './Overlay-Image.vue'
 import SelectButton from './SelectButton.vue'
-import type TopiqData from '@/typescripts/data/topiq-data'
-import { ImageRequest } from '@/typescripts/request/image-request'
 import ContainerHeaderText from './ContainerHeaderText.vue'
 
 const SELECTOR_LIST = [
@@ -33,9 +30,6 @@ const SELECTOR_LIST = [
 ]
 
 const selectorRefs = ref<any>([])
-
-const imageSrc = ref('')
-const imageState = ref(false)
 
 let topiqResponse: TopiqResponse = reactive(new TopiqResponse([]))
 
@@ -65,22 +59,6 @@ async function onclickSearch() {
     queryIntervalID = setInterval(() => {
         onclickSearch()
     }, CONFIGURATION.QUERY_INTERVAL)
-}
-
-async function onclickPoint(timestampIndex: number, topiqData: TopiqData) {
-    imageSrc.value = ''
-    imageState.value = true
-
-    const timestamp = topiqData.timestamp_list[timestampIndex]
-    const data = await HttpService.Instance.GetImage(
-        new ImageRequest(topiqData.region, topiqData.streamType, topiqData.channel, timestamp)
-    )
-
-    imageSrc.value = data.src
-}
-
-function hideImage() {
-    imageState.value = false
 }
 
 onMounted(() => {
@@ -118,14 +96,12 @@ onUnmounted(() => {
 
     <div class="container-content" v-if="topiqResponse.list.length > 0">
         <RTMP_CELL
-            v-for="topiqData in topiqResponse.list"
-            :key="topiqData._id"
+            v-for="(topiqData, index) in topiqResponse.list"
+            :key="index"
+            :index="index"
             :topiqData="topiqData"
-            @onclickPoint="onclickPoint"
         ></RTMP_CELL>
     </div>
-
-    <OverlayImage v-show="imageState" @click.self="hideImage" :imageSrc="imageSrc" />
 </template>
 
 <style scoped>
