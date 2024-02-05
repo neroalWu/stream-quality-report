@@ -1,25 +1,32 @@
 <script setup lang="ts">
-import Util from '@/typescripts/util'
 import RecordContentText from './RecordContentText.vue'
 import router from '@/router'
-import type TopiqData from '@/typescripts/data/topiq-data'
-import Store from '@/typescripts/store/store';
+import Store from '@/typescripts/store/store'
+import SummaryData from '@/typescripts/data/summary-data'
 
 const props = defineProps({
     index: Number,
-    topiqData: Object
+    summary: Object
 })
 
-const content_list = [
-    props.topiqData?.streamType,
-    props.topiqData?.channel,
-    Util.Instance.GetMean(props.topiqData?.nr_list, 6).toString(),
-    Util.Instance.GetStandardDeviation(props.topiqData?.nr_list, 6).toString(),
-    Util.Instance.GetMean(props.topiqData?.nr_flive_list, 6).toString(),
-    Util.Instance.GetStandardDeviation(props.topiqData?.nr_flive_list, 6).toString(),
-    Util.Instance.GetMean(props.topiqData?.nr_spaq_list, 6).toString(),
-    Util.Instance.GetStandardDeviation(props.topiqData?.nr_spaq_list, 6).toString()
+
+const displays = [
+    GetSummaryString(props.summary?.region),
+    GetSummaryString(props.summary?.channel),
+    GetSummaryString(props.summary?.nr_m),
+    GetSummaryString(props.summary?.nr_sd),
+    GetSummaryString(props.summary?.flive_m),
+    GetSummaryString(props.summary?.flive_sd),
+    GetSummaryString(props.summary?.spaq_m),
+    GetSummaryString(props.summary?.spaq_sd),
 ]
+
+function GetSummaryString(source: string) {
+    if (!source) {
+        return '-'
+    }
+    return source
+}
 
 // async function render(topiqData: TopiqData) {
 //     await nextTick()
@@ -101,8 +108,7 @@ const content_list = [
 // }
 
 function onclickPoint() {
-    console.log('click:', props.topiqData)
-    Store.Instance.selectedTopiq = props.topiqData as TopiqData
+    Store.Instance.selectedSummary = props.summary as SummaryData
     router.push('/stream')
 }
 </script>
@@ -110,9 +116,9 @@ function onclickPoint() {
 <template>
     <div class="record-cell" @click="onclickPoint" title="點擊查看詳細資訊">
         <RecordContentText
-            v-for="(content, index) in content_list"
-            :key="index"
-            :content="content"
+            v-for="(value, key) in displays"
+            :key="key"
+            :content="value ? value.toString() : ''"
         />
         <!-- <canvas
             class="chart"

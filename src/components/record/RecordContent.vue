@@ -1,18 +1,19 @@
 <script setup lang="ts">
+import type SummaryData from '@/typescripts/data/summary-data';
 import RecordContentCell from './RecordContentCell.vue'
 
 const props = defineProps({
-    topiqResponse: Object
+    summarys: Array<SummaryData>
 })
 </script>
 
 <template>
-    <div class="record-content" v-if="props.topiqResponse?.list.length > 0">
+    <div class="record-content" v-if="props.summarys && props.summarys?.length > 0">
         <RecordContentCell
-            v-for="(topiqData, index) in props.topiqResponse?.list"
+            v-for="(summary, index) in props.summarys"
             :key="index"
             :index="index"
-            :topiqData="topiqData"
+            :summary="summary"
         />
     </div>
 </template>

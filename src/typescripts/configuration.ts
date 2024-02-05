@@ -5,8 +5,9 @@ const SERVER_URL = DEBUG
     : 'http://10.20.30.228:3000/stream-quality-report/'
 
 const API = {
-    GET_TOPIQ_DATA: `${SERVER_URL}get-topiq-data`,
-    GET_IMAGE: `${SERVER_URL}get-image`
+    GET_SUMMARY: `${SERVER_URL}get-api-summary`,
+    GET_DETAILS: `${SERVER_URL}get-api-details`,
+    GET_VIDEO: `${SERVER_URL}get-api-video`,
 }
 
 const CHART_CELL = {

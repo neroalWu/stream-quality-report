@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import HttpService from '@/typescripts/service/http-service'
-import TopiqResponse from '@/typescripts/response/topiq-response'
 import { ref, reactive, onUnmounted, onMounted } from 'vue'
 
 import { REGION_TYPE } from '@/typescripts/types/region-type'
@@ -10,9 +9,11 @@ import { RESOLUTION } from '@/typescripts/types/resolution'
 import RecordSelectButton from './record/RecordSelectButton.vue'
 import RecordHeader from './record/RecordHeader.vue'
 import RecordContent from './record/RecordContent.vue'
-import { TopiqRequest } from '@/typescripts/request/topiq-request'
 import { CONFIGURATION } from '@/typescripts/configuration'
 import RecordCalendar from './record/RecordCalendar.vue'
+import SummaryRequest from '@/typescripts/request/summary-request'
+import SummaryResponse from '@/typescripts/response/summary-response'
+import Store from '@/typescripts/store/store'
 
 const SELECTOR_LIST = [
     {
@@ -29,7 +30,7 @@ const SELECTOR_LIST = [
     }
 ]
 
-let topiqResponse: TopiqResponse = reactive(new TopiqResponse([]))
+let summaryResponse: SummaryResponse = reactive(new SummaryResponse([]))
 let selectorRefs = ref<any>([])
 let queryIntervalID: number
 
@@ -52,11 +53,16 @@ async function onclickSearch() {
     const resolution =
         resolutionSelector.selected == RESOLUTION.ALL ? '' : resolutionSelector.selected
 
-    const response = await HttpService.Instance.GetTopiqData(
-        new TopiqRequest(region, streamType, resolution)
+    const startTime = Store.Instance.selectedRangeDate.start.getTime()
+    const endTime = Store.Instance.selectedRangeDate.end.getTime()
+
+    const response = await HttpService.Instance.GetSummary(
+        new SummaryRequest(region, streamType, resolution, startTime, endTime)
     )
 
-    topiqResponse.list = response.list
+    console.log('response:', response)
+
+    summaryResponse.summarys = response.summarys
 
     if (queryIntervalID) {
         clearInterval(queryIntervalID)
@@ -85,13 +91,12 @@ async function onclickSearch() {
 
         <div class="record-container">
             <RecordHeader />
-            <RecordContent :topiqResponse="topiqResponse" />
+            <RecordContent :summarys="summaryResponse.summarys" />
         </div>
     </div>
 </template>
 
 <style scoped>
-
 .horizontal-layout {
     display: flex;
 }
