@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Util from '@/typescripts/util'
 import RecordContentText from './RecordContentText.vue'
+import router from '@/router';
 
 const props = defineProps({
     index: Number,
@@ -98,7 +99,7 @@ const content_list = [
 // }
 
 function onclickPoint() {
-    console.log('click:', props.index)
+    router.push('/stream')
 }
 </script>
 

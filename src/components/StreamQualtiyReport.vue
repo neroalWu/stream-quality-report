@@ -77,7 +77,7 @@ async function onclickSearch() {
             ref="selectorRefs"
         />
 
-        <button id="search" @click="onclickSearch">搜尋</button>
+        <button class="search" @click="onclickSearch">搜尋</button>
     </div>
 
     <RecordHeader />
@@ -92,7 +92,7 @@ async function onclickSearch() {
     align-items: center;
 }
 
-#search {
+.search {
     position: relative;
     display: inline-block;
     width: 200px;
@@ -105,7 +105,7 @@ async function onclickSearch() {
     cursor: default;
 }
 
-#search:hover {
+.search:hover {
     background-color: rgb(230, 105, 60);
     cursor: pointer;
 }

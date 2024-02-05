@@ -8,7 +8,7 @@ import StreamQualityReport from '@/components/StreamQualtiyReport.vue'
     </div>
 
     <body>
-        <StreamQualityReport class="stream-quality-report" />
+        <StreamQualityReport />
     </body>
 </template>
 
