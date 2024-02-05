@@ -1,12 +1,22 @@
 <script setup lang="ts">
 import Util from '@/typescripts/util'
-import { CONFIGURATION } from '@/typescripts/configuration'
-import ContainerContentText from './ContainerContentText.vue'
+import RecordContentText from './RecordContentText.vue'
 
 const props = defineProps({
     index: Number,
     topiqData: Object
 })
+
+const content_list = [
+    props.topiqData?.streamType,
+    props.topiqData?.channel,
+    Util.Instance.GetMean(props.topiqData?.nr_list, 6).toString(),
+    Util.Instance.GetStandardDeviation(props.topiqData?.nr_list, 6).toString(),
+    Util.Instance.GetMean(props.topiqData?.nr_flive_list, 6).toString(),
+    Util.Instance.GetStandardDeviation(props.topiqData?.nr_flive_list, 6).toString(),
+    Util.Instance.GetMean(props.topiqData?.nr_spaq_list, 6).toString(),
+    Util.Instance.GetStandardDeviation(props.topiqData?.nr_spaq_list, 6).toString()
+]
 
 // async function render(topiqData: TopiqData) {
 //     await nextTick()
@@ -90,50 +100,15 @@ const props = defineProps({
 function onclickPoint() {
     console.log('click:', props.index)
 }
-
 </script>
 
 <template>
-    <div class="rtmp-cell" @click="onclickPoint" title="點擊查看詳細資訊">
-        <ContainerContentText
-            :content="topiqData?.streamType"
-            :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.STREAM_TYPE"
+    <div class="record-cell" @click="onclickPoint" title="點擊查看詳細資訊">
+        <RecordContentText
+            v-for="(content, index) in content_list"
+            :key="index"
+            :content="content"
         />
-        <ContainerContentText
-            :content="topiqData?.channel"
-            :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.CHANNEL"
-        />
-
-        <ContainerContentText
-            :content="Util.Instance.GetMean(topiqData?.nr_list, 6).toString()"
-            :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.NR_M"
-        />
-
-        <ContainerContentText
-            :content="Util.Instance.GetStandardDeviation(topiqData?.nr_list, 6).toString()"
-            :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.NR_SD"
-        />
-
-        <ContainerContentText
-            :content="Util.Instance.GetMean(topiqData?.nr_flive_list, 6).toString()"
-            :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.FLIVE_M"
-        />
-
-        <ContainerContentText
-            :content="Util.Instance.GetStandardDeviation(topiqData?.nr_flive_list, 6).toString()"
-            :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.FLIVE_SD"
-        />
-
-        <ContainerContentText
-            :content="Util.Instance.GetMean(topiqData?.nr_spaq_list, 6).toString()"
-            :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.SPAQ_M"
-        />
-
-        <ContainerContentText
-            :content="Util.Instance.GetStandardDeviation(topiqData?.nr_spaq_list, 6).toString()"
-            :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.SPAQ_SD"
-        />
-
         <!-- <canvas
             class="chart"
             ref="chartCanvas"
@@ -149,15 +124,14 @@ function onclickPoint() {
 </template>
 
 <style scoped>
-.rtmp-cell {
+.record-cell {
     display: flex;
     background-color: var(--secondary-color);
     padding: 15px 0px 15px 0px;
     border: 1px solid var(--primary-color);
-    height: fit-content;
 }
 
-.rtmp-cell:hover {
+.record-cell:hover {
     cursor: pointer;
 }
 </style>

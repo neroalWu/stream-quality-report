@@ -1,0 +1,30 @@
+<script setup lang="ts">
+import { CONFIGURATION } from '@/typescripts/configuration';
+import RecordHeaderText from './RecordHeaderText.vue'
+</script>
+
+<template>
+    <div class="record-header">
+        <RecordHeaderText
+            v-for="(title, index) in CONFIGURATION.RECORD_HEADER_LIST"
+            :key="index"
+            :title="title"
+        />
+    </div>
+</template>
+
+<style scoped>
+.record-header {
+    display: flex;
+    height: 60px;
+    background-color: var(--secondary-color);
+    margin-left: 10px;
+    margin-right: 10px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border: 1px solid var(--primary-color);
+    top: 120px;
+}
+</style>

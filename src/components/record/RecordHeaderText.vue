@@ -5,13 +5,13 @@ defineProps({
 </script>
 
 <template>
-    <div class="container-header-text">
+    <div class="record-header-text">
         {{ title }}
     </div>
 </template>
 
 <style scoped>
-.container-header-text {
+.record-header-text {
     flex: 1;
     text-align: center;
     height: 60px;

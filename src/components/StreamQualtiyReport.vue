@@ -1,46 +1,51 @@
 <script setup lang="ts">
 import HttpService from '@/typescripts/service/http-service'
 import TopiqResponse from '@/typescripts/response/topiq-response'
-import { reactive, ref, onUnmounted, onMounted } from 'vue'
+import { ref, reactive, onUnmounted, onMounted } from 'vue'
+
 import { REGION_TYPE } from '@/typescripts/types/region-type'
 import { STREAM_TYPE } from '@/typescripts/types/stream-type'
-import { CONFIGURATION } from '@/typescripts/configuration'
-import RTMP_CELL from './RTMP-CELL.vue'
 import { RESOLUTION } from '@/typescripts/types/resolution'
-import { TopiqRequest } from '@/typescripts/request/topiq-request'
+
 import SelectButton from './SelectButton.vue'
-import ContainerHeaderText from './ContainerHeaderText.vue'
+import RecordHeader from './record/RecordHeader.vue'
+import RecordContent from './record/RecordContent.vue'
+import { TopiqRequest } from '@/typescripts/request/topiq-request'
+import { CONFIGURATION } from '@/typescripts/configuration'
 
 const SELECTOR_LIST = [
     {
-        key: 0,
         options: [REGION_TYPE.ALL, REGION_TYPE.CEBU],
         default: REGION_TYPE.ALL
     },
     {
-        key: 1,
         options: [STREAM_TYPE.ALL, STREAM_TYPE.RTMP, STREAM_TYPE.FLV],
         default: STREAM_TYPE.ALL
     },
     {
-        key: 2,
         options: [RESOLUTION.ALL, RESOLUTION.HD, RESOLUTION.FULL_HD],
         default: RESOLUTION.ALL
     }
 ]
 
-const selectorRefs = ref<any>([])
-
 let topiqResponse: TopiqResponse = reactive(new TopiqResponse([]))
-
+let selectorRefs = ref<any>([])
 let queryIntervalID: number
+
+onMounted(() => {
+    onclickSearch()
+})
+
+onUnmounted(() => {
+    queryIntervalID && clearInterval(queryIntervalID)
+})
 
 async function onclickSearch() {
     const regionSelector = selectorRefs.value[0]
     const streamTypeSelector = selectorRefs.value[1]
     const resolutionSelector = selectorRefs.value[2]
 
-    const region = regionSelector.selected == REGION_TYPE.ALL ? '' : regionSelector.select
+    const region = regionSelector.selected == REGION_TYPE.ALL ? '' : regionSelector.selected
     const streamType =
         streamTypeSelector.selected == STREAM_TYPE.ALL ? '' : streamTypeSelector.selected
     const resolution =
@@ -60,21 +65,14 @@ async function onclickSearch() {
         onclickSearch()
     }, CONFIGURATION.QUERY_INTERVAL)
 }
-
-onMounted(() => {
-    onclickSearch()
-})
-
-onUnmounted(() => {
-    queryIntervalID && clearInterval(queryIntervalID)
-})
 </script>
 
 <template>
+
     <div class="select-container">
         <SelectButton
-            v-for="data in SELECTOR_LIST"
-            :key="data.key"
+            v-for="(data, index) in SELECTOR_LIST"
+            :key="index"
             :options="data.options"
             :default="data.default"
             ref="selectorRefs"
@@ -83,25 +81,9 @@ onUnmounted(() => {
         <button id="search" @click="onclickSearch">搜尋</button>
     </div>
 
-    <div class="container-header">
-        <ContainerHeaderText title="協定" />
-        <ContainerHeaderText title="桌號" />
-        <ContainerHeaderText title="NR M" />
-        <ContainerHeaderText title="NR SD" />
-        <ContainerHeaderText title="FLIVE M" />
-        <ContainerHeaderText title="FLIVE SD" />
-        <ContainerHeaderText title="SPAQ M" />
-        <ContainerHeaderText title="SPAQ SD" />
-    </div>
+    <RecordHeader />
 
-    <div class="container-content" v-if="topiqResponse.list.length > 0">
-        <RTMP_CELL
-            v-for="(topiqData, index) in topiqResponse.list"
-            :key="index"
-            :index="index"
-            :topiqData="topiqData"
-        ></RTMP_CELL>
-    </div>
+    <RecordContent :topiqResponse="topiqResponse" />
 </template>
 
 <style scoped>
@@ -109,26 +91,6 @@ onUnmounted(() => {
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.container-header {
-    display: flex;
-    height: 60px;
-    background-color: var(--secondary-color);
-    margin-left: 10px;
-    margin-right: 10px;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    border-bottom-left-radius: 0px;
-    border-bottom-right-radius: 0px;
-    border: 1px solid var(--primary-color);
-    top: 120px;
-}
-
-.container-content {
-    display: block;
-    margin-left: 10px;
-    margin-right: 10px;
 }
 
 #search {
