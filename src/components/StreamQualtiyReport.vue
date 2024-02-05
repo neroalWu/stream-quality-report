@@ -70,7 +70,7 @@ async function onclickSearch() {
 
 <template>
     <div class="horizontal-layout">
-        <div class="left-container">
+        <div class="side-container">
             <RecordSelectButton
                 v-for="(data, index) in SELECTOR_LIST"
                 :key="index"
@@ -95,7 +95,7 @@ async function onclickSearch() {
 .horizontal-layout {
     display: flex;
 }
-.left-container {
+.side-container {
     display: block;
     background-color: var(--accent-color);
     height: 100vh;
