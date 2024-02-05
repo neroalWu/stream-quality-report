@@ -106,14 +106,14 @@ onUnmounted(() => {
     </div>
 
     <div class="container-header">
-        <ContainerHeaderText title="協定" :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.STREAM_TYPE" />
-        <ContainerHeaderText title="桌號" :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.CHANNEL" />
-        <ContainerHeaderText title="NR M" :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.NR_M" />
-        <ContainerHeaderText title="NR SD" :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.NR_SD" />
-        <ContainerHeaderText title="FLIVE M" :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.FLIVE_M" />
-        <ContainerHeaderText title="FLIVE SD" :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.FLIVE_SD" />
-        <ContainerHeaderText title="SPAQ M" :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.SPAQ_M" />
-        <ContainerHeaderText title="SPAQ SD" :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.SPAQ_SD" />
+        <ContainerHeaderText title="協定" />
+        <ContainerHeaderText title="桌號" />
+        <ContainerHeaderText title="NR M" />
+        <ContainerHeaderText title="NR SD" />
+        <ContainerHeaderText title="FLIVE M" />
+        <ContainerHeaderText title="FLIVE SD" />
+        <ContainerHeaderText title="SPAQ M" />
+        <ContainerHeaderText title="SPAQ SD" />
     </div>
 
     <div class="container-content" v-if="topiqResponse.list.length > 0">
@@ -138,6 +138,7 @@ onUnmounted(() => {
 }
 
 .container-header {
+    display: flex;
     height: 60px;
     background-color: var(--secondary-color);
     margin-left: 10px;

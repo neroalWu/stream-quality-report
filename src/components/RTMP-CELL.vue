@@ -163,7 +163,6 @@ onBeforeUnmount(() => {
             :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.SPAQ_SD"
         />
 
-        <br />
         <canvas
             class="chart"
             ref="chartCanvas"
@@ -180,6 +179,7 @@ onBeforeUnmount(() => {
 
 <style scoped>
 .rtmp-cell {
+    display: flex;
     background-color: var(--secondary-color);
     padding: 15px 0px 15px 0px;
     border: 1px solid var(--primary-color);
