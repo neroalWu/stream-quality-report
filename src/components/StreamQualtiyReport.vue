@@ -133,8 +133,6 @@ onUnmounted(() => {
     display: flex;
     justify-content: center;
     align-items: center;
-    position: sticky;
-    top: 65px;
 }
 
 .container-header {
@@ -149,9 +147,6 @@ onUnmounted(() => {
     border-bottom-right-radius: 0px;
     border: 1px solid var(--primary-color);
     top: 120px;
-    margin-top: 65px;
-
-    position: sticky;
 }
 
 .container-content {

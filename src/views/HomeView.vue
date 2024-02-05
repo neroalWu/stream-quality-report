@@ -25,8 +25,6 @@ body {
 .header {
     height: 65px;
     width: 100%;
-    position: fixed;
-    top: 0;
 
     background-color: var(--secondary-color);
 }
