@@ -68,7 +68,6 @@ async function onclickSearch() {
 </script>
 
 <template>
-
     <div class="select-container">
         <SelectButton
             v-for="(data, index) in SELECTOR_LIST"
