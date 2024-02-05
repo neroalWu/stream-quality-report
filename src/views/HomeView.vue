@@ -7,10 +7,15 @@ import StreamQualityReport from '@/components/StreamQualtiyReport.vue'
         <img class="logo" src="../assets/logo.png" alt="" />
     </div>
 
-    <StreamQualityReport class="stream-quality-report" />
+    <body>
+        <StreamQualityReport class="stream-quality-report" />
+    </body>
 </template>
 
 <style scoped>
+body {
+    min-width: 720px;
+}
 .logo {
     position: relative;
     margin-top: 10px;
