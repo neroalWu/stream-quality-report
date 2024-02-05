@@ -121,7 +121,7 @@ async function onclickSearch() {
 
 .record-container {
     display: inline-block;
-    margin-top: 20px;
+    margin-top: 10px;
     min-width: 720px;
     width: 100%;
 }
