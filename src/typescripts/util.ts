@@ -25,17 +25,19 @@ export default class Util {
         const date = new Date(timestamp)
         const year = date.getFullYear()
         const month = String(date.getMonth() + 1).padStart(2, '0')
-        const day =  String(date.getDate()).padStart(2, '0')
+        const day = String(date.getDate()).padStart(2, '0')
 
         return `${year}/${month}/${day}`
     }
 
-    public GetMean(array: number[]) {
-        return _.sum(array) / array.length;
+    public GetMean(array: number[], keepDigits?: number): number {
+        const mean = _.sum(array) / array.length
+        return keepDigits ? Number(mean.toFixed(keepDigits)) : mean
     }
 
-    public GetStandardDeviation(array: number[]) {
-        const mean = this.GetMean(array);
-        return Math.sqrt(_.sum(_.map(array, (i) => Math.pow((i - mean), 2))) / array.length);
+    public GetStandardDeviation(array: number[], keepDigits?: number): number {
+        const mean = this.GetMean(array, keepDigits)
+        const sd = Math.sqrt(_.sum(_.map(array, (i) => Math.pow(i - mean, 2))) / array.length)
+        return keepDigits ? Number(sd.toFixed(keepDigits)) : sd
     }
 }

@@ -134,32 +134,32 @@ onBeforeUnmount(() => {
         />
 
         <ContainerContentText
-            :content="Util.Instance.GetMean(topiqData?.nr_list).toString()"
+            :content="Util.Instance.GetMean(topiqData?.nr_list, 6).toString()"
             :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.NR_M"
         />
 
         <ContainerContentText
-            :content="Util.Instance.GetStandardDeviation(topiqData?.nr_list).toString()"
+            :content="Util.Instance.GetStandardDeviation(topiqData?.nr_list, 6).toString()"
             :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.NR_SD"
         />
 
         <ContainerContentText
-            :content="Util.Instance.GetMean(topiqData?.nr_flive_list).toString()"
+            :content="Util.Instance.GetMean(topiqData?.nr_flive_list, 6).toString()"
             :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.FLIVE_M"
         />
 
         <ContainerContentText
-            :content="Util.Instance.GetStandardDeviation(topiqData?.nr_flive_list).toString()"
+            :content="Util.Instance.GetStandardDeviation(topiqData?.nr_flive_list, 6).toString()"
             :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.FLIVE_SD"
         />
 
         <ContainerContentText
-            :content="Util.Instance.GetMean(topiqData?.nr_spaq_list).toString()"
+            :content="Util.Instance.GetMean(topiqData?.nr_spaq_list, 6).toString()"
             :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.SPAQ_M"
         />
 
         <ContainerContentText
-            :content="Util.Instance.GetStandardDeviation(topiqData?.nr_spaq_list).toString()"
+            :content="Util.Instance.GetStandardDeviation(topiqData?.nr_spaq_list, 6).toString()"
             :minWidth="CONFIGURATION.COLUMN_MIN_WIDTH.SPAQ_SD"
         />
 
