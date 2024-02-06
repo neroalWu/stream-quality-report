@@ -9,8 +9,9 @@ import { RESOLUTION } from '@/typescripts/types/resolution'
 import RecordSelectButton from '@/components/record/RecordSelectButton.vue'
 import RecordHeader from '@/components/record/RecordHeader.vue'
 import RecordContent from '@/components/record/RecordContent.vue'
-import { CONFIGURATION } from '@/typescripts/configuration'
 import RecordCalendar from '@/components/record/RecordCalendar.vue'
+import HorizontalLayout from '@/components/layout/HorizontalLayout.vue'
+import { CONFIGURATION } from '@/typescripts/configuration'
 import SummaryRequest from '@/typescripts/request/summary-request'
 import SummaryResponse from '@/typescripts/response/summary-response'
 import Store from '@/typescripts/store/store'
@@ -73,7 +74,7 @@ async function onclickSearch() {
 </script>
 
 <template>
-    <div class="horizontal-layout">
+    <HorizontalLayout>
         <div class="side-container">
             <RecordSelectButton
                 v-for="(data, index) in SELECTOR_LIST"
@@ -91,13 +92,10 @@ async function onclickSearch() {
             <RecordHeader />
             <RecordContent :summarys="summaryResponse.summarys" />
         </div>
-    </div>
+    </HorizontalLayout>
 </template>
 
 <style scoped>
-.horizontal-layout {
-    display: flex;
-}
 .side-container {
     display: block;
     background-color: var(--accent-color);
