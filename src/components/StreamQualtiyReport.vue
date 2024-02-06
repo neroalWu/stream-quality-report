@@ -60,8 +60,6 @@ async function onclickSearch() {
         new SummaryRequest(region, streamType, resolution, startTime, endTime)
     )
 
-    console.log('response:', response)
-
     summaryResponse.summarys = response.summarys
 
     if (queryIntervalID) {
