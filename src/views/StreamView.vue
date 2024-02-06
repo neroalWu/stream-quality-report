@@ -1,7 +1,18 @@
 <script setup lang="ts">
-import Store from '@/typescripts/store/store';
+import DetailRequest from '@/typescripts/request/detail-request'
+import HttpService from '@/typescripts/service/http-service'
+import Store from '@/typescripts/store/store'
 
-    console.log(Store.Instance.selectedTopiq)
+async function main() {
+    const detailRequest = DetailRequest.Create(
+        Store.Instance.selectedSummary,
+        Store.Instance.selectedRangeDate
+    )
+    const detailsResponse = await HttpService.Instance.GetDetails(detailRequest)
+    console.log('neroal:', detailsResponse)
+}
+
+main()
 </script>
 
 <template>
