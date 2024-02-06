@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import HttpService from '@/typescripts/service/http-service'
-import { ref, reactive, onUnmounted, onMounted } from 'vue'
+import { ref, onUnmounted, onMounted } from 'vue'
 
 import { REGION_TYPE } from '@/typescripts/types/region-type'
 import { STREAM_TYPE } from '@/typescripts/types/stream-type'
@@ -30,7 +30,7 @@ const SELECTOR_LIST = [
     }
 ]
 
-let summaryResponse: SummaryResponse = reactive(new SummaryResponse([]))
+let summaryResponse = ref(SummaryResponse.Create())
 let selectorRefs = ref<any>([])
 let queryIntervalID: number
 
@@ -60,7 +60,7 @@ async function onclickSearch() {
         new SummaryRequest(region, streamType, resolution, startTime, endTime)
     )
 
-    summaryResponse.summarys = response.summarys
+    summaryResponse.value = SummaryResponse.Parse(response)
 
     if (queryIntervalID) {
         clearInterval(queryIntervalID)

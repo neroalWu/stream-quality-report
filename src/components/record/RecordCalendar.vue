@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, onMounted, computed } from 'vue'
+import { ref, watch, computed } from 'vue'
 import { DatePicker } from 'v-calendar'
 import Store from '@/typescripts/store/store'
 import 'v-calendar/style.css'
