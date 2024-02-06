@@ -104,6 +104,7 @@ async function onclickSearch() {
     display: block;
     width: 250px;
     height: 35px;
+    margin-top: 20px;
     border-radius: 20px;
     background-color: coral;
     color: var(--secondary-color);
