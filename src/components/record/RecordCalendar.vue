@@ -1,11 +1,17 @@
 <script setup lang="ts">
-import { ref, watch, onMounted } from 'vue'
+import { ref, watch, onMounted, computed } from 'vue'
 import { DatePicker } from 'v-calendar'
 import Store from '@/typescripts/store/store'
 import 'v-calendar/style.css'
 import type RangeDate from '@/typescripts/data/range-date'
 
 const range = ref<RangeDate | null>(null)
+
+const minDate = computed(() => {
+    let today = new Date()
+    today.setMonth(today.getMonth() - 1)
+    return today
+})
 
 watch(range, (newRange) => {
     if (!newRange) return
@@ -27,7 +33,7 @@ onMounted(() => {
 
 <template>
     <div class="calendar">
-        <DatePicker v-model.range="range" :max-date="new Date()" />
+        <DatePicker v-model.range="range" :max-date="new Date()" :min-date="minDate" />
     </div>
 </template>
 
