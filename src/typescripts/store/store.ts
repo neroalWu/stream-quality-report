@@ -5,7 +5,7 @@ export default class Store {
     private static instance: Store | null = null
 
     public selectedSummary: SummaryData | null = null;
-    public selectedRangeDate: RangeDate = new RangeDate(new Date(), new Date())
+    public selectedRangeDate: RangeDate = RangeDate.Create()
 
     private constructor() {}
 

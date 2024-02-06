@@ -5,7 +5,7 @@ export default class DetailRequest {
     constructor(
         public region: string,
         public streamType: string,
-        public resolution: string,
+        public channel: string,
         public startTime: number,
         public endTime: number
     ) {}
@@ -14,7 +14,7 @@ export default class DetailRequest {
         return new DetailRequest(
             summaryData?.region ? summaryData.region : '',
             summaryData?.streamType ? summaryData.streamType : '',
-            summaryData?.resolution ? summaryData.resolution : '',
+            summaryData?.channel ? summaryData.channel : '',
             rangeDate.start.getTime(),
             rangeDate.end.getTime()
         )

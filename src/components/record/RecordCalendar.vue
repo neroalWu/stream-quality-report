@@ -3,9 +3,9 @@ import { ref, watch, onMounted, computed } from 'vue'
 import { DatePicker } from 'v-calendar'
 import Store from '@/typescripts/store/store'
 import 'v-calendar/style.css'
-import type RangeDate from '@/typescripts/data/range-date'
+import RangeDate from '@/typescripts/data/range-date'
 
-const range = ref<RangeDate | null>(null)
+const range = ref<RangeDate>(Store.Instance.selectedRangeDate)
 
 const minDate = computed(() => {
     let today = new Date()
@@ -16,19 +16,9 @@ const minDate = computed(() => {
 watch(range, (newRange) => {
     if (!newRange) return
 
-    newRange.start.setHours(0, 0, 0, 0)
-    newRange.end.setHours(23, 59, 59, 999)
-
-    Store.Instance.selectedRangeDate = newRange
-    console.log(Store.Instance.selectedRangeDate)
+    Store.Instance.selectedRangeDate = RangeDate.Create(newRange.start, newRange.end)
 })
 
-onMounted(() => {
-    range.value = {
-        start: new Date(),
-        end: new Date()
-    }
-})
 </script>
 
 <template>
