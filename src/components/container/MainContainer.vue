@@ -8,5 +8,6 @@
 <style scoped>
 .main-container {
     flex: 8;
+    margin: 10px
 }
 </style>

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import SideContainer from '@/components/container/SideContainer.vue'
 import HorizontalLayout from '@/components/layout/HorizontalLayout.vue'
+import MainContainer from '@/components/container/MainContainer.vue'
 
 import DetailRequest from '@/typescripts/request/detail-request'
 import type DetailResponse from '@/typescripts/response/detail-response'
@@ -25,9 +26,9 @@ main()
 <template>
     <HorizontalLayout>
         <SideContainer> </SideContainer>
+        <MainContainer>{{ detail }}</MainContainer>
     </HorizontalLayout>
 
-    {{ detail }}
 </template>
 
 <style scoped></style>
