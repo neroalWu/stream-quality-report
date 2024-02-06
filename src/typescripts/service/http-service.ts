@@ -24,4 +24,8 @@ export default class HttpService {
         )
         return response.data
     }
+
+    public async GetDetails(request: SummaryRequest) {
+        
+    }
 }
