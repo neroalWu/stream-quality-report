@@ -25,8 +25,9 @@ select {
     width: 250px;
     height: 35px;
     border-radius: 20px;
-    margin: 20px;
     text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
     border: 0px solid #ccc;
     cursor: default;
 }

@@ -11,6 +11,9 @@ import RecordHeader from '@/components/record/RecordHeader.vue'
 import RecordContent from '@/components/record/RecordContent.vue'
 import RecordCalendar from '@/components/record/RecordCalendar.vue'
 import HorizontalLayout from '@/components/layout/HorizontalLayout.vue'
+import SideContainer from '@/components/container/SideContainer.vue'
+import MainContainer from '@/components/container/MainContainer.vue'
+
 import { CONFIGURATION } from '@/typescripts/configuration'
 import SummaryRequest from '@/typescripts/request/summary-request'
 import SummaryResponse from '@/typescripts/response/summary-response'
@@ -75,7 +78,7 @@ async function onclickSearch() {
 
 <template>
     <HorizontalLayout>
-        <div class="side-container">
+        <SideContainer>
             <RecordSelectButton
                 v-for="(data, index) in SELECTOR_LIST"
                 :key="index"
@@ -86,30 +89,21 @@ async function onclickSearch() {
 
             <button class="search" @click="onclickSearch">搜尋</button>
             <RecordCalendar />
-        </div>
+        </SideContainer>
 
-        <div class="record-container">
+        <MainContainer>
             <RecordHeader />
             <RecordContent :summarys="summaryResponse.summarys" />
-        </div>
+        </MainContainer>
     </HorizontalLayout>
 </template>
 
 <style scoped>
-.side-container {
-    display: block;
-    background-color: var(--accent-color);
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
-    height: 100vh;
-}
-
 .search {
     position: relative;
     display: block;
     width: 250px;
     height: 35px;
-    margin-left: 20px;
     border-radius: 20px;
     background-color: coral;
     color: var(--secondary-color);
@@ -120,12 +114,5 @@ async function onclickSearch() {
 .search:hover {
     background-color: rgb(230, 105, 60);
     cursor: pointer;
-}
-
-.record-container {
-    display: inline-block;
-    margin-top: 10px;
-    min-width: 720px;
-    width: 100%;
 }
 </style>

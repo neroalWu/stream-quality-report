@@ -1,6 +1,9 @@
 <script setup lang="ts">
+import SideContainer from '@/components/container/SideContainer.vue'
+import HorizontalLayout from '@/components/layout/HorizontalLayout.vue'
+
 import DetailRequest from '@/typescripts/request/detail-request'
-import type DetailResponse from '@/typescripts/response/detail-response';
+import type DetailResponse from '@/typescripts/response/detail-response'
 import HttpService from '@/typescripts/service/http-service'
 import Store from '@/typescripts/store/store'
 import { ref } from 'vue'
@@ -20,11 +23,11 @@ main()
 </script>
 
 <template>
-    <body>{{ detail }}</body>
+    <HorizontalLayout>
+        <SideContainer> </SideContainer>
+    </HorizontalLayout>
+
+    {{ detail }}
 </template>
 
-<style scoped>
-body {
-    min-width: 720px;
-}
-</style>
+<style scoped></style>
