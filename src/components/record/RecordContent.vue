@@ -21,7 +21,5 @@ const props = defineProps({
 <style scoped>
 .record-content {
     display: block;
-    margin-left: 10px;
-    margin-right: 10px;
 }
 </style>

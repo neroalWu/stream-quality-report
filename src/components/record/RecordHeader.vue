@@ -18,8 +18,6 @@ import RecordHeaderText from './RecordHeaderText.vue'
     display: flex;
     height: 60px;
     background-color: var(--secondary-color);
-    margin-left: 10px;
-    margin-right: 10px;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
     border-bottom-left-radius: 0px;
