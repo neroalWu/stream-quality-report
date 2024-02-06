@@ -6,10 +6,10 @@ import { REGION_TYPE } from '@/typescripts/types/region-type'
 import { STREAM_TYPE } from '@/typescripts/types/stream-type'
 import { RESOLUTION } from '@/typescripts/types/resolution'
 
-import RecordSelectButton from '@/components/record/RecordSelectButton.vue'
-import RecordHeader from '@/components/record/RecordHeader.vue'
-import RecordContent from '@/components/record/RecordContent.vue'
-import RecordCalendar from '@/components/record/RecordCalendar.vue'
+import SummarySelector from '@/components/summary/SummarySelector.vue'
+import SummaryHeader from '@/components/summary/SummaryHeader.vue'
+import SummaryContent from '@/components/summary/SummaryContent.vue'
+import SummaryCalendar from '@/components/summary/SummaryCalendar.vue'
 import HorizontalLayout from '@/components/layout/HorizontalLayout.vue'
 import SideContainer from '@/components/container/SideContainer.vue'
 import MainContainer from '@/components/container/MainContainer.vue'
@@ -79,7 +79,7 @@ async function onclickSearch() {
 <template>
     <HorizontalLayout>
         <SideContainer>
-            <RecordSelectButton
+            <SummarySelector
                 v-for="(data, index) in SELECTOR_LIST"
                 :key="index"
                 :options="data.options"
@@ -88,12 +88,12 @@ async function onclickSearch() {
             />
 
             <button class="search" @click="onclickSearch">搜尋</button>
-            <RecordCalendar />
+            <SummaryCalendar />
         </SideContainer>
 
         <MainContainer>
-            <RecordHeader />
-            <RecordContent :summarys="summaryResponse.summarys" />
+            <SummaryHeader />
+            <SummaryContent :summarys="summaryResponse.summarys" />
         </MainContainer>
     </HorizontalLayout>
 </template>

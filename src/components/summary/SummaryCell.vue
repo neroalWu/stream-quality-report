@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import RecordContentText from './RecordContentText.vue'
+import SummaryCellText from './SummaryCellText.vue'
 import router from '@/router'
 import Store from '@/typescripts/store/store'
 import SummaryData from '@/typescripts/data/summary-data'
@@ -9,7 +9,6 @@ const props = defineProps({
     summary: Object
 })
 
-
 const displays = [
     GetSummaryString(props.summary?.region),
     GetSummaryString(props.summary?.channel),
@@ -18,7 +17,7 @@ const displays = [
     GetSummaryString(props.summary?.flive_m),
     GetSummaryString(props.summary?.flive_sd),
     GetSummaryString(props.summary?.spaq_m),
-    GetSummaryString(props.summary?.spaq_sd),
+    GetSummaryString(props.summary?.spaq_sd)
 ]
 
 function GetSummaryString(source: string) {
@@ -109,13 +108,13 @@ function GetSummaryString(source: string) {
 
 function onclickPoint() {
     Store.Instance.selectedSummary = props.summary as SummaryData
-    router.push('/stream')
+    router.push('/detail')
 }
 </script>
 
 <template>
     <div class="record-cell" @click="onclickPoint" title="點擊查看詳細資訊">
-        <RecordContentText
+        <SummaryCellText
             v-for="(value, key) in displays"
             :key="key"
             :content="value ? value.toString() : ''"

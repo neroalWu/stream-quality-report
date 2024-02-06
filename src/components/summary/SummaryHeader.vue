@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { CONFIGURATION } from '@/typescripts/configuration';
-import RecordHeaderText from './RecordHeaderText.vue'
+import { CONFIGURATION } from '@/typescripts/configuration'
+import SummaryHeaderText from './SummaryHeaderText.vue'
 </script>
 
 <template>
     <div class="record-header">
-        <RecordHeaderText
+        <SummaryHeaderText
             v-for="(title, index) in CONFIGURATION.RECORD_HEADER_LIST"
             :key="index"
             :title="title"

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type SummaryData from '@/typescripts/data/summary-data';
-import RecordContentCell from './RecordContentCell.vue'
+import SummaryCell from './SummaryCell.vue'
 
 const props = defineProps({
     summarys: Array<SummaryData>
@@ -9,7 +9,7 @@ const props = defineProps({
 
 <template>
     <div class="record-content" v-if="props.summarys && props.summarys?.length > 0">
-        <RecordContentCell
+        <SummaryCell
             v-for="(summary, index) in props.summarys"
             :key="index"
             :index="index"
