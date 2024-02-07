@@ -122,6 +122,7 @@ main()
 }
 
 .home:hover {
+    background-color: #f2f2f2;
     cursor: pointer;
 }
 </style>
