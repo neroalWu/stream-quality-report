@@ -1,4 +1,4 @@
-import type RangeDate from '../data/range-date'
+import type RangeDate from '../types/range-date'
 import type SummaryData from '../data/summary-data'
 
 export default class DetailRequest {

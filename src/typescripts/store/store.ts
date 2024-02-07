@@ -1,4 +1,4 @@
-import RangeDate from '../data/range-date'
+import RangeDate from '../types/range-date'
 import type SummaryData from '../data/summary-data'
 import { REGION_TYPE } from '../types/region-type';
 import { RESOLUTION } from '../types/resolution';

@@ -1,4 +1,4 @@
-import type RangeDate from '../data/range-date'
+import type RangeDate from '../types/range-date'
 import { REGION_TYPE } from '../types/region-type'
 import { RESOLUTION } from '../types/resolution'
 import { STREAM_TYPE } from '../types/stream-type'

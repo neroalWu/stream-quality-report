@@ -3,7 +3,7 @@ import { ref, watch, computed } from 'vue'
 import { DatePicker } from 'v-calendar'
 import Store from '@/typescripts/store/store'
 import 'v-calendar/style.css'
-import RangeDate from '@/typescripts/data/range-date'
+import RangeDate from '@/typescripts/types/range-date'
 
 const range = ref<RangeDate>(Store.Instance.selectedRangeDate)
 
@@ -33,3 +33,4 @@ watch(range, (newRange) => {
     width: fit-content;
 }
 </style>
+@/typescripts/types/range-date
