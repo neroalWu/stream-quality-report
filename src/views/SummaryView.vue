@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { ref, onUnmounted, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 
 import { REGION_TYPE } from '@/typescripts/types/region-type'
 import { STREAM_TYPE } from '@/typescripts/types/stream-type'
 import { RESOLUTION } from '@/typescripts/types/resolution'
-import { CONFIGURATION } from '@/typescripts/configuration'
 import SummaryRequest from '@/typescripts/request/summary-request'
 import SummaryResponse from '@/typescripts/response/summary-response'
 import Store from '@/typescripts/store/store'
