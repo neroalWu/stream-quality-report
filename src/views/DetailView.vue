@@ -86,12 +86,18 @@ function ToString(value: string | undefined | number): string {
     return value ? value.toString() : '-'
 }
 
+function onclickHome() {
+    router.back()
+}
+
 main()
 </script>
 
 <template>
     <HorizontalLayout>
-        <SideContainer> </SideContainer>
+        <SideContainer>
+            <button class="home" @click="onclickHome">返回首頁</button>
+        </SideContainer>
         <MainContainer>
             <HorizontalLayout>
                 <DetailCard :title="infoTitle" :paris="infoPairs" />
@@ -101,4 +107,21 @@ main()
     </HorizontalLayout>
 </template>
 
-<style scoped></style>
+<style scoped>
+.home {
+    position: relative;
+    display: block;
+    width: 250px;
+    height: 35px;
+    margin-top: 20px;
+    border-radius: 20px;
+    background-color: var(--secondary-color);
+    color: var(--fronted-color);
+    border: 0px solid #ccc;
+    cursor: default;
+}
+
+.home:hover {
+    cursor: pointer;
+}
+</style>
