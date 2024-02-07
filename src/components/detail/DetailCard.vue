@@ -21,7 +21,6 @@ const props = defineProps({
 <style scoped>
 .detail-card {
     flex: 1;
-    border: 1px solid #ccc;
     border-radius: 20px;
     padding: 10px;
     margin-bottom: 10px;
