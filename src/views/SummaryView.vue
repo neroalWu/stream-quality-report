@@ -22,15 +22,15 @@ import Store from '@/typescripts/store/store'
 const SELECTOR_LIST = [
     {
         options: [REGION_TYPE.ALL, REGION_TYPE.CEBU],
-        default: REGION_TYPE.ALL
+        default: Store.Instance.selectedRegion
     },
     {
         options: [STREAM_TYPE.ALL, STREAM_TYPE.RTMP, STREAM_TYPE.FLV],
-        default: STREAM_TYPE.ALL
+        default: Store.Instance.selectedStreamType
     },
     {
         options: [RESOLUTION.ALL, RESOLUTION.HD, RESOLUTION.FULL_HD],
-        default: RESOLUTION.ALL
+        default: Store.Instance.selectedResolution
     }
 ]
 
@@ -47,23 +47,18 @@ onUnmounted(() => {
 })
 
 async function onclickSearch() {
-    const regionSelector = selectorRefs.value[0]
-    const streamTypeSelector = selectorRefs.value[1]
-    const resolutionSelector = selectorRefs.value[2]
+    Store.Instance.selectedRegion = selectorRefs.value[0].selected
+    Store.Instance.selectedStreamType = selectorRefs.value[1].selected
+    Store.Instance.selectedResolution = selectorRefs.value[2].selected
 
-    const region = regionSelector.selected == REGION_TYPE.ALL ? '' : regionSelector.selected
-    const streamType =
-        streamTypeSelector.selected == STREAM_TYPE.ALL ? '' : streamTypeSelector.selected
-    const resolution =
-        resolutionSelector.selected == RESOLUTION.ALL ? '' : resolutionSelector.selected
-
-    const startTime = Store.Instance.selectedRangeDate.start.getTime()
-    const endTime = Store.Instance.selectedRangeDate.end.getTime()
-
-    const response = await HttpService.Instance.GetSummary(
-        new SummaryRequest(region, streamType, resolution, startTime, endTime)
+    const summaryRequest = SummaryRequest.Create(
+        Store.Instance.selectedRegion,
+        Store.Instance.selectedStreamType,
+        Store.Instance.selectedResolution,
+        Store.Instance.selectedRangeDate
     )
 
+    const response = await HttpService.Instance.GetSummary(summaryRequest)
     summaryResponse.value = SummaryResponse.Parse(response)
 
     if (queryIntervalID) {
