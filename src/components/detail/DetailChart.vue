@@ -33,7 +33,8 @@ async function renderCanvas(detail: DetailData) {
                     }
                 }
             }
-        }
+        },
+        maintainAspectRatio: false,
     }
 
     const CHART_CELL_CONFIG = CONFIGURATION.CHART_CELL
@@ -87,8 +88,8 @@ watch(() => props.detail, (detail) => {
 
 <template>
     <div class="detail-chart">
-        <div class="header">{{ props.title }}</div>
-        <canvas ref="chartCanvas" height="100px"></canvas>
+        <!-- <div class="header">{{ props.title }}</div> -->
+        <canvas ref="chartCanvas" class="chart"></canvas>
     </div>
 </template>
 
