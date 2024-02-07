@@ -1,10 +1,14 @@
 <script setup lang="ts">
-import HttpService from '@/typescripts/service/http-service'
 import { ref, onUnmounted, onMounted } from 'vue'
 
 import { REGION_TYPE } from '@/typescripts/types/region-type'
 import { STREAM_TYPE } from '@/typescripts/types/stream-type'
 import { RESOLUTION } from '@/typescripts/types/resolution'
+import { CONFIGURATION } from '@/typescripts/configuration'
+import SummaryRequest from '@/typescripts/request/summary-request'
+import SummaryResponse from '@/typescripts/response/summary-response'
+import Store from '@/typescripts/store/store'
+import HttpService from '@/typescripts/service/http-service'
 
 import SummarySelector from '@/components/summary/SummarySelector.vue'
 import SummaryHeader from '@/components/summary/SummaryHeader.vue'
@@ -13,11 +17,6 @@ import SummaryCalendar from '@/components/summary/SummaryCalendar.vue'
 import HorizontalLayout from '@/components/layout/HorizontalLayout.vue'
 import SideContainer from '@/components/container/SideContainer.vue'
 import MainContainer from '@/components/container/MainContainer.vue'
-
-import { CONFIGURATION } from '@/typescripts/configuration'
-import SummaryRequest from '@/typescripts/request/summary-request'
-import SummaryResponse from '@/typescripts/response/summary-response'
-import Store from '@/typescripts/store/store'
 
 const SELECTOR_LIST = [
     {
@@ -36,15 +35,6 @@ const SELECTOR_LIST = [
 
 let summaryResponse = ref(SummaryResponse.Create())
 let selectorRefs = ref<any>([])
-let queryIntervalID: number
-
-onMounted(() => {
-    onclickSearch()
-})
-
-onUnmounted(() => {
-    queryIntervalID && clearInterval(queryIntervalID)
-})
 
 async function onclickSearch() {
     Store.Instance.selectedRegion = selectorRefs.value[0].selected
@@ -60,15 +50,11 @@ async function onclickSearch() {
 
     const response = await HttpService.Instance.GetSummary(summaryRequest)
     summaryResponse.value = SummaryResponse.Parse(response)
-
-    if (queryIntervalID) {
-        clearInterval(queryIntervalID)
-    }
-
-    queryIntervalID = setInterval(() => {
-        onclickSearch()
-    }, CONFIGURATION.QUERY_INTERVAL)
 }
+
+onMounted(() => {
+    onclickSearch()
+})
 </script>
 
 <template>
