@@ -20,8 +20,8 @@ async function renderCanvas(detail: DetailData) {
     const options = {
         onClick: (_: any, elements: any) => {
             if (elements.length > 0) {
-                const clickedElement = elements[0]
-                const index = clickedElement.index
+                // const clickedElement = elements[0]
+                // const index = clickedElement.index
             }
         },
         responsive: true,
@@ -88,13 +88,13 @@ watch(() => props.detail, (detail) => {
 <template>
     <div class="detail-chart">
         <div class="header">{{ props.title }}</div>
-        <canvas ref="chartCanvas" height="60px"></canvas>
+        <canvas ref="chartCanvas" height="100px"></canvas>
     </div>
 </template>
 
 <style scoped>
 .detail-chart {
-    flex: 1;
+    flex: 2;
     background-color: var(--secondary-color);
     border-radius: 20px;
     padding: 10px;
