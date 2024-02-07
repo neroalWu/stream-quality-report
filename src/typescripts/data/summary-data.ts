@@ -17,7 +17,7 @@ export default class SummaryData {
 
     static FormatCreate(summaryData: SummaryData): SummaryData {
         const format = (num: number, digits: number): number => {
-            return Number(num.toFixed(digits))
+            return num && Number(num.toFixed(digits))
         }
 
         return new SummaryData(
