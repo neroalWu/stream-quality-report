@@ -11,6 +11,7 @@ import DetailResponse from '@/typescripts/response/detail-response'
 import HttpService from '@/typescripts/service/http-service'
 import Store from '@/typescripts/store/store'
 import type Pair from '@/typescripts/types/pair'
+import router from '@/router'
 
 const detailResponse = ref<DetailResponse>()
 const infoTitle = ref('串流資訊')
@@ -21,8 +22,14 @@ async function main() {
         Store.Instance.selectedSummary,
         Store.Instance.selectedRangeDate
     )
-    const response = await HttpService.Instance.GetDetails(detailRequest)
-    detailResponse.value = response
+
+    try {
+        const response = await HttpService.Instance.GetDetails(detailRequest)
+        detailResponse.value = response
+    } catch (error) {
+        router.push('/')
+        console.log(error)
+    }
 }
 
 const infoPairs = computed((): Array<Pair<string, string>> => {
