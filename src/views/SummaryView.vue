@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, reactive } from 'vue'
 
 import { REGION_TYPE } from '@/typescripts/types/region-type'
 import { STREAM_TYPE } from '@/typescripts/types/stream-type'
@@ -16,6 +16,7 @@ import SummaryCalendar from '@/components/summary/SummaryCalendar.vue'
 import HorizontalLayout from '@/components/layout/HorizontalLayout.vue'
 import SideContainer from '@/components/container/SideContainer.vue'
 import MainContainer from '@/components/container/MainContainer.vue'
+import type SummaryData from '@/typescripts/data/summary-data'
 
 const SELECTOR_LIST = [
     {
@@ -32,7 +33,7 @@ const SELECTOR_LIST = [
     }
 ]
 
-let summaryResponse = ref(SummaryResponse.Create())
+let summarys = ref<Array<SummaryData>>([])
 let selectorRefs = ref<any>([])
 
 async function onclickSearch() {
@@ -48,7 +49,8 @@ async function onclickSearch() {
     )
 
     const response = await HttpService.Instance.GetSummary(summaryRequest)
-    summaryResponse.value = SummaryResponse.Parse(response)
+
+    summarys.value = SummaryResponse.ParseSummarys(response)
 }
 
 onMounted(() => {
@@ -73,7 +75,7 @@ onMounted(() => {
 
         <MainContainer>
             <SummaryHeader />
-            <SummaryContent :summarys="summaryResponse.summarys" />
+            <SummaryContent :summarys="summarys" />
         </MainContainer>
     </HorizontalLayout>
 </template>

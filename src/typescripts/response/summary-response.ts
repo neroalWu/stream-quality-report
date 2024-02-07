@@ -7,9 +7,9 @@ export default class SummaryResponse {
         return new SummaryResponse([])
     }
 
-    static Parse(summaryResponse: SummaryResponse): SummaryResponse {
-        summaryResponse.summarys = summaryResponse.summarys.map((summary: SummaryData) => SummaryData.FormatCreate(summary))
-
-        return summaryResponse
+    static ParseSummarys(summaryResponse: SummaryResponse): SummaryData[] {
+        return summaryResponse.summarys.map((summary: SummaryData) =>
+            SummaryData.FormatCreate(summary)
+        )
     }
 }

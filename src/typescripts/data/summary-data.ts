@@ -5,19 +5,23 @@ export default class SummaryData {
         public channel: string,
         public resolution: string,
 
-        public nr_m: number,
-        public nr_sd: number,
+        public nr_m: number | null,
+        public nr_sd: number | null,
 
-        public flive_m: number,
-        public flive_sd: number,
+        public flive_m: number | null,
+        public flive_sd: number | null,
 
-        public spaq_m: number,
-        public spaq_sd: number
+        public spaq_m: number | null,
+        public spaq_sd: number | null
     ) {}
 
     static FormatCreate(summaryData: SummaryData): SummaryData {
-        const format = (num: number, digits: number): number => {
-            return num && Number(num.toFixed(digits))
+        const format = (num: number | null, digits: number): number | null => {
+            if (num != null) {
+                return Number(num.toFixed(digits))
+            }
+
+            return null
         }
 
         return new SummaryData(

@@ -5,6 +5,7 @@ import SideContainer from '@/components/container/SideContainer.vue'
 import HorizontalLayout from '@/components/layout/HorizontalLayout.vue'
 import MainContainer from '@/components/container/MainContainer.vue'
 import DetailCard from '@/components/detail/DetailCard.vue'
+import DetailChart from '@/components/detail/DetailChart.vue'
 
 import DetailRequest from '@/typescripts/request/detail-request'
 import DetailResponse from '@/typescripts/response/detail-response'
@@ -15,7 +16,8 @@ import router from '@/router'
 
 const detailResponse = ref<DetailResponse>()
 const infoTitle = ref('串流資訊')
-const scoreTitle = ref('串流評分')
+const scoreTitle = ref('數據統計')
+const chartTitle = ref('數據圖表')
 
 async function main() {
     const detailRequest = DetailRequest.Create(
@@ -99,10 +101,10 @@ main()
             <button class="home" @click="onclickHome">返回首頁</button>
         </SideContainer>
         <MainContainer>
-            <HorizontalLayout>
-                <DetailCard :title="infoTitle" :paris="infoPairs" />
-                <DetailCard :title="scoreTitle" :paris="scorePairs" />
-            </HorizontalLayout>
+            <DetailCard :title="infoTitle" :paris="infoPairs" />
+            <DetailCard :title="scoreTitle" :paris="scorePairs" />
+
+            <DetailChart :title="chartTitle" />
         </MainContainer>
     </HorizontalLayout>
 </template>

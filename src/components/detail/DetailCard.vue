@@ -24,7 +24,7 @@ const props = defineProps({
     border: 1px solid #ccc;
     border-radius: 20px;
     padding: 10px;
-    margin: 10px;
+    margin-bottom: 10px;
     background-color: var(--secondary-color);
 }
 
