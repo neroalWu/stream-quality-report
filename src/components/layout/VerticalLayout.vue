@@ -1,14 +1,16 @@
 <script setup lang="ts"></script>
 
 <template>
-    <div class="main-container">
+    <div class="vertical-layout">
         <slot></slot>
     </div>
 </template>
+
 <style scoped>
-.main-container {
-    flex: 8;
+.vertical-layout {
     display: flex;
-    margin: 10px
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
 }
 </style>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, watch } from 'vue'
 import { CONFIGURATION } from '@/typescripts/configuration'
 import Util from '@/typescripts/util'
 import { Chart } from '@/chartjs/auto'
@@ -7,12 +7,12 @@ import DetailData from '@/typescripts/data/detail-data'
 
 const props = defineProps({
     title: String,
-    detail: DetailData
+    detail: Object
 })
 
 const chartCanvas = ref()
 
-async function renderCanvas() {
+async function renderCanvas(detail: DetailData) {
     const ctx = chartCanvas.value.getContext('2d')
 
     if (!ctx) return
@@ -38,13 +38,13 @@ async function renderCanvas() {
 
     const CHART_CELL_CONFIG = CONFIGURATION.CHART_CELL
     const data = {
-        labels: props.detail?.timestamps.map((timestamp: number) =>
+        labels: detail?.timestamps.map((timestamp: number) =>
             Util.Instance.FormatDateHoursMinutes(timestamp)
         ),
         datasets: [
             {
                 label: 'nr',
-                data: props.detail?.nrs,
+                data: detail?.nrs,
                 borderColor: CHART_CELL_CONFIG.NR_COLOR_NORMAL,
                 backgroundColor: CHART_CELL_CONFIG.NR_COLOR_NORMAL,
                 borderWidth: 1,
@@ -53,7 +53,7 @@ async function renderCanvas() {
             },
             {
                 label: 'flive',
-                data: props.detail?.flives,
+                data: detail?.flives,
                 borderColor: CHART_CELL_CONFIG.FLIVE_COLOR_NORMAL,
                 backgroundColor: CHART_CELL_CONFIG.FLIVE_COLOR_NORMAL,
                 borderWidth: 1,
@@ -62,7 +62,7 @@ async function renderCanvas() {
             },
             {
                 label: 'spaq',
-                data: props.detail?.spaqs,
+                data: detail?.spaqs,
                 borderColor: CHART_CELL_CONFIG.SPAQ_COLOR_NORMAL,
                 backgroundColor: CHART_CELL_CONFIG.SPAQ_COLOR_NORMAL,
                 borderWidth: 1,
@@ -72,7 +72,6 @@ async function renderCanvas() {
         ]
     }
 
-
     new Chart(ctx, {
         type: 'line',
         data: data,
@@ -80,24 +79,25 @@ async function renderCanvas() {
     })
 }
 
-onMounted(() => {
-    renderCanvas()
+watch(() => props.detail, (detail) => {
+    renderCanvas(detail as DetailData)
 })
+
 </script>
 
 <template>
     <div class="detail-chart">
         <div class="header">{{ props.title }}</div>
-        <canvas ref="chartCanvas" height="50px"></canvas>
+        <canvas ref="chartCanvas"></canvas>
     </div>
 </template>
 
 <style scoped>
 .detail-chart {
+    flex: 1;
     background-color: var(--secondary-color);
     border-radius: 20px;
     padding: 10px;
-    margin-top: 10px;
 }
 
 .header {

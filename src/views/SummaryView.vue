@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, reactive } from 'vue'
+import { ref, onMounted } from 'vue'
 
 import { REGION_TYPE } from '@/typescripts/types/region-type'
 import { STREAM_TYPE } from '@/typescripts/types/stream-type'
@@ -8,6 +8,7 @@ import SummaryRequest from '@/typescripts/request/summary-request'
 import SummaryResponse from '@/typescripts/response/summary-response'
 import Store from '@/typescripts/store/store'
 import HttpService from '@/typescripts/service/http-service'
+import type SummaryData from '@/typescripts/data/summary-data'
 
 import SummarySelector from '@/components/summary/SummarySelector.vue'
 import SummaryHeader from '@/components/summary/SummaryHeader.vue'
@@ -16,7 +17,7 @@ import SummaryCalendar from '@/components/summary/SummaryCalendar.vue'
 import HorizontalLayout from '@/components/layout/HorizontalLayout.vue'
 import SideContainer from '@/components/container/SideContainer.vue'
 import MainContainer from '@/components/container/MainContainer.vue'
-import type SummaryData from '@/typescripts/data/summary-data'
+import VerticalLayout from '@/components/layout/VerticalLayout.vue'
 
 const SELECTOR_LIST = [
     {
@@ -74,8 +75,10 @@ onMounted(() => {
         </SideContainer>
 
         <MainContainer>
-            <SummaryHeader />
-            <SummaryContent :summarys="summarys" />
+            <VerticalLayout>
+                <SummaryHeader />
+                <SummaryContent :summarys="summarys" />
+            </VerticalLayout>
         </MainContainer>
     </HorizontalLayout>
 </template>

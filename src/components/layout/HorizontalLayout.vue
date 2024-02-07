@@ -9,6 +9,7 @@
 <style scoped>
 .horizontal-layout {
     display: flex;
+    width: 100%;
     flex-direction: row;
 }
 </style>

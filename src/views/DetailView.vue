@@ -6,13 +6,14 @@ import HorizontalLayout from '@/components/layout/HorizontalLayout.vue'
 import MainContainer from '@/components/container/MainContainer.vue'
 import DetailCard from '@/components/detail/DetailCard.vue'
 import DetailChart from '@/components/detail/DetailChart.vue'
+import VerticalLayout from '@/components/layout/VerticalLayout.vue'
 
 import DetailRequest from '@/typescripts/request/detail-request'
-import DetailResponse from '@/typescripts/response/detail-response'
 import HttpService from '@/typescripts/service/http-service'
 import Store from '@/typescripts/store/store'
 import type Pair from '@/typescripts/types/pair'
 import router from '@/router'
+import type DetailResponse from '@/typescripts/response/detail-response'
 
 const detailResponse = ref<DetailResponse>()
 const infoTitle = ref('串流資訊')
@@ -101,10 +102,12 @@ main()
             <button class="home" @click="onclickHome">返回首頁</button>
         </SideContainer>
         <MainContainer>
-            <DetailCard :title="infoTitle" :paris="infoPairs" />
-            <DetailCard :title="scoreTitle" :paris="scorePairs" />
+            <VerticalLayout>
+                <DetailCard :title="infoTitle" :paris="infoPairs" />
+                <DetailCard :title="scoreTitle" :paris="scorePairs" />
 
-            <DetailChart :title="chartTitle" />
+                <!-- <DetailChart :title="chartTitle" :detail="detailResponse?.detail" /> -->
+            </VerticalLayout>
         </MainContainer>
     </HorizontalLayout>
 </template>
