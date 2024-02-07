@@ -15,7 +15,7 @@ const displays = computed(() => {
     if (!props.summary) return []
 
     return [
-        GetSummaryString(props.summary.region),
+        GetSummaryString(props.summary.streamType),
         GetSummaryString(props.summary.channel),
         GetSummaryString(props.summary.nr_m),
         GetSummaryString(props.summary.nr_sd),

@@ -42,7 +42,7 @@ const infoPairs = computed((): Array<Pair<string, string>> => {
             value: ToString(detailResponse.value?.detail.region)
         },
         {
-            key: '協定類型:',
+            key: '協定:',
             value: ToString(detailResponse.value?.detail.streamType)
         },
         {
