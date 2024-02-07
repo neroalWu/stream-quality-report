@@ -88,7 +88,7 @@ watch(() => props.detail, (detail) => {
 <template>
     <div class="detail-chart">
         <div class="header">{{ props.title }}</div>
-        <canvas ref="chartCanvas"></canvas>
+        <canvas ref="chartCanvas" height="60px"></canvas>
     </div>
 </template>
 

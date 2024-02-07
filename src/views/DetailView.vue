@@ -106,7 +106,7 @@ main()
                 <DetailCard :title="infoTitle" :paris="infoPairs" />
                 <DetailCard :title="scoreTitle" :paris="scorePairs" />
 
-                <!-- <DetailChart :title="chartTitle" :detail="detailResponse?.detail" /> -->
+                <DetailChart :title="chartTitle" :detail="detailResponse?.detail" />
             </VerticalLayout>
         </MainContainer>
     </HorizontalLayout>
