@@ -15,5 +15,6 @@
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
     height: 100vh;
+    padding: 10px;
 }
 </style>
