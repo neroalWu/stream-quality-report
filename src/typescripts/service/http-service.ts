@@ -6,6 +6,8 @@ import type SummaryResponse from '../response/summary-response'
 import type SummaryRequest from '../request/summary-request'
 import type DetailRequest from '../request/detail-request'
 import type DetailResponse from '../response/detail-response'
+import type VideoRequest from '../request/video-request'
+import type VideoResponse from '../response/video-response'
 
 export default class HttpService {
     private static instance: HttpService
@@ -27,6 +29,12 @@ export default class HttpService {
 
     public async GetDetails(request: DetailRequest): Promise<DetailResponse> {
         const response = await axios.post(CONFIGURATION.API.GET_DETAILS, request)
+
+        return response.data
+    }
+
+    public async GetVideo(request: VideoRequest): Promise<VideoResponse> {
+        const response = await axios.post(CONFIGURATION.API.GET_VIDEO, request)
 
         return response.data
     }

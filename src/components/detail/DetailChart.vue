@@ -18,10 +18,10 @@ async function renderCanvas(detail: DetailData) {
     if (!ctx) return
 
     const options = {
-        onClick: (_: any, elements: any) => {
+        onClick: async (_: any, elements: any) => {
             if (elements.length > 0) {
-                // const clickedElement = elements[0]
-                // const index = clickedElement.index
+                const clickedElement = elements[0]
+                const index = clickedElement.index
             }
         },
         responsive: true,
@@ -34,7 +34,7 @@ async function renderCanvas(detail: DetailData) {
                 }
             }
         },
-        maintainAspectRatio: false,
+        maintainAspectRatio: false
     }
 
     const CHART_CELL_CONFIG = CONFIGURATION.CHART_CELL
@@ -80,15 +80,16 @@ async function renderCanvas(detail: DetailData) {
     })
 }
 
-watch(() => props.detail, (detail) => {
-    renderCanvas(detail as DetailData)
-})
-
+watch(
+    () => props.detail,
+    (detail) => {
+        renderCanvas(detail as DetailData)
+    }
+)
 </script>
 
 <template>
     <div class="detail-chart">
-        <!-- <div class="header">{{ props.title }}</div> -->
         <canvas ref="chartCanvas" class="chart"></canvas>
     </div>
 </template>
@@ -99,11 +100,5 @@ watch(() => props.detail, (detail) => {
     background-color: var(--secondary-color);
     border-radius: 20px;
     padding: 10px;
-}
-
-.header {
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 10px;
 }
 </style>
