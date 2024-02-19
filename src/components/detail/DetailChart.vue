@@ -10,6 +10,8 @@ const props = defineProps({
     detail: Object
 })
 
+const emits = defineEmits(['onclickPoint'])
+
 const chartCanvas = ref()
 
 async function renderCanvas(detail: DetailData) {
@@ -21,7 +23,9 @@ async function renderCanvas(detail: DetailData) {
         onClick: async (_: any, elements: any) => {
             if (elements.length > 0) {
                 const clickedElement = elements[0]
-                const index = clickedElement.index
+                const timestampIndex = clickedElement.index
+                
+                emits('onclickPoint', timestampIndex)
             }
         },
         responsive: true,
