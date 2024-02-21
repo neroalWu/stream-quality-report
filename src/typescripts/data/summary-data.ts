@@ -29,12 +29,12 @@ export default class SummaryData {
             summaryData.streamType,
             summaryData.channel,
             summaryData.resolution,
-            format(summaryData.nr_m, 6),
-            format(summaryData.nr_sd, 6),
-            format(summaryData.flive_m, 6),
-            format(summaryData.flive_sd, 6),
-            format(summaryData.spaq_m, 6),
-            format(summaryData.spaq_sd, 6)
+            format(summaryData.nr_m, 3),
+            format(summaryData.nr_sd, 3),
+            format(summaryData.flive_m, 3),
+            format(summaryData.flive_sd, 3),
+            format(summaryData.spaq_m, 3),
+            format(summaryData.spaq_sd, 3)
         )
     }
 }

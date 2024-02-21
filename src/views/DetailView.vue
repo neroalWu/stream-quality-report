@@ -13,11 +13,11 @@ import HttpService from '@/typescripts/service/http-service'
 import Store from '@/typescripts/store/store'
 import type Pair from '@/typescripts/types/pair'
 import router from '@/router'
-import type DetailResponse from '@/typescripts/response/detail-response'
+import DetailResponse from '@/typescripts/response/detail-response'
 import VideoRequest from '@/typescripts/request/video-request'
 import type DetailData from '@/typescripts/data/detail-data'
 
-const detailResponse = ref<DetailResponse>()
+const detailData = ref<DetailData>()
 const infoTitle = ref('串流資訊')
 const scoreTitle = ref('數據統計')
 const chartTitle = ref('數據圖表')
@@ -34,7 +34,7 @@ async function main() {
 
     try {
         const response = await HttpService.Instance.GetDetails(detailRequest)
-        detailResponse.value = response
+        detailData.value = DetailResponse.ParseDetail(response)
     } catch (error) {
         router.push('/')
         console.log(error)
@@ -45,19 +45,19 @@ const infoPairs = computed((): Array<Pair<string, string>> => {
     return [
         {
             key: '區域:',
-            value: toString(detailResponse.value?.detail.region)
+            value: toString(detailData.value?.region)
         },
         {
             key: '協定:',
-            value: toString(detailResponse.value?.detail.streamType)
+            value: toString(detailData.value?.streamType)
         },
         {
             key: '桌號:',
-            value: toString(detailResponse.value?.detail.channel)
+            value: toString(detailData.value?.channel)
         },
         {
             key: '解析度:',
-            value: toString(detailResponse.value?.detail.resolution)
+            value: toString(detailData.value?.resolution)
         }
     ]
 })
@@ -66,32 +66,32 @@ const scorePairs = computed((): Array<Pair<string, string>> => {
     return [
         {
             key: 'NR 平均:',
-            value: toString(detailResponse.value?.detail.nr_m)
+            value: toString(detailData.value?.nr_m)
         },
         {
             key: 'NR 標準差:',
-            value: toString(detailResponse.value?.detail.nr_sd)
+            value: toString(detailData.value?.nr_sd)
         },
         {
             key: 'FLIVE 平均:',
-            value: toString(detailResponse.value?.detail.flive_m)
+            value: toString(detailData.value?.flive_m)
         },
         {
             key: 'FLIVE 標準差:',
-            value: toString(detailResponse.value?.detail.flive_sd)
+            value: toString(detailData.value?.flive_sd)
         },
         {
             key: 'SPAQ 平均:',
-            value: toString(detailResponse.value?.detail.spaq_m)
+            value: toString(detailData.value?.spaq_m)
         },
         {
             key: 'SPAQ 標準差:',
-            value: toString(detailResponse.value?.detail.spaq_sd)
+            value: toString(detailData.value?.spaq_sd)
         }
     ]
 })
 
-function toString(value: string | undefined | number): string {
+function toString(value: string | null | undefined | number): string {
     return value ? value.toString() : '-'
 }
 
@@ -100,10 +100,7 @@ function onclickHome() {
 }
 
 async function onclickPoint(timestampIndex: number) {
-    const videoRequest = VideoRequest.Create(
-        detailResponse.value?.detail as DetailData,
-        timestampIndex
-    )
+    const videoRequest = VideoRequest.Create(detailData.value as DetailData, timestampIndex)
 
     const response = await HttpService.Instance.GetVideo(videoRequest)
     videoURL.value = response.videoURL
@@ -131,7 +128,7 @@ main()
 
                 <DetailChart
                     :title="chartTitle"
-                    :detail="detailResponse?.detail"
+                    :detail="detailData"
                     @onclickPoint="onclickPoint"
                 />
             </VerticalLayout>

@@ -1,13 +1,13 @@
-const DEBUG: boolean = true
+const DEBUG: boolean = false
 
 const SERVER_URL = DEBUG
     ? 'http://localhost:3000/stream-quality-report/'
-    : 'http://10.20.30.228:3000/stream-quality-report/'
+    : 'http://10.22.0.108:3000/stream-quality-report/'
 
 const API = {
     GET_SUMMARY: `${SERVER_URL}get-api-summary`,
     GET_DETAILS: `${SERVER_URL}get-api-details`,
-    GET_VIDEO: `${SERVER_URL}get-api-video`,
+    GET_VIDEO: `${SERVER_URL}get-api-video`
 }
 
 const CHART_CELL = {
