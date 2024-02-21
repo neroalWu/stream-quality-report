@@ -48,7 +48,7 @@ async function renderCanvas(detail: DetailData) {
         ),
         datasets: [
             {
-                label: 'nr',
+                label: 'NR',
                 data: detail?.nrs,
                 borderColor: CHART_CELL_CONFIG.NR_COLOR_NORMAL,
                 backgroundColor: CHART_CELL_CONFIG.NR_COLOR_NORMAL,
@@ -57,7 +57,7 @@ async function renderCanvas(detail: DetailData) {
                 pointHoverRadius: CHART_CELL_CONFIG.POINT_RADIUS_HOVER
             },
             {
-                label: 'flive',
+                label: 'FLIVE',
                 data: detail?.flives,
                 borderColor: CHART_CELL_CONFIG.FLIVE_COLOR_NORMAL,
                 backgroundColor: CHART_CELL_CONFIG.FLIVE_COLOR_NORMAL,
@@ -66,7 +66,7 @@ async function renderCanvas(detail: DetailData) {
                 pointHoverRadius: CHART_CELL_CONFIG.POINT_RADIUS_HOVER
             },
             {
-                label: 'spaq',
+                label: 'SPAQ',
                 data: detail?.spaqs,
                 borderColor: CHART_CELL_CONFIG.SPAQ_COLOR_NORMAL,
                 backgroundColor: CHART_CELL_CONFIG.SPAQ_COLOR_NORMAL,
