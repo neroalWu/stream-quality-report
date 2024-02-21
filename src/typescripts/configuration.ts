@@ -22,12 +22,12 @@ const CHART_CELL = {
 const RECORD_HEADER_LIST = [
     '協定',
     '桌號',
-    'NR M',
-    'NR SD',
-    'FLIVE M',
-    'FLIVE SD',
-    'SPAQ M',
-    'SPAQ SD'
+    'NR 平均',
+    'NR 標準差',
+    'FLIVE 平均',
+    'FLIVE 標準差',
+    'SPAQ 平均',
+    'SPAQ 標準差'
 ]
 
 export const CONFIGURATION = {
