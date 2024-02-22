@@ -20,8 +20,12 @@ import Util from '@/typescripts/util'
 
 const detailData = ref<DetailData>()
 const infoTitle = ref('串流資訊')
-const scoreTitle = ref('數據統計')
-const chartTitle = ref('數據圖表')
+const videoScoreTitle = ref('畫面數據統計')
+const audioScoreTitle = ref('聲音數據統計')
+
+
+const videoChartTitle = ref('畫面品質')
+const audioChartTitle = ref('聲音品質')
 
 const isOpen = ref(false)
 const videoURL = ref('')
@@ -119,14 +123,23 @@ main()
             <button class="home" @click="onclickHome">返回首頁</button>
         </SideContainer>
         <MainContainer>
-            <VerticalLayout>
-                <DetailCard :title="infoTitle" :paris="infoPairs" />
-                <DetailCard :title="scoreTitle" :paris="scorePairs" />
+            <VerticalLayout style="width: 100%">
+                <HorizontalLayout style="flex: 1">
+                    <DetailCard :title="infoTitle" :paris="infoPairs" style="flex: 1;"/>
+                    <DetailCard :title="videoScoreTitle" :paris="scorePairs" style="flex: 1"/>
+                    <DetailCard :title="audioScoreTitle" style="flex: 1;"/>
+                </HorizontalLayout>
 
                 <DetailChart
-                    :title="chartTitle"
+                    style="flex: 1;"
+                    :title="videoChartTitle"
                     :detail="detailData"
                     @onclickPoint="onclickPoint"
+                />
+
+                <DetailChart
+                    style="flex: 1;"
+                    :title="audioChartTitle"
                 />
             </VerticalLayout>
         </MainContainer>

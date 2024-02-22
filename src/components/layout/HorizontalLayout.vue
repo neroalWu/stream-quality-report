@@ -10,6 +10,7 @@
 .horizontal-layout {
     display: flex;
     width: 100%;
+    height: fit-content;
     flex-direction: row;
 }
 </style>

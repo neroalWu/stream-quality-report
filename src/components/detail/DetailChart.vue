@@ -24,7 +24,7 @@ async function renderCanvas(detail: DetailData) {
             if (elements.length > 0) {
                 const clickedElement = elements[0]
                 const timestampIndex = clickedElement.index
-                
+
                 emits('onclickPoint', timestampIndex)
             }
         },
@@ -38,6 +38,7 @@ async function renderCanvas(detail: DetailData) {
                 }
             }
         },
+
         maintainAspectRatio: false
     }
 
@@ -87,6 +88,7 @@ async function renderCanvas(detail: DetailData) {
 watch(
     () => props.detail,
     (detail) => {
+        if (detail == null || detail == undefined) return
         renderCanvas(detail as DetailData)
     }
 )
@@ -94,15 +96,23 @@ watch(
 
 <template>
     <div class="detail-chart">
+        <div class="header">{{ props.title }}</div>
         <canvas ref="chartCanvas" class="chart"></canvas>
     </div>
 </template>
 
 <style scoped>
 .detail-chart {
-    flex: 2;
     background-color: var(--secondary-color);
     border-radius: 20px;
-    padding: 10px;
+    padding: 10px 10px 60px 10px;
+    margin: 10px;
+    max-height: 300px;
+}
+
+.header {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
 }
 </style>

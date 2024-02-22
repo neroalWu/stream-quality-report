@@ -76,7 +76,7 @@ onMounted(() => {
 
         <MainContainer>
             <VerticalLayout>
-                <SummaryHeader />
+                <SummaryHeader style="width: 100%;" />
                 <SummaryContent :summarys="summarys" />
             </VerticalLayout>
         </MainContainer>

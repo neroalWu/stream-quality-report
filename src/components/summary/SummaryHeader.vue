@@ -22,7 +22,7 @@ import SummaryHeaderText from './SummaryHeaderText.vue'
     border-top-right-radius: 20px;
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
-    border: 1px solid var(--primary-color);
+    border: 1px solid var(--primary-color);;
     top: 120px;
 }
 </style>
