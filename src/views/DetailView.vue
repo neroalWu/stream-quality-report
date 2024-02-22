@@ -24,8 +24,8 @@ const videoScoreTitle = ref('畫面數據統計')
 const audioScoreTitle = ref('聲音數據統計')
 
 
-const videoChartTitle = ref('畫面品質')
-const audioChartTitle = ref('聲音品質')
+const videoChartTitle = ref('畫面品質監控')
+const audioChartTitle = ref('聲音品質監控')
 
 const isOpen = ref(false)
 const videoURL = ref('')
