@@ -40,4 +40,8 @@ export default class Util {
         const sd = Math.sqrt(_.sum(_.map(array, (i) => Math.pow(i - mean, 2))) / array.length)
         return keepDigits ? Number(sd.toFixed(keepDigits)) : sd
     }
+
+    public SafeToString(value: string | null | undefined | number): string {
+        return (value != null && value != undefined) ? value.toString() : '-'
+    }
 }

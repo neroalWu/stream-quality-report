@@ -5,6 +5,7 @@ import SummaryCellText from './SummaryCellText.vue'
 import router from '@/router'
 import Store from '@/typescripts/store/store'
 import SummaryData from '@/typescripts/data/summary-data'
+import Util from '@/typescripts/util'
 
 const props = defineProps({
     index: Number,
@@ -15,23 +16,16 @@ const displays = computed(() => {
     if (!props.summary) return []
 
     return [
-        GetSummaryString(props.summary.streamType),
-        GetSummaryString(props.summary.channel),
-        GetSummaryString(props.summary.nr_m),
-        GetSummaryString(props.summary.nr_sd),
-        GetSummaryString(props.summary.flive_m),
-        GetSummaryString(props.summary.flive_sd),
-        GetSummaryString(props.summary.spaq_m),
-        GetSummaryString(props.summary.spaq_sd)
+        Util.Instance.SafeToString(props.summary.streamType),
+        Util.Instance.SafeToString(props.summary.channel),
+        Util.Instance.SafeToString(props.summary.nr_m),
+        Util.Instance.SafeToString(props.summary.nr_sd),
+        Util.Instance.SafeToString(props.summary.flive_m),
+        Util.Instance.SafeToString(props.summary.flive_sd),
+        Util.Instance.SafeToString(props.summary.spaq_m),
+        Util.Instance.SafeToString(props.summary.spaq_sd)
     ]
 })
-
-function GetSummaryString(source: string | number | null) {
-    if (!source) {
-        return '-'
-    }
-    return source
-}
 
 function onclickPoint() {
     Store.Instance.selectedSummary = props.summary as SummaryData

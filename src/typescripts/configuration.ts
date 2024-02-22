@@ -1,4 +1,4 @@
-const DEBUG: boolean = false
+const DEBUG: boolean = true
 
 const SERVER_URL = DEBUG
     ? 'http://localhost:3000/stream-quality-report/'
